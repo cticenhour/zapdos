@@ -5,14 +5,12 @@ dom0Scale=1
   # offset = 0
   potential_units = kV
   use_moles = true
-  time_units = 1
   #potential_units = V
 []
 
 [Mesh]
   type = FileMesh
-  #file = 'sakiyama_grid.msh'
-  file = 'Hemke_1D_V04.msh'
+  file = 'COST_NoScale.msh'
 []
 
 
