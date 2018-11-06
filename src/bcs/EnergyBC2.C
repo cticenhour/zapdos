@@ -16,7 +16,7 @@ validParams<EnergyBC2>()
   params.addRequiredCoupledVar("ip", "The ion density.");
   params.addCoupledVar("args", "coupled variables");
   params.addRequiredParam<Real>("position_units", "Units of position.");
-  params.addRequiredParam<Real>("time_units", 1, "Units of time");
+  params.addParam<Real>("time_units", 1, "Units of time");
   return params;
 }
 
