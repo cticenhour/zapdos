@@ -17,6 +17,16 @@
     prop_names = kex
     prop_values = 1.35369e-10
   [../]
+  [./diffusioncoeff_en]
+    type = GenericConstantMaterial
+    prop_names = diffmean_en
+    prop_values = 1.988e6
+  [../]
+  [./advectioncoeff_en]
+    type = GenericConstantMaterial
+    prop_names = mumean_en
+    prop_values = 3e5
+  [../]
 []
 
 [Variables]
