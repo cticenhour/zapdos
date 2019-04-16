@@ -138,8 +138,8 @@ dom1Scale=1e-7
     type = ElectronsFromIonization
     variable = em
     potential = potential
-    mean_en = mean_en
     em = em
+    mean_en = mean_en
     block = 0
     position_units = ${dom0Scale}
   [../]
@@ -196,13 +196,13 @@ dom1Scale=1e-7
   # [../]
 
   [./potential_diffusion_dom1]
-    type = CoeffDiffusionLin
+    type = ZapdosDiffusion
     variable = potential
     block = 0
     position_units = ${dom0Scale}
   [../]
   [./potential_diffusion_dom2]
-    type = CoeffDiffusionLin
+    type = ZapdosDiffusion
     variable = potential
     block = 1
     position_units = ${dom1Scale}
@@ -1002,8 +1002,8 @@ dom1Scale=1e-7
     ip = Arp
     mean_en = mean_en
     user_se_coeff = .05
-    property_tables_file = td_argon_mean_en.txt
     block = 0
+    property_tables_file = 'td_argon_mean_en.txt'
  [../]
  [./water_block]
    type = Water
