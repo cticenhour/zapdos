@@ -49,6 +49,7 @@ ZapdosApp::registerAll(Factory & f, ActionFactory & af, Syntax & s)
   Registry::registerActionsTo(af, {"ZapdosApp"});
 
   /* register custom execute flags, action syntax, etc. here */
+  s.registerActionSyntax("AddDriftDiffusionAction", "DriftDiffusionAction");
   s.registerActionSyntax("AddLotsOfCoeffDiffusion", "LotsOfCoeffDiffusion");
   s.registerActionSyntax("AddLotsOfVariables", "LotsOfVariables");
   s.registerActionSyntax("AddLotsOfSources", "LotsOfSources");
