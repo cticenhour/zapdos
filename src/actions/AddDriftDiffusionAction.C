@@ -372,7 +372,7 @@ AddDriftDiffusionAction::act()
         }
 
         //Adding Kernels for the neutrals
-        for (unsigned int cur_num = 0; cur_num < number_ions; cur_num++)
+        for (unsigned int cur_num = 0; cur_num < number_neutrals; cur_num++)
           {
             std::string neutral_name = Neutrals[cur_num];
 

@@ -41,58 +41,6 @@ dom0Scale=1e-3
   [./N2]
   [../]
 
-  [./em_lin]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./He+_lin]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./He2+_lin]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./N2+_lin]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./He*_lin]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./He2*_lin]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-
-  [./x]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./y]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./x_node]
-  [../]
-
-  [./mean_en_eV]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./e_temp]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./EfieldX]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
-  [./EfieldY]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
 
   [./em_current]
     order = CONSTANT
@@ -137,87 +85,6 @@ dom0Scale=1e-3
     execute_on = INITIAL
   [../]
 
-  [./mean_en_eV]
-    type = ParsedAux
-    variable = mean_en_eV
-    args = 'e_temp'
-    function = '(3.0/2.0)*e_temp'
-    #execute_on = 'LINEAR TIMESTEP_END'
-    block = 'plasma'
-  [../]
-  [./e_temp]
-    type = ElectronTemperature
-    variable = e_temp
-    electron_density = em
-    mean_en = mean_en
-  [../]
-  [./Efield_calcX]
-    type = Efield
-    component = 0
-    potential = potential
-    variable = EfieldX
-    position_units = ${dom0Scale}
-  [../]
-  [./Efield_calcY]
-    type = Efield
-    component = 1
-    potential = potential
-    variable = EfieldY
-    position_units = ${dom0Scale}
-  [../]
-
-  [./em_lin]
-    type = DensityMoles
-    convert_moles = true
-    variable = em_lin
-    density_log = em
-  [../]
-  [./He+_lin]
-    type = DensityMoles
-    convert_moles = true
-    variable = He+_lin
-    density_log = He+
-  [../]
-  [./He2+_lin]
-    type = DensityMoles
-    convert_moles = true
-    variable = He2+_lin
-    density_log = He2+
-  [../]
-  [./He*_lin]
-    type = DensityMoles
-    convert_moles = true
-    variable = He*_lin
-    density_log = He*
-  [../]
-  [./He2*_lin]
-    type = DensityMoles
-    convert_moles = true
-    variable = He2*_lin
-    density_log = He2*
-  [../]
-  [./N2+_lin]
-    type = DensityMoles
-    convert_moles = true
-    variable = N2+_lin
-    density_log = N2+
-  [../]
-
-  [./x_g]
-    type = Position
-    variable = x
-    position_units = ${dom0Scale}
-  [../]
-  [./y_g]
-    type = Position
-    variable = y
-    position_units = ${dom0Scale}
-  [../]
-  [./x_ng]
-    type = Position
-    variable = x_node
-    position_units = ${dom0Scale}
-  [../]
 
   [./em_current]
     type = Current
@@ -271,210 +138,17 @@ dom0Scale=1e-3
   [../]
 []
 
-#[DriftDiffusionAction]
-#  Ions = 'He+ He2+ N2+'
-#  Neutrals = 'He* He2*'
-#  CRANE_Coupled = true
-#  block = 'plasma'
-#  position_units = ${dom0Scale}
-#  potential_units = kV
-#  use_moles = true
-#  Additional_Outputs = 'EField ElectronTemperature'
-#  component = 0
-#[../]
-
-[Variables]
-  [./em]
-  [../]
-
-  [./He+]
-  [../]
-
-  [./He2+]
-  [../]
-
-  [./N2+]
-  [../]
-
-  [./He*]
-  [../]
-
-  [./He2*]
-  [../]
-
-  [./mean_en]
-  [../]
-
-  [./potential]
-  [../]
-[]
-
-[Kernels]
-  #Electron Equations (Same as in paper)
-    #Time Derivative term of electron
-    [./em_time_deriv]
-      type = ElectronTimeDerivative
-      variable = em
-    [../]
-    #Advection term of electron
-    [./em_advection]
-      type = EFieldAdvectionElectrons
-      variable = em
-      potential = potential
-      mean_en = mean_en
-      position_units = ${dom0Scale}
-    [../]
-    #Diffusion term of electrons
-    [./em_diffusion]
-      type = CoeffDiffusionElectrons
-      variable = em
-      mean_en = mean_en
-      position_units = ${dom0Scale}
-    [../]
-
-  #He Ion Equations (Same as in paper)
-    #Time Derivative term of the ions
-    [./He+_time_deriv]
-      type = ElectronTimeDerivative
-      variable = He+
-    [../]
-    #Advection term of ions
-    [./He+_advection]
-      type = EFieldAdvection
-      variable = He+
-      potential = potential
-      position_units = ${dom0Scale}
-    [../]
-    [./He+_diffusion]
-      type = CoeffDiffusion
-      variable = He+
-      position_units = ${dom0Scale}
-    [../]
-
-  #He2 Ion Equations (Same as in paper)
-    #Time Derivative term of the ions
-    [./He2+_time_deriv]
-      type = ElectronTimeDerivative
-      variable = He2+
-    [../]
-    #Advection term of ions
-    [./He2+_advection]
-      type = EFieldAdvection
-      variable = He2+
-      potential = potential
-      position_units = ${dom0Scale}
-    [../]
-    [./He2+_diffusion]
-      type = CoeffDiffusion
-      variable = He2+
-      position_units = ${dom0Scale}
-    [../]
-
-  #N2 Ion Equations (Same as in paper)
-    #Time Derivative term of the ions
-    [./N2+_time_deriv]
-      type = ElectronTimeDerivative
-      variable = N2+
-    [../]
-    #Advection term of ions
-    [./N2+_advection]
-      type = EFieldAdvection
-      variable = N2+
-      potential = potential
-      position_units = ${dom0Scale}
-    [../]
-    [./N2+_diffusion]
-      type = CoeffDiffusion
-      variable = N2+
-      position_units = ${dom0Scale}
-    [../]
-
-  #He Excited Equations (Same as in paper)
-    #Time Derivative term of excited Argon
-    [./He*_time_deriv]
-      type = ElectronTimeDerivative
-      variable = He*
-    [../]
-    #Diffusion term of excited Argon
-    [./He*_diffusion]
-      type = CoeffDiffusion
-      variable = He*
-      position_units = ${dom0Scale}
-    [../]
-
-  #He2 Excited Equations (Same as in paper)
-    #Time Derivative term of excited Argon
-    [./He2*_time_deriv]
-      type = ElectronTimeDerivative
-      variable = He2*
-    [../]
-    #Diffusion term of excited Argon
-    [./He2*_diffusion]
-      type = CoeffDiffusion
-      variable = He2*
-      position_units = ${dom0Scale}
-    [../]
-
-  #Voltage Equations (Same as in paper)
-    #Voltage term in Poissons Eqaution
-    [./potential_diffusion_dom0]
-      type = CoeffDiffusionLin
-      variable = potential
-      position_units = ${dom0Scale}
-    [../]
-    #Ion term in Poissons Equation
-    [./He+_charge_source]
-      type = ChargeSourceMoles_KV
-      variable = potential
-      charged = He+
-    [../]
-    [./He2+_charge_source]
-      type = ChargeSourceMoles_KV
-      variable = potential
-      charged = He2+
-    [../]
-    [./N2+_charge_source]
-      type = ChargeSourceMoles_KV
-      variable = potential
-      charged = N2+
-    [../]
-    #Electron term in Poissons Equation
-    [./em_charge_source]
-      type = ChargeSourceMoles_KV
-      variable = potential
-      charged = em
-    [../]
-
-  #The energy equations
-    #Time Derivative term of electron energy
-    [./mean_en_time_deriv]
-      type = ElectronTimeDerivative
-      variable = mean_en
-    [../]
-    #Advection term of electron energy
-    [./mean_en_advection]
-      type = EFieldAdvectionEnergy
-      variable = mean_en
-      potential = potential
-      em = em
-      position_units = ${dom0Scale}
-    [../]
-    #Diffusion term of electrons energy
-    [./mean_en_diffusion]
-      type = CoeffDiffusionEnergy
-      variable = mean_en
-      em = em
-      position_units = ${dom0Scale}
-    [../]
-    #Joule Heating term
-    [./mean_en_joule_heating]
-      type = JouleHeating
-      variable = mean_en
-      potential = potential
-      em = em
-      position_units = ${dom0Scale}
-    [../]
-[]
+[DriftDiffusionAction]
+  Ions = 'He+ He2+ N2+'
+  Neutrals = 'He* He2*'
+  CRANE_Coupled = true
+  block = 'plasma'
+  position_units = ${dom0Scale}
+  potential_units = kV
+  use_moles = true
+  Additional_Outputs = 'EField ElectronTemperature'
+  component = 0
+[../]
 
 [ChemicalReactions]
   [./ZapdosNetwork]
@@ -503,16 +177,75 @@ dom0Scale=1e-3
                  He* + He + He -> He2* + He       : 72.528968
                  He+ + He + He -> He2+ + He       : 39890.9324
                  He2* -> He + He                  : 1.0e4
-                 He* + He* -> He2+ + em           : 9.033e8 [17.2]
-                 He2* + He2* -> He2+ + He + He + em   : 9.033e8 [13.8]
-                 He* + N2 -> N2+ + He + em        : 3.011e7 [4.2]
-                 He2* + N2 -> N2+ + He + He + em  : 1.8066e7 [2.5]
-                 He2+ + N2 -> N2+ + He2*          : 8.4308e8'
+                 He* + He* -> He2+ + em           : 9.033e8
+                 He2* + He2* -> He2+ + He + He + em   : 9.033e8
+                 He* + N2 -> N2+ + He + em        : 3.011e7
+                 He2* + N2 -> N2+ + He + He + em  : 1.8066e7
+                 He2+ + N2 -> N2+ + He2*          : 8.4308e8
+                 He2+ + em -> He* + He            : EEDF
+                 N2+ + em -> N2                   : EEDF'
 
   [../]
 []
 
+#New Energy Loss Kernels not included in the Actions
 [Kernels]
+  [./EnergyLossDueToR7]
+    type = ElectronEnergyTermRateNonElectronInclusion
+    variable = mean_en
+    v = He*
+    w = He*
+    em = em
+    reaction = 'He* + He* -> He2+ + em'
+    threshold_energy = 17.2
+    position_units = ${dom0Scale}
+  [../]
+  [./EnergyLossDueToR8]
+    type = ElectronEnergyTermRateNonElectronInclusion
+    variable = mean_en
+    v = He2*
+    w = He2*
+    em = em
+    reaction = 'He2* + He2* -> He2+ + He + He + em'
+    threshold_energy = 13.8
+    position_units = ${dom0Scale}
+  [../]
+  [./EnergyLossDueToR9]
+    type = ElectronEnergyTermRateNonElectronInclusion
+    variable = mean_en
+    v = He*
+    w = N2
+    em = em
+    reaction = 'He* + N2 -> N2+ + He + em'
+    threshold_energy = 4.2
+    position_units = ${dom0Scale}
+  [../]
+  [./EnergyLossDueToR10]
+    type = ElectronEnergyTermRateNonElectronInclusion
+    variable = mean_en
+    v = He2*
+    w = N2
+    em = em
+    reaction = 'He2* + N2 -> N2+ + He + He + em'
+    threshold_energy = 2.5
+    position_units = ${dom0Scale}
+  [../]
+  [./EnergyLossDueToR11]
+    type = ElectronEnergyTermRateDependentThreshold
+    variable = mean_en
+    v = He2+
+    em = em
+    reaction = 'He2+ + em -> He* + He'
+    position_units = ${dom0Scale}
+  [../]
+  [./EnergyLossDueToR13]
+    type = ElectronEnergyTermRateDependentThreshold
+    variable = mean_en
+    v = N2+
+    em = em
+    reaction = 'N2+ + em -> N2'
+    position_units = ${dom0Scale}
+  [../]
 []
 
 [BCs]
@@ -745,11 +478,11 @@ dom0Scale=1e-3
   [./density_ic_func]
     type = ParsedFunction
     #value = 'log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
-    value = 'log((1e14)/6.022e23)'
+    value = 'log((1e13)/6.022e23)'
   [../]
   [./energy_density_ic_func]
     type = ParsedFunction
-    value = 'log(3./2.) + log((1e14)/6.022e23)'
+    value = 'log(3./2.) + log((1e13)/6.022e23)'
   [../]
 []
 
@@ -863,7 +596,7 @@ dom0Scale=1e-3
   #[./TimeStepper]
   #  type = PostprocessorDT
   #  postprocessor = InversePlasmaFreq
-  #  scale = 0.05
+  #  scale = 0.2
   #[../]
   [./TimeStepper]
     type = IterationAdaptiveDT
