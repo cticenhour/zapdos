@@ -32,12 +32,10 @@ public:
 protected:
   virtual Real computeQpResidual() override;
   virtual Real computeQpJacobian();
-  virtual Real computeQpOffDiagJacobian(unsigned int jvar);
 
   /// Value of grad(u) on the boundary.
   const Real & _r_units;
   const Real & _epsilon_d;
   const Real & _thickness;
-  const VariableValue & _sigma;
-  unsigned int _sigma_id;
+  const VariableValue & _surface_charge;
 };

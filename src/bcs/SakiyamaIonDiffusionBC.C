@@ -10,7 +10,7 @@ InputParameters
 validParams<SakiyamaIonDiffusionBC>()
 {
   InputParameters params = validParams<IntegratedBC>();
-  params.addRequiredParam<Real>("r", "The reflection coefficient");
+  //params.addRequiredParam<Real>("r", "The reflection coefficient");
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addParam<Real>(
       "user_velocity", -1., "Optional parameter if user wants to specify the thermal velocity");
@@ -27,7 +27,7 @@ SakiyamaIonDiffusionBC::SakiyamaIonDiffusionBC(const InputParameters & parameter
   : IntegratedBC(parameters),
 
     _r_units(1. / getParam<Real>("position_units")),
-    _r(getParam<Real>("r")),
+    //_r(getParam<Real>("r")),
 
     _kb(getMaterialProperty<Real>("k_boltz")),
     _T(getMaterialProperty<Real>("T" + _var.name())),
@@ -65,7 +65,7 @@ SakiyamaIonDiffusionBC::computeQpResidual()
   else
     _v_thermal = std::sqrt(8 * _kb[_qp] * _temp / (M_PI * _mass[_qp]));
 
-  return _test[_i][_qp] * _r_units * (1. - _r) / (1. + _r) * 0.25 * _v_thermal * std::exp(_u[_qp]);
+  return _test[_i][_qp] * _r_units * 0.25 * _v_thermal * std::exp(_u[_qp]);
 }
 
 Real
@@ -87,7 +87,7 @@ SakiyamaIonDiffusionBC::computeQpJacobian()
   else
     _v_thermal = std::sqrt(8 * _kb[_qp] * _temp / (M_PI * _mass[_qp]));
 
-  return _test[_i][_qp] * _r_units * (1. - _r) / (1. + _r) * 0.25 * _v_thermal * std::exp(_u[_qp]) *
+  return _test[_i][_qp] * _r_units * 0.25 * _v_thermal * std::exp(_u[_qp]) *
          _phi[_j][_qp];
 }
 
@@ -103,7 +103,7 @@ SakiyamaIonDiffusionBC::computeQpOffDiagJacobian(unsigned int jvar)
 
       _d_v_thermal_d_potential = std::sqrt(8 * _kb[_qp] * _d_temp_d_potential / (M_PI * _mass[_qp]));
 
-      return _test[_i][_qp] * _r_units * (1. - _r) / (1. + _r) * 0.25 * _d_v_thermal_d_potential * std::exp(_u[_qp]);
+      return _test[_i][_qp] * _r_units * 0.25 * _d_v_thermal_d_potential * std::exp(_u[_qp]);
     }
     else
     {

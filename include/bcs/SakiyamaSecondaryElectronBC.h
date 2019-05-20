@@ -19,7 +19,7 @@ protected:
   virtual Real computeQpOffDiagJacobian(unsigned int jvar);
 
   Real _r_units;
-  Real _r;
+  //Real _r;
 
   // Coupled variables
 
@@ -54,6 +54,15 @@ protected:
   Real _d_n_gamma_d_mean_en;
   Real _actual_mean_en;
   Real _user_se_coeff;
+
+  const MaterialProperty<Real> & _kb;
+  const MaterialProperty<Real> & _massNeutral;
+  const MaterialProperty<Real> & _massip;
+  const MaterialProperty<Real> & _T;
+  bool _variable_temp;
+  Real _temp;
+  Real _d_temp_d_potential;
+  Real _d_v_thermal_d_potential;
 };
 
 #endif // SakiyamaSecondaryElectronBC_H
