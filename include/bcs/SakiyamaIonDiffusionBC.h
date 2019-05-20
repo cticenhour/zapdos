@@ -20,7 +20,7 @@ protected:
 
 
   Real _r_units;
-  Real _r;
+  // Real _r;
 
   const MaterialProperty<Real> & _kb;
   const MaterialProperty<Real> & _T;
