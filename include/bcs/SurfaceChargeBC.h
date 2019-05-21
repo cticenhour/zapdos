@@ -11,31 +11,28 @@
 
 #include "IntegratedBC.h"
 
-class DielectricBC;
+class SurfaceChargeBC;
 
 template <>
-InputParameters validParams<DielectricBC>();
+InputParameters validParams<SurfaceChargeBC>();
 
 /**
  * Implements a simple constant Neumann BC where grad(u)=value on the boundary.
  * Uses the term produced from integrating the diffusion operator by parts.
  */
-class DielectricBC : public IntegratedBC
+class SurfaceChargeBC : public IntegratedBC
 {
 public:
   /**
    * Factory constructor, takes parameters so that all derived classes can be built using the same
    * constructor.
    */
-  DielectricBC(const InputParameters & parameters);
+  SurfaceChargeBC(const InputParameters & parameters);
 
 protected:
   virtual Real computeQpResidual() override;
-  virtual Real computeQpJacobian();
 
   /// Value of grad(u) on the boundary.
   const Real & _r_units;
-  const Real & _epsilon_d;
-  const Real & _thickness;
-  //const VariableValue & _surface_charge;
+  const MaterialProperty<Real> & _surface_charge;
 };

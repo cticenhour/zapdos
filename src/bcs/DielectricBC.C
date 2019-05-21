@@ -19,7 +19,7 @@ validParams<DielectricBC>()
   params.addRequiredParam<Real>("dielectric_constant", "The dielectric constant of the material.");
   params.addRequiredParam<Real>("thickness", "The thickness of the material.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
-  params.addRequiredCoupledVar("surface_charge", "The surface charge on the boundary.");
+  //params.addRequiredCoupledVar("surface_charge", "The surface charge on the boundary.");
   return params;
 }
 
@@ -27,15 +27,16 @@ DielectricBC::DielectricBC(const InputParameters & parameters)
   : IntegratedBC(parameters),
     _r_units(1. / getParam<Real>("position_units")),
     _epsilon_d(getParam<Real>("dielectric_constant")),
-    _thickness(getParam<Real>("thickness")),
-    _surface_charge(coupledValue("surface_charge"))
+    _thickness(getParam<Real>("thickness"))
+    //_surface_charge(coupledValue("surface_charge"))
 {
 }
 
 Real
 DielectricBC::computeQpResidual()
 {
-  return _test[_i][_qp]  * _r_units * ( _surface_charge[_qp] - (_epsilon_d/_thickness)*_u[_qp] ) / 8.8542e-12;
+  //return _test[_i][_qp]  * _r_units * ( _surface_charge[_qp] - (_epsilon_d/_thickness)*_u[_qp] ) / 8.8542e-12;
+  return _test[_i][_qp]  * _r_units * ( -(_epsilon_d/_thickness)*_u[_qp] ) / 8.8542e-12;
 }
 
 Real
