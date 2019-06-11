@@ -22,8 +22,8 @@ Framework Information:
 MOOSE Version:           git commit e7b8594 on 2019-05-08
 LibMesh Version:         c4c9fd5450489486fd5f7baf2ec9a8ac0d47fc99
 PETSc Version:           3.9.4
-Current Time:            Wed May 22 09:42:52 2019
-Executable Timestamp:    Tue May 21 12:40:42 2019
+Current Time:            Tue May 28 12:06:02 2019
+Executable Timestamp:    Wed May 22 20:48:29 2019
 
 Parallelism:
   Num Processors:          7
@@ -94,87 +94,3 @@ Time Step 1, time = 3.54514e-10, dt = 3.54514e-10
       Line search: Using full step: fnorm 4.406234122638e+00 gnorm 7.220639876060e-01
  1 Nonlinear |R| = [32m7.220640e-01[39m
       0 Linear |R| = [32m7.220640e-01[39m
-      1 Linear |R| = [32m4.361146e-06[39m
-      Line search: gnorm after quadratic fit 6.509208388414e-01
-      Line search: Quadratically determined step, lambda=1.0000000000000001e-01
- 2 Nonlinear |R| = [32m6.509208e-01[39m
-      0 Linear |R| = [32m6.509208e-01[39m
-      1 Linear |R| = [32m1.542761e-06[39m
-      Line search: Using full step: fnorm 6.509208388414e-01 gnorm 1.355449106100e-01
- 3 Nonlinear |R| = [32m1.355449e-01[39m
-      0 Linear |R| = [32m1.355449e-01[39m
-      1 Linear |R| = [32m8.558223e-07[39m
-      Line search: Using full step: fnorm 1.355449106100e-01 gnorm 4.575512546767e-02
- 4 Nonlinear |R| = [32m4.575513e-02[39m
-      0 Linear |R| = [32m4.575513e-02[39m
-      1 Linear |R| = [32m3.373369e-07[39m
-      Line search: Using full step: fnorm 4.575512546767e-02 gnorm 1.583345747388e-02
- 5 Nonlinear |R| = [32m1.583346e-02[39m
-      0 Linear |R| = [32m1.583346e-02[39m
-      1 Linear |R| = [32m8.453237e-08[39m
-      Line search: Using full step: fnorm 1.583345747388e-02 gnorm 5.297926995836e-03
- 6 Nonlinear |R| = [32m5.297927e-03[39m
-      0 Linear |R| = [32m5.297927e-03[39m
-      1 Linear |R| = [32m3.956223e-08[39m
-      Line search: Using full step: fnorm 5.297926995836e-03 gnorm 1.516842046841e-03
- 7 Nonlinear |R| = [32m1.516842e-03[39m
-      0 Linear |R| = [32m1.516842e-03[39m
-      1 Linear |R| = [32m1.744729e-08[39m
-      2 Linear |R| = [32m6.752229e-12[39m
-      Line search: Using full step: fnorm 1.516842046841e-03 gnorm 2.807938859475e-04
- 8 Nonlinear |R| = [32m2.807939e-04[39m
-Nonlinear solve converged due to CONVERGED_FNORM_RELATIVE iterations 8
-[32m Solve Converged![39m
-
-Outlier Variable Residual Norms:
-  He2+: [31m2.807939e-04[39m
-
-Postprocessor Values:
-+----------------+-------------------+
-| time           | InversePlasmaFreq |
-+----------------+-------------------+
-|   0.000000e+00 |      1.772568e-09 |
-|   3.545135e-10 |      1.772568e-09 |
-+----------------+-------------------+
-
-
-Time Step 2, time = 7.09027e-10, dt = 3.54514e-10
-
- 0 Nonlinear |R| = [32m2.923799e-02[39m
-      0 Linear |R| = [32m2.923799e-02[39m
-      1 Linear |R| = [32m1.845370e-06[39m
-      2 Linear |R| = [32m4.735285e-10[39m
-      Line search: Using full step: fnorm 2.923798718102e-02 gnorm 6.017357696415e-03
- 1 Nonlinear |R| = [32m6.017358e-03[39m
-      0 Linear |R| = [32m6.017358e-03[39m
-      1 Linear |R| = [32m1.477040e-08[39m
-      Line search: Using full step: fnorm 6.017357696415e-03 gnorm 5.646396959460e-04
- 2 Nonlinear |R| = [32m5.646397e-04[39m
-      0 Linear |R| = [32m5.646397e-04[39m
-      1 Linear |R| = [32m1.343880e-09[39m
-      Line search: Using full step: fnorm 5.646396959460e-04 gnorm 8.084605767221e-06
- 3 Nonlinear |R| = [32m8.084606e-06[39m
-Nonlinear solve converged due to CONVERGED_FNORM_ABS iterations 3
-[32m Solve Converged![39m
-
-Outlier Variable Residual Norms:
-  He*: [31m8.053494e-06[39m
-
-Postprocessor Values:
-+----------------+-------------------+
-| time           | InversePlasmaFreq |
-+----------------+-------------------+
-|   0.000000e+00 |      1.772568e-09 |
-|   3.545135e-10 |      1.772568e-09 |
-|   7.090271e-10 |      1.633453e-09 |
-+----------------+-------------------+
-
-
-Time Step 3, time = 1.03572e-09, dt = 3.26691e-10
-
- 0 Nonlinear |R| = [32m2.032653e-02[39m
-      0 Linear |R| = [32m2.032653e-02[39m
-      1 Linear |R| = [32m2.275613e-06[39m
-      2 Linear |R| = [32m7.652074e-10[39m
-      Line search: Using full step: fnorm 2.032652918981e-02 gnorm 3.887436797424e-03
- 1 Nonlinear |R| = [32m3.887437e-03[39m

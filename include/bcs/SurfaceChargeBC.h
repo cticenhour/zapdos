@@ -35,4 +35,7 @@ protected:
   /// Value of grad(u) on the boundary.
   const Real & _r_units;
   const MaterialProperty<Real> & _surface_charge;
+  std::string _potential_units;
+
+  Real _voltage_scaling;
 };

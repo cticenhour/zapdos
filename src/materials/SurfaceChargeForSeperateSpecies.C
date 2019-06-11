@@ -19,6 +19,7 @@ validParams<SurfaceChargeForSeperateSpecies>()
   params.addCoupledVar("mean_en", "The electron mean energy in log form.");
   params.addCoupledVar("ip", "The ion density.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
+  params.addCoupledVar("neutral_gas", "Name of the neutrial gas");
 
   return params;
 }
@@ -57,10 +58,16 @@ SurfaceChargeForSeperateSpecies::SurfaceChargeForSeperateSpecies(const InputPara
     _muem(getMaterialProperty<Real>("muem")),
     _diffem(getMaterialProperty<Real>("diffem")),
     _muip(getMaterialProperty<Real>("mu" + _ip_var.name())),
-    _diffip(getMaterialProperty<Real>("diff" + _ip_var.name())),
+    _diffip(0),
 
     _sgnem(getMaterialProperty<Real>("sgnem")),
-    _sgnip(getMaterialProperty<Real>("sgn" + _ip_var.name()))
+    _sgnip(getMaterialProperty<Real>("sgn" + _ip_var.name())),
+    _kb(getMaterialProperty<Real>("k_boltz")),
+    _T(getMaterialProperty<Real>("T" + _ip_var.name())),
+    _mass(getMaterialProperty<Real>("mass" + _ip_var.name())),
+    _massNeutral(getMaterialProperty<Real>("mass" + (*getVar("neutral_gas",0)).name())),
+    _charge(getMaterialProperty<Real>("sgn" + _ip_var.name())),
+    _temp()
 
 
 {
@@ -90,13 +97,18 @@ SurfaceChargeForSeperateSpecies::getIntegralValue()
 
   if (_species_em)
   {
-  _current[_qp] = _e[_qp] * (_sgnem[_qp] * _muem[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_em[_qp]) -
+  _current[_qp] = _sgnem[_qp] * _e[_qp] * (_sgnem[_qp] * _muem[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_em[_qp]) -
               _diffem[_qp] * std::exp(_em[_qp]) * _grad_em[_qp] * _r_units) * _normals[_qp];
   }
   else
   {
-    _current[_qp] = _e[_qp] * (_sgnip[_qp] * _muip[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_ip[_qp]) -
-                _diffip[_qp] * std::exp(_ip[_qp]) * _grad_ip[_qp] * _r_units) * _normals[_qp];
+    _temp = _T[_qp] + (_mass[_qp] + _massNeutral[_qp]) / (5.0*_mass[_qp] + 3.0*_massNeutral[_qp]) *
+                             (_massNeutral[_qp] * std::pow((_muip[_qp] * (_grad_potential[_qp] * _r_units).norm()),2) / _kb[_qp]);
+
+    _diffip = _muip[_qp] * _kb[_qp] * _temp / (_charge[_qp] * _e[_qp]);
+
+    _current[_qp] = _sgnip[_qp] * _e[_qp] * (_sgnip[_qp] * _muip[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_ip[_qp]) -
+                _diffip * std::exp(_ip[_qp]) * _grad_ip[_qp] * _r_units) * _normals[_qp];
   }
 
   //integrating based on trapezoidal rule
