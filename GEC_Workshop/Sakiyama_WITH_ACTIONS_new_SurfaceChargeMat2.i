@@ -501,9 +501,9 @@ dom0Scale=1e-3
     function = density_ic_func
   [../]
   [./N2+_ic]
-    type = FunctionIC
+    type = ConstantIC
     variable = N2+
-    function = density_ic_func
+    value = -30
   [../]
   [./mean_en_ic]
     type = FunctionIC
@@ -530,11 +530,11 @@ dom0Scale=1e-3
   [./density_ic_func]
     type = ParsedFunction
     #value = 'log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
-    value = 'log((1e14)/6.022e23)'
+    value = 'log((3e12)/6.022e23)'
   [../]
   [./energy_density_ic_func]
     type = ParsedFunction
-    value = 'log(3./2.) + log((1e14)/6.022e23)'
+    value = 'log(3./2.) + log((3e12)/6.022e23)'
   [../]
 []
 

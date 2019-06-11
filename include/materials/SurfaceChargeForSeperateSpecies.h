@@ -55,10 +55,16 @@ protected:
   const MaterialProperty<Real> & _muem;
   const MaterialProperty<Real> & _diffem;
   const MaterialProperty<Real> & _muip;
-  const MaterialProperty<Real> & _diffip;
+  Real _diffip;
 
   const MaterialProperty<Real> & _sgnem;
   const MaterialProperty<Real> & _sgnip;
+  const MaterialProperty<Real> & _kb;
+  const MaterialProperty<Real> & _T;
+  const MaterialProperty<Real> & _mass;
+  const MaterialProperty<Real> & _massNeutral;
+  const MaterialProperty<Real> & _charge;
+  Real _temp;
 
 };
 

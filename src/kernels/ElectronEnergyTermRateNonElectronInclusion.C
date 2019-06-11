@@ -94,6 +94,7 @@ ElectronEnergyTermRateNonElectronInclusion::computeQpOffDiagJacobian(unsigned in
     //{
     //  return -_test[_i][_qp] * std::exp(_em[_qp]) * std::exp(_v[_qp]) * _phi[_j][_qp] * _energy_change;
     //}
+    /*
     if (_v_id == _v_id)
     {
       if (jvar == _v_id)
@@ -106,7 +107,7 @@ ElectronEnergyTermRateNonElectronInclusion::computeQpOffDiagJacobian(unsigned in
       }
     }
     else
-    {
+    {*/
       if (jvar == _v_id)
       {
         return -_test[_i][_qp] * std::exp(_v[_qp]) * std::exp(_w[_qp]) * _phi[_j][_qp] * _energy_change;
@@ -119,7 +120,7 @@ ElectronEnergyTermRateNonElectronInclusion::computeQpOffDiagJacobian(unsigned in
       {
         return 0.0;
       }
-    }
+    //}
   //}
   //else
   //{
