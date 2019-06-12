@@ -20,6 +20,9 @@ validParams<SurfaceChargeForSeperateSpecies>()
   params.addCoupledVar("ip", "The ion density.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addCoupledVar("neutral_gas", "Name of the neutrial gas");
+  params.addParam<bool>("variable_temp", false,
+       "Does the temperature of the species change based on Wannier's formulation");
+  params.addRequiredParam<std::string>("potential_units", "The potential units.");
 
   return params;
 }
@@ -58,6 +61,7 @@ SurfaceChargeForSeperateSpecies::SurfaceChargeForSeperateSpecies(const InputPara
     _muem(getMaterialProperty<Real>("muem")),
     _diffem(getMaterialProperty<Real>("diffem")),
     _muip(getMaterialProperty<Real>("mu" + _ip_var.name())),
+    _diff(getMaterialProperty<Real>("diff" + _ip_var.name())),
     _diffip(0),
 
     _sgnem(getMaterialProperty<Real>("sgnem")),
@@ -67,10 +71,15 @@ SurfaceChargeForSeperateSpecies::SurfaceChargeForSeperateSpecies(const InputPara
     _mass(getMaterialProperty<Real>("mass" + _ip_var.name())),
     _massNeutral(getMaterialProperty<Real>("mass" + (*getVar("neutral_gas",0)).name())),
     _charge(getMaterialProperty<Real>("sgn" + _ip_var.name())),
-    _temp()
-
+    _temp(),
+    _variable_temp(getParam<bool>("variable_temp")),
+    _potential_units(getParam<std::string>("potential_units"))
 
 {
+  if (_potential_units.compare("V") == 0)
+    _voltage_scaling = 1.;
+  else if (_potential_units.compare("kV") == 0)
+    _voltage_scaling = 1000;
 }
 
 void
@@ -97,17 +106,24 @@ SurfaceChargeForSeperateSpecies::getIntegralValue()
 
   if (_species_em)
   {
-  _current[_qp] = _sgnem[_qp] * _e[_qp] * (_sgnem[_qp] * _muem[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_em[_qp]) -
+  _current[_qp] = _sgnem[_qp] * 6.02e23 * _e[_qp] * (_sgnem[_qp] * _muem[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_em[_qp]) -
               _diffem[_qp] * std::exp(_em[_qp]) * _grad_em[_qp] * _r_units) * _normals[_qp];
   }
   else
   {
-    _temp = _T[_qp] + (_mass[_qp] + _massNeutral[_qp]) / (5.0*_mass[_qp] + 3.0*_massNeutral[_qp]) *
-                             (_massNeutral[_qp] * std::pow((_muip[_qp] * (_grad_potential[_qp] * _r_units).norm()),2) / _kb[_qp]);
+    if (_variable_temp)
+    {
+      _temp = _T[_qp] + (_mass[_qp] + _massNeutral[_qp]) / (5.0*_mass[_qp] + 3.0*_massNeutral[_qp]) *
+                               (_massNeutral[_qp] * std::pow((_muip[_qp] * (_grad_potential[_qp] * _r_units).norm()),2) / _kb[_qp]);
 
-    _diffip = _muip[_qp] * _kb[_qp] * _temp / (_charge[_qp] * _e[_qp]);
+      _diffip = (_muip[_qp] / _voltage_scaling) * _kb[_qp] * _temp / (_charge[_qp] * _e[_qp]);
+    }
+    else
+    {
+      _diffip = _diff[_qp];
+    }
 
-    _current[_qp] = _sgnip[_qp] * _e[_qp] * (_sgnip[_qp] * _muip[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_ip[_qp]) -
+    _current[_qp] = _sgnip[_qp] * 6.02e23 * _e[_qp] * (_sgnip[_qp] * _muip[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_ip[_qp]) -
                 _diffip * std::exp(_ip[_qp]) * _grad_ip[_qp] * _r_units) * _normals[_qp];
   }
 

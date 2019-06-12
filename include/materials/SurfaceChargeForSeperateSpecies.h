@@ -55,6 +55,7 @@ protected:
   const MaterialProperty<Real> & _muem;
   const MaterialProperty<Real> & _diffem;
   const MaterialProperty<Real> & _muip;
+  const MaterialProperty<Real> & _diff;
   Real _diffip;
 
   const MaterialProperty<Real> & _sgnem;
@@ -65,6 +66,10 @@ protected:
   const MaterialProperty<Real> & _massNeutral;
   const MaterialProperty<Real> & _charge;
   Real _temp;
+  bool _variable_temp;
+  std::string _potential_units;
+
+  Real _voltage_scaling;
 
 };
 

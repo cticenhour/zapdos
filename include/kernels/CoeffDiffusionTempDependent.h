@@ -49,6 +49,9 @@ protected:
   Real _temp;
   Real _d_temp_d_potential;
   Real _d_diffusivity_d_potential;
+  std::string _potential_units;
+
+  Real _voltage_scaling;
 };
 
 #endif /* CoeffDiffusionTempDependent_H */

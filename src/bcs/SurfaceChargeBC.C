@@ -25,7 +25,8 @@ validParams<SurfaceChargeBC>()
 SurfaceChargeBC::SurfaceChargeBC(const InputParameters & parameters)
   : IntegratedBC(parameters),
     _r_units(1. / getParam<Real>("position_units")),
-    _surface_charge(getMaterialProperty<Real>("surface_charge"+getParam<std::string>("species")))
+    _surface_charge(getMaterialProperty<Real>("surface_charge"+getParam<std::string>("species"))),
+    _potential_units(getParam<std::string>("potential_units"))
 {
   if (_potential_units.compare("V") == 0)
     _voltage_scaling = 1.;
@@ -36,5 +37,5 @@ SurfaceChargeBC::SurfaceChargeBC(const InputParameters & parameters)
 Real
 SurfaceChargeBC::computeQpResidual()
 {
-  return _test[_i][_qp]  * _r_units * _surface_charge[_qp] / (8.8542e-9);
+  return _test[_i][_qp]  * _r_units * _surface_charge[_qp] / (8.8542e-12 * _voltage_scaling);
 }
