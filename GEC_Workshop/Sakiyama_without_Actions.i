@@ -149,14 +149,14 @@ dom0Scale=1e-3
     [../]
     #Diffusion term of Helium ion (might need to change to included changing Diff)
     [./He+_diffusion]
-      #type = CoeffDiffusion
-      #variable = He+
-      #position_units = ${dom0Scale}
-      type = CoeffDiffusionTempDependent
+      type = CoeffDiffusion
       variable = He+
-      potential = potential
-      neutral_gas = He
       position_units = ${dom0Scale}
+      #type = CoeffDiffusionTempDependent
+      #variable = He+
+      #potential = potential
+      #neutral_gas = He
+      #position_units = ${dom0Scale}
     [../]
     #Net ion production from ionization
     [./He+_R2Gain]
@@ -273,14 +273,14 @@ dom0Scale=1e-3
     [../]
     #Diffusion term of Helium ion (might need to change to included changing Diff)
     [./He2+_diffusion]
-      #type = CoeffDiffusion
-      #variable = He2+
-      #position_units = ${dom0Scale}
-      type = CoeffDiffusionTempDependent
+      type = CoeffDiffusion
       variable = He2+
-      potential = potential
-      neutral_gas = He
       position_units = ${dom0Scale}
+      #type = CoeffDiffusionTempDependent
+      #variable = He2+
+      #potential = potential
+      #neutral_gas = He
+      #position_units = ${dom0Scale}
     [../]
     #Net ion production from He+
     [./He2+_R5Gain]
@@ -400,14 +400,14 @@ dom0Scale=1e-3
     [../]
     #Diffusion term of N2+ ion (might need to change to included changing Diff)
     [./N2+_diffusion]
-      #type = CoeffDiffusion
-      #variable = N2+
-      #position_units = ${dom0Scale}
-      type = CoeffDiffusionTempDependent
+      type = CoeffDiffusion
       variable = N2+
-      potential = potential
-      neutral_gas = He
       position_units = ${dom0Scale}
+      #type = CoeffDiffusionTempDependent
+      #variable = N2+
+      #potential = potential
+      #neutral_gas = He
+      #position_units = ${dom0Scale}
     [../]
     #Net ion production
     [./N2+_R10Gain]
@@ -721,8 +721,8 @@ dom0Scale=1e-3
   [./N2_val]
     type = ConstantAux
     variable = N2
-    # value = 3.22e22
-    value = -10.08786723
+    # value = 2.504e21
+    value = -5.48270166
     execute_on = INITIAL
   [../]
 
@@ -854,39 +854,39 @@ dom0Scale=1e-3
     density_log = N2+
   [../]
 
-  [./SC_em]
-    type = MaterialRealAux
-    variable = SCem
-    property = surface_chargeem
-    boundary = 'plate'
-  [../]
-  [./SC_HeIon]
-    type = MaterialRealAux
-    variable = SCHeIon
-    property = surface_chargeHe+
-    boundary = 'plate'
-  [../]
-  [./SC_He2Ion]
-    type = MaterialRealAux
-    variable = SCHe2Ion
-    property = surface_chargeHe2+
-    boundary = 'plate'
-  [../]
-  [./SC_N2Ion]
-    type = MaterialRealAux
-    variable = SCN2Ion
-    property = surface_chargeN2+
-    boundary = 'plate'
-  [../]
-  [./Total_SC]
-    type = ParsedAux
-    variable = SC
-    args = 'SCem SCHeIon SCHe2Ion SCN2Ion'
-    function = 'SCem + SCHeIon + SCHe2Ion + SCN2Ion'
-    #execute_on = 'LINEAR TIMESTEP_END'
-    #block = 'plasma'
-    boundary = 'plate'
-  [../]
+  #[./SC_em]
+  #  type = MaterialRealAux
+  #  variable = SCem
+  #  property = surface_chargeem
+  #  boundary = 'plate'
+  #[../]
+  #[./SC_HeIon]
+  #  type = MaterialRealAux
+  #  variable = SCHeIon
+  #  property = surface_chargeHe+
+  #  boundary = 'plate'
+  #[../]
+  #[./SC_He2Ion]
+  #  type = MaterialRealAux
+  #  variable = SCHe2Ion
+  #  property = surface_chargeHe2+
+  #  boundary = 'plate'
+  #[../]
+  #[./SC_N2Ion]
+  #  type = MaterialRealAux
+  #  variable = SCN2Ion
+  #  property = surface_chargeN2+
+  #  boundary = 'plate'
+  #[../]
+  #[./Total_SC]
+  #  type = ParsedAux
+  #  variable = SC
+  #  args = 'SCem SCHeIon SCHe2Ion SCN2Ion'
+  #  function = 'SCem + SCHeIon + SCHe2Ion + SCN2Ion'
+  #  #execute_on = 'LINEAR TIMESTEP_END'
+  #  #block = 'plasma'
+  #  boundary = 'plate'
+  #[../]
 
 []
 
@@ -898,48 +898,48 @@ dom0Scale=1e-3
     boundary = 'needle'
     function = potential_bc_func
   [../]
-  #[./potential_plate]
-  #  type = DirichletBC
+  [./potential_plate]
+    type = DirichletBC
+    variable = potential
+    boundary = 'plate'
+    value = 0
+  [../]
+  #[./potential_plate_Dielectric]
+  #  type = DielectricBC
   #  variable = potential
   #  boundary = 'plate'
-  #  value = 0
+  #  dielectric_constant = 4.4271e-11
+  #  thickness = 0.005
+  #  position_units = ${dom0Scale}
   #[../]
-  [./potential_plate_Dielectric]
-    type = DielectricBC
-    variable = potential
-    boundary = 'plate'
-    dielectric_constant = 4.4271e-11
-    thickness = 0.005
-    position_units = ${dom0Scale}
-  [../]
-  [./potential_plate_em_surface_charge]
-    type = SurfaceChargeBC
-    variable = potential
-    boundary = 'plate'
-    species = em
-    position_units = ${dom0Scale}
-  [../]
-  [./potential_plate_He+_surface_charge]
-    type = SurfaceChargeBC
-    variable = potential
-    boundary = 'plate'
-    species = He+
-    position_units = ${dom0Scale}
-  [../]
-  [./potential_plate_He2+_surface_charge]
-    type = SurfaceChargeBC
-    variable = potential
-    boundary = 'plate'
-    species = He2+
-    position_units = ${dom0Scale}
-  [../]
-  [./potential_plate_N2+_surface_charge]
-    type = SurfaceChargeBC
-    variable = potential
-    boundary = 'plate'
-    species = N2+
-    position_units = ${dom0Scale}
-  [../]
+  #[./potential_plate_em_surface_charge]
+  #  type = SurfaceChargeBC
+  #  variable = potential
+  #  boundary = 'plate'
+  #  species = em
+  #  position_units = ${dom0Scale}
+  #[../]
+  #[./potential_plate_He+_surface_charge]
+  #  type = SurfaceChargeBC
+  #  variable = potential
+  #  boundary = 'plate'
+  #  species = He+
+  #  position_units = ${dom0Scale}
+  #[../]
+  #[./potential_plate_He2+_surface_charge]
+  #  type = SurfaceChargeBC
+  #  variable = potential
+  #  boundary = 'plate'
+  #  species = He2+
+  #  position_units = ${dom0Scale}
+  #[../]
+  #[./potential_plate_N2+_surface_charge]
+  #  type = SurfaceChargeBC
+  #  variable = potential
+  #  boundary = 'plate'
+  #  species = N2+
+  #  position_units = ${dom0Scale}
+  #[../]
 
 #Electron Boundary Condition
   [./em_thermalBC]
@@ -959,7 +959,7 @@ dom0Scale=1e-3
     boundary = 'needle plate'
     position_units = ${dom0Scale}
     neutral_gas = He
-    variable_temp = true
+    #variable_temp = true
   [../]
   [./em_He2+_second_emissions]
     type = SakiyamaSecondaryElectronBC
@@ -971,7 +971,7 @@ dom0Scale=1e-3
     boundary = 'needle plate'
     position_units = ${dom0Scale}
     neutral_gas = He
-    variable_temp = true
+    #variable_temp = true
   [../]
   [./em_He*_second_emissions]
     type = SakiyamaSecondaryElectronBC
@@ -1005,7 +1005,7 @@ dom0Scale=1e-3
     boundary = 'needle plate'
     position_units = ${dom0Scale}
     neutral_gas = He
-    variable_temp = true
+    #variable_temp = true
   [../]
 
 #He+ Boundary Condition
@@ -1019,8 +1019,8 @@ dom0Scale=1e-3
   [./He+_diffusionBC]
     type = SakiyamaIonDiffusionBC
     variable = He+
-    variable_temp = true
-    #variable_temp = false
+    #variable_temp = true
+    variable_temp = false
     neutral_gas = He
     potential = potential
     boundary = 'needle plate'
@@ -1038,8 +1038,8 @@ dom0Scale=1e-3
   [./He2+_diffusionBC]
     type = SakiyamaIonDiffusionBC
     variable = He2+
-    variable_temp = true
-    #variable_temp = false
+    #variable_temp = true
+    variable_temp = false
     neutral_gas = He
     potential = potential
     boundary = 'needle plate'
@@ -1057,8 +1057,8 @@ dom0Scale=1e-3
   [./N2+_diffusionBC]
     type = SakiyamaIonDiffusionBC
     variable = N2+
-    variable_temp = true
-    #variable_temp = false
+    #variable_temp = true
+    variable_temp = false
     neutral_gas = He
     potential = potential
     boundary = 'needle plate'
@@ -1107,36 +1107,36 @@ dom0Scale=1e-3
     function = density_ic_func
   [../]
   [./He2+_ic]
-    #type = ConstantIC
-    #variable = He2+
-    #value = -40
-    type = FunctionIC
+    type = ConstantIC
     variable = He2+
-    function = density_ic_func
+    value = -30
+    #type = FunctionIC
+    #variable = He2+
+    #function = density_ic_func
   [../]
   [./He*_ic]
-    #type = ConstantIC
-    #variable = He*
-    #value = -40
-    type = FunctionIC
+    type = ConstantIC
     variable = He*
-    function = density_ic_func
+    value = -30
+    #type = FunctionIC
+    #variable = He*
+    #function = density_ic_func
   [../]
   [./He2*_ic]
-    #type = ConstantIC
-    #variable = He2*
-    #value = -40
-    type = FunctionIC
+    type = ConstantIC
     variable = He2*
-    function = density_ic_func
+    value = -30
+    #type = FunctionIC
+    #variable = He2*
+    #function = density_ic_func
   [../]
   [./N2+_ic]
-    #type = ConstantIC
-    #variable = N2+
-    #value = -40
-    type = FunctionIC
+    type = ConstantIC
     variable = N2+
-    function = density_ic_func
+    value = -30
+    #type = FunctionIC
+    #variable = N2+
+    #function = density_ic_func
   [../]
   [./mean_en_ic]
     type = FunctionIC
@@ -1154,12 +1154,12 @@ dom0Scale=1e-3
 [Functions]
   [./potential_bc_func]
     type = ParsedFunction
-    value = '0.180*cos(2*3.1415926*13.56e6*t)'
+    value = '0.190*sin(2*3.1415926*13.56e6*t)'
   [../]
   [./potential_ic_func]
     type = ParsedFunction
     #value = '0.180 * (1.5e-3 - x)'
-    value = 0.180
+    value = 0
   [../]
   [./density_ic_func]
     type = ParsedFunction
@@ -1201,6 +1201,7 @@ dom0Scale=1e-3
     heavy_species_charge = 1
     mobility = 1.16e-3
     diffusivity = 2.9989e-5
+    #diffusivity = 0
   [../]
   [./gas_species_2]
     type = HeavySpeciesMaterial
@@ -1217,6 +1218,7 @@ dom0Scale=1e-3
     heavy_species_charge = 1.0
     mobility = 1.83e-3
     diffusivity = 4.7310e-5
+    #diffusivity = 0
   [../]
   [./gas_species_4]
     type = HeavySpeciesMaterial
@@ -1225,6 +1227,7 @@ dom0Scale=1e-3
     heavy_species_charge = 1.0
     mobility = 2.28e-3
     diffusivity = 5.8944e-5
+    #diffusivity = 0
   [../]
   [./gas_species_5]
     type = HeavySpeciesMaterial
@@ -1346,48 +1349,48 @@ dom0Scale=1e-3
     file_location = ''
     em = em
   [../]
-  [./surface_charge_em]
-    type = SurfaceChargeForSeperateSpecies
-    species = em
-    species_em = true
-    em = em
-    ip = He+
-    mean_en = mean_en
-    potential = potential
-    boundary = 'plate'
-    position_units = ${dom0Scale}
-    neutral_gas = He
-  [../]
-  [./surface_charge_He+]
-    type = SurfaceChargeForSeperateSpecies
-    species = He+
-    species_em = false
-    ip = He+
-    potential = potential
-    boundary = 'plate'
-    position_units = ${dom0Scale}
-    neutral_gas = He
-  [../]
-  [./surface_charge_He2+]
-    type = SurfaceChargeForSeperateSpecies
-    species = He2+
-    species_em = false
-    ip = He2+
-    potential = potential
-    boundary = 'plate'
-    position_units = ${dom0Scale}
-    neutral_gas = He
-  [../]
-  [./surface_charge_N2+]
-    type = SurfaceChargeForSeperateSpecies
-    species = N2+
-    species_em = false
-    ip = N2+
-    potential = potential
-    boundary = 'plate'
-    position_units = ${dom0Scale}
-    neutral_gas = He
-  [../]
+  #[./surface_charge_em]
+  #  type = SurfaceChargeForSeperateSpecies
+  #  species = em
+  #  species_em = true
+  #  em = em
+  #  ip = He+
+  #  mean_en = mean_en
+  #  potential = potential
+  #  boundary = 'plate'
+  #  position_units = ${dom0Scale}
+  #  neutral_gas = He
+  #[../]
+  #[./surface_charge_He+]
+  #  type = SurfaceChargeForSeperateSpecies
+  #  species = He+
+  #  species_em = false
+  #  ip = He+
+  #  potential = potential
+  #  boundary = 'plate'
+  #  position_units = ${dom0Scale}
+  #  neutral_gas = He
+  #[../]
+  #[./surface_charge_He2+]
+  #  type = SurfaceChargeForSeperateSpecies
+  #  species = He2+
+  #  species_em = false
+  #  ip = He2+
+  #  potential = potential
+  #  boundary = 'plate'
+  #  position_units = ${dom0Scale}
+  #  neutral_gas = He
+  #[../]
+  #[./surface_charge_N2+]
+  #  type = SurfaceChargeForSeperateSpecies
+  #  species = N2+
+  #  species_em = false
+  #  ip = N2+
+  #  potential = potential
+  #  boundary = 'plate'
+  #  position_units = ${dom0Scale}
+  #  neutral_gas = He
+  #[../]
 []
 
 #New postprocessor that calculates the inverse of the plasma frequency
@@ -1402,7 +1405,7 @@ dom0Scale=1e-3
 
 
 [Preconditioning]
-  active = 'fdp'
+  active = 'smp'
   [./smp]
     type = SMP
     full = true
@@ -1419,7 +1422,7 @@ dom0Scale=1e-3
   type = Transient
   end_time = 7.4e-3
   #dtmax = 1e-11
-  dtmax = 3.6e-9
+  dtmax = 1e-10
   petsc_options = '-snes_converged_reason -snes_linesearch_monitor'
   solve_type = NEWTON
   petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -ksp_type -snes_linesearch_minlambda'
@@ -1439,13 +1442,15 @@ dom0Scale=1e-3
     type = IterationAdaptiveDT
     cutback_factor = 0.4
     dt = 1e-11
-    growth_factor = 1.2
+    #growth_factor = 1.2
+    growth_factor = 1.02
     optimal_iterations = 15
   [../]
 []
 
 [Outputs]
   print_perf_log = true
+  file_base = 'Default_Sakiyama_Sin'
   [./out]
     type = Exodus
   [../]
