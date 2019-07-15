@@ -12,6 +12,7 @@ problems/MooseMeshes
 *.o
 *.a
 *-opt
+*-devel
 *-dbg
 *-devel
 *-oprof
