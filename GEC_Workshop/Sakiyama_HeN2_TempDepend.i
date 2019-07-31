@@ -151,14 +151,14 @@ dom0Scale=1e-3
     [../]
     #Diffusion term of Helium ion (might need to change to included changing Diff)
     [./He+_diffusion]
-      type = CoeffDiffusion
-      variable = He+
-      position_units = ${dom0Scale}
-      #type = CoeffDiffusionTempDependent
+      #type = CoeffDiffusion
       #variable = He+
-      #potential = potential
-      #neutral_gas = He
       #position_units = ${dom0Scale}
+      type = CoeffDiffusionTempDependent
+      variable = He+
+      potential = potential
+      neutral_gas = He
+      position_units = ${dom0Scale}
     [../]
     #Net ion production from ionization
     [./He+_R2Gain]
@@ -275,14 +275,14 @@ dom0Scale=1e-3
     [../]
     #Diffusion term of Helium ion (might need to change to included changing Diff)
     [./He2+_diffusion]
-      type = CoeffDiffusion
-      variable = He2+
-      position_units = ${dom0Scale}
-      #type = CoeffDiffusionTempDependent
+      #type = CoeffDiffusion
       #variable = He2+
-      #potential = potential
-      #neutral_gas = He
       #position_units = ${dom0Scale}
+      type = CoeffDiffusionTempDependent
+      variable = He2+
+      potential = potential
+      neutral_gas = He
+      position_units = ${dom0Scale}
     [../]
     #Net ion production from He+
     [./He2+_R5Gain]
@@ -402,14 +402,14 @@ dom0Scale=1e-3
     [../]
     #Diffusion term of N2+ ion (might need to change to included changing Diff)
     [./N2+_diffusion]
-      type = CoeffDiffusion
-      variable = N2+
-      position_units = ${dom0Scale}
-      #type = CoeffDiffusionTempDependent
+      #type = CoeffDiffusion
       #variable = N2+
-      #potential = potential
-      #neutral_gas = He
       #position_units = ${dom0Scale}
+      type = CoeffDiffusionTempDependent
+      variable = N2+
+      potential = potential
+      neutral_gas = He
+      position_units = ${dom0Scale}
     [../]
     #Net ion production
     [./N2+_R10Gain]
@@ -961,7 +961,7 @@ dom0Scale=1e-3
     boundary = 'needle plate'
     position_units = ${dom0Scale}
     neutral_gas = He
-    #variable_temp = true
+    variable_temp = true
   [../]
   [./em_He2+_second_emissions]
     type = SakiyamaSecondaryElectronBC
@@ -973,7 +973,7 @@ dom0Scale=1e-3
     boundary = 'needle plate'
     position_units = ${dom0Scale}
     neutral_gas = He
-    #variable_temp = true
+    variable_temp = true
   [../]
   [./em_He*_second_emissions]
     type = SakiyamaSecondaryElectronBC
@@ -1007,7 +1007,7 @@ dom0Scale=1e-3
     boundary = 'needle plate'
     position_units = ${dom0Scale}
     neutral_gas = He
-    #variable_temp = true
+    variable_temp = true
   [../]
 
 #He+ Boundary Condition
@@ -1021,8 +1021,8 @@ dom0Scale=1e-3
   [./He+_diffusionBC]
     type = SakiyamaIonDiffusionBC
     variable = He+
-    #variable_temp = true
-    variable_temp = false
+    variable_temp = true
+    #variable_temp = false
     neutral_gas = He
     potential = potential
     boundary = 'needle plate'
@@ -1040,8 +1040,8 @@ dom0Scale=1e-3
   [./He2+_diffusionBC]
     type = SakiyamaIonDiffusionBC
     variable = He2+
-    #variable_temp = true
-    variable_temp = false
+    variable_temp = true
+    #ariable_temp = false
     neutral_gas = He
     potential = potential
     boundary = 'needle plate'
@@ -1059,8 +1059,8 @@ dom0Scale=1e-3
   [./N2+_diffusionBC]
     type = SakiyamaIonDiffusionBC
     variable = N2+
-    #variable_temp = true
-    variable_temp = false
+    variable_temp = true
+    #variable_temp = false
     neutral_gas = He
     potential = potential
     boundary = 'needle plate'
@@ -1091,7 +1091,7 @@ dom0Scale=1e-3
     variable = mean_en
     em = em
     #value = 0.6666667
-    value = 1
+    value = 0.6666667
     boundary = 'needle plate'
   [../]
 []
@@ -1452,7 +1452,7 @@ dom0Scale=1e-3
 
 [Outputs]
   print_perf_log = true
-  file_base = 'Default_Sakiyama_NewJocab'
+  #file_base = 'Default_Sakiyama_NewJocab'
   [./out]
     type = Exodus
   [../]

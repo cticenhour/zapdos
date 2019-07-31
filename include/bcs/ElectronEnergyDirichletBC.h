@@ -12,40 +12,34 @@
 /*            See COPYRIGHT for full restrictions               */
 /****************************************************************/
 
-#ifndef DGCOEFFDIFFUSION_H
-#define DGCOEFFDIFFUSION_H
+#ifndef ElectronEnergyDirichletBC_H
+#define ElectronEnergyDirichletBC_H
 
-#include "DGKernel.h"
+#include "NodalBC.h"
 
 // Forward Declarations
-class DGCoeffDiffusion;
+class ElectronEnergyDirichletBC;
 
 template <>
-InputParameters validParams<DGCoeffDiffusion>();
+InputParameters validParams<ElectronEnergyDirichletBC>();
 
 /**
- * DG kernel for diffusion
- *
- * General DG kernel that this class can handle is:
- * \f$ { \nabla u * n_e} [v] + epsilon { \nabla v * n_e } [u] + (sigma / |e| * [u][v]) \f$
- *
- * \f$ [a] = [ a_1 - a_2 ] \f$
- * \f$ {a} = 0.5 * (a_1 + a_2) \f$
- *
+ * Implements a simple coupled boundary condition where u=v on the boundary.
  */
-class DGCoeffDiffusion : public DGKernel
+class ElectronEnergyDirichletBC : public NodalBC
 {
 public:
-  DGCoeffDiffusion(const InputParameters & parameters);
+  ElectronEnergyDirichletBC(const InputParameters & parameters);
 
 protected:
-  virtual Real computeQpResidual(Moose::DGResidualType type);
-  virtual Real computeQpJacobian(Moose::DGJacobianType type);
+  virtual Real computeQpResidual();
+  virtual Real computeQpJacobian();
+  virtual Real computeQpOffDiagJacobian(unsigned int jvar);
 
-  Real _epsilon;
-  Real _sigma;
-  const MaterialProperty<Real> & _diff;
-  const MaterialProperty<Real> & _diff_neighbor;
+  const VariableValue & _em;
+  unsigned int _em_id;
+  Real _value;
+  Real _penalty_value;
 };
 
-#endif
+#endif // ElectronEnergyDirichletBC_H

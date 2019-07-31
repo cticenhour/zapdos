@@ -37,5 +37,5 @@ SurfaceChargeBC::SurfaceChargeBC(const InputParameters & parameters)
 Real
 SurfaceChargeBC::computeQpResidual()
 {
-  return _test[_i][_qp]  * _r_units * _surface_charge[_qp] / (8.8542e-12 * _voltage_scaling);
+  return -_test[_i][_qp]  * _r_units * _surface_charge[_qp] / (8.8542e-12 * _voltage_scaling) * _normals[_qp] * _normals[_qp];
 }

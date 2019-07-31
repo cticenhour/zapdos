@@ -13,6 +13,7 @@ validParams<CoeffDiffusionTempDependent>()
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addCoupledVar("neutral_gas", "Name of the neutrial gas");
   params.addCoupledVar("potential", "The electric potential");
+  params.addRequiredParam<std::string>("potential_units", "The potential units.");
   return params;
 }
 
@@ -74,8 +75,10 @@ CoeffDiffusionTempDependent::computeQpOffDiagJacobian(unsigned int jvar)
 {
   if (jvar == _potential_id)
   {
+    Real _d_grad_potential_d_potential_mag = _grad_potential[_qp] * _r_units * _grad_phi[_j][_qp] * _r_units / (_grad_phi[_j][_qp] * _r_units).norm();
+
     _d_temp_d_potential = (_mass[_qp] + _massNeutral[_qp]) / (5.0*_mass[_qp] + 3.0*_massNeutral[_qp]) *
-                             (_massNeutral[_qp] * std::pow((_mu[_qp] * (_grad_phi[_j][_qp] * _r_units).norm()),2) / _kb[_qp]);
+                             (_massNeutral[_qp] * std::pow((_mu[_qp] * _d_grad_potential_d_potential_mag),2) / _kb[_qp]);
 
     _d_diffusivity_d_potential = (_mu[_qp] / _voltage_scaling) * _kb[_qp] * _d_temp_d_potential / (_charge[_qp] * 1.6022e-19);
 

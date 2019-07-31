@@ -110,11 +110,11 @@ ElectronEnergyTermRateNonElectronInclusion::computeQpOffDiagJacobian(unsigned in
     {*/
       if (jvar == _v_id)
       {
-        return -_test[_i][_qp] * std::exp(_v[_qp]) * std::exp(_w[_qp]) * _phi[_j][_qp] * _energy_change;
+        return -_test[_i][_qp] * _rate_coefficient[_qp] * std::exp(_v[_qp]) * std::exp(_w[_qp]) * _phi[_j][_qp] * _energy_change;
       }
       if (jvar == _w_id)
       {
-        return -_test[_i][_qp] * std::exp(_v[_qp]) * std::exp(_w[_qp]) * _phi[_j][_qp] * _energy_change;
+        return -_test[_i][_qp] * _rate_coefficient[_qp] * std::exp(_v[_qp]) * std::exp(_w[_qp]) * _phi[_j][_qp] * _energy_change;
       }
       else
       {

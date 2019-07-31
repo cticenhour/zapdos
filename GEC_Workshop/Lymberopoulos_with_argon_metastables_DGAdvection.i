@@ -59,6 +59,13 @@ dom0Scale=25.4e-3
       mean_en = mean_en
       position_units = ${dom0Scale}
     [../]
+    [./em_advection_SUPG]
+      type = EFieldAdvectionSUPG
+      variable = em
+      potential = potential
+      tau_name = tauem
+      position_units = ${dom0Scale}
+    [../]
     #Diffusion term of electrons
     [./em_diffusion]
       type = CoeffDiffusionElectrons
@@ -105,6 +112,13 @@ dom0Scale=25.4e-3
       type = EFieldAdvection
       variable = Ar+
       potential = potential
+      position_units = ${dom0Scale}
+    [../]
+    [./Ar+_advection_SUPG]
+      type = EFieldAdvectionSUPG
+      variable = Ar+
+      potential = potential
+      tau_name = tauAr+
       position_units = ${dom0Scale}
     [../]
     [./Ar+_diffusion]
@@ -258,6 +272,13 @@ dom0Scale=25.4e-3
       variable = mean_en
       potential = potential
       em = em
+      position_units = ${dom0Scale}
+    [../]
+    [./mean_en_advection_SUPG]
+      type = EFieldAdvectionSUPG
+      variable = mean_en
+      potential = potential
+      tau_name = taumean_en
       position_units = ${dom0Scale}
     [../]
     #Diffusion term of electrons energy
@@ -816,6 +837,27 @@ dom0Scale=25.4e-3
     #reaction_rate_value = 1.1e-42
     reaction_rate_value = 398909.324
   [../]
+  [./tauem]
+    type = ADMaterialsPlasmaSUPG
+    species_name = em
+    position_units = ${dom0Scale}
+    potential = potential
+    transient_term = true
+  [../]
+  [./tauAr+]
+    type = ADMaterialsPlasmaSUPG
+    species_name = Ar+
+    position_units = ${dom0Scale}
+    potential = potential
+    transient_term = true
+  [../]
+  [./taumean_en]
+    type = ADMaterialsPlasmaSUPG
+    species_name = mean_en
+    position_units = ${dom0Scale}
+    potential = potential
+    transient_term = true
+  [../]
 []
 
 #New postprocessor that calculates the inverse of the plasma frequency
@@ -845,10 +887,10 @@ dom0Scale=25.4e-3
 
 [Executioner]
   type = Transient
-  end_time = 7e-4
+  end_time = 1e-3
   petsc_options = '-snes_converged_reason -snes_linesearch_monitor'
   solve_type = NEWTON
-  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -ksp_type -snes_linesearch_minlambda '
+  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -ksp_type -snes_linesearch_minlambda'
   petsc_options_value = 'lu NONZERO 1.e-10 fgmres 1e-3'
   nl_rel_tol = 1e-8
   #nl_abs_tol = 7.6e-5
@@ -864,7 +906,7 @@ dom0Scale=25.4e-3
 
 [Outputs]
   print_perf_log = true
-  #file_base = "jacobian_check_1D"
+  file_base = 'Lymberopoulos_Argon_SUPG'
   [./out]
     type = Exodus
   [../]

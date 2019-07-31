@@ -36,11 +36,11 @@ Real
 DielectricBC::computeQpResidual()
 {
   //return _test[_i][_qp]  * _r_units * ( _surface_charge[_qp] - (_epsilon_d/_thickness)*_u[_qp] ) / 8.8542e-12;
-  return _test[_i][_qp]  * _r_units * ( -(_epsilon_d/_thickness)*_u[_qp] ) / 8.8542e-12;
+  return -_test[_i][_qp]  * _r_units * ( -(_epsilon_d/_thickness)*_u[_qp] ) / 8.8542e-12 * _normals[_qp] * _normals[_qp];
 }
 
 Real
 DielectricBC::computeQpJacobian()
 {
-  return _test[_i][_qp]  * _r_units * -(_epsilon_d/_thickness)*_phi[_j][_qp] / 8.8542e-12;
+  return -_test[_i][_qp]  * _r_units * -(_epsilon_d/_thickness)*_phi[_j][_qp] / 8.8542e-12 * _normals[_qp] * _normals[_qp];
 }

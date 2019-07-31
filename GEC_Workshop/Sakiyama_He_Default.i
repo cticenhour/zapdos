@@ -33,8 +33,8 @@ dom0Scale=1e-3
   [./He2*]
   [../]
 
-  [./N2+]
-  [../]
+  #[./N2+]
+  #[../]
 
   [./mean_en]
   [../]
@@ -110,31 +110,31 @@ dom0Scale=1e-3
       coefficient = -1
     [../]
     #Net electron production from N2+ ionization
-    [./em_R10Gain]
-      type = ProductSecondOrderLog
-      variable = em
-      v = He*
-      w = N2
-      reaction = 'He* + N2 -> N2+ + He + em'
-      coefficient = 1
-    [../]
-    [./em_R11Gain]
-      type = ProductSecondOrderLog
-      variable = em
-      v = He2*
-      w = N2
-      reaction = 'He2* + N2 -> N2+ + He + He + em'
-      coefficient = 1
-    [../]
+    #[./em_R10Gain]
+    #  type = ProductSecondOrderLog
+    #  variable = em
+    #  v = He*
+    #  w = N2
+    #  reaction = 'He* + N2 -> N2+ + He + em'
+    #  coefficient = 1
+    #[../]
+    #[./em_R11Gain]
+    #  type = ProductSecondOrderLog
+    #  variable = em
+    #  v = He2*
+    #  w = N2
+    #  reaction = 'He2* + N2 -> N2+ + He + He + em'
+    #  coefficient = 1
+    #[../]
     #Net electron loss from Ion to Neutral production
-    [./em_R13Loss]
-      type = ElectronReactantSecondOrderLog
-      variable = em
-      v = N2+
-      energy = mean_en
-      reaction = 'N2+ + em -> N2'
-      coefficient = -1
-    [../]
+    #[./em_R13Loss]
+    #  type = ElectronReactantSecondOrderLog
+    #  variable = em
+    #  v = N2+
+    #  energy = mean_en
+    #  reaction = 'N2+ + em -> N2'
+    #  coefficient = -1
+    #[../]
 
   #Helium Ion Equations (Same as in paper)
     #Time Derivative term of the ions
@@ -252,13 +252,13 @@ dom0Scale=1e-3
       coefficient = 1
     [../]
     #Net excited Helium loss from N2+ ionization
-    [./He*_R10Loss]
-      type = ReactantSecondOrderLog
-      variable = He*
-      v = N2
-      reaction = 'He* + N2 -> N2+ + He + em'
-      coefficient = -1
-    [../]
+    #[./He*_R10Loss]
+    #  type = ReactantSecondOrderLog
+    #  variable = He*
+    #  v = N2
+    #  reaction = 'He* + N2 -> N2+ + He + em'
+    #  coefficient = -1
+    #[../]
 
   #Helium 2 Ion Equations (Same as in paper)
     #Time Derivative term of the ions
@@ -323,13 +323,13 @@ dom0Scale=1e-3
       _target_eq_u = true
     [../]
     #Net ion loss from N2+ production
-    [./He2+_R12Loss]
-      type = ReactantSecondOrderLog
-      variable = He2+
-      v = N2
-      reaction = 'He2+ + N2 -> N2+ + He2*'
-      coefficient = -1
-    [../]
+    #[./He2+_R12Loss]
+    #  type = ReactantSecondOrderLog
+    #  variable = He2+
+    #  v = N2
+    #  reaction = 'He2+ + N2 -> N2+ + He2*'
+    #  coefficient = -1
+    #[../]
 
   #Helium 2 Excited Equations (Same as in paper)
     #Time Derivative term of excited Helium
@@ -370,83 +370,83 @@ dom0Scale=1e-3
       _v_eq_u = true
     [../]
     #Net excited Helium 2 loss from N2+ ionization
-    [./He2*_R11Loss]
-      type = ReactantSecondOrderLog
-      variable = He2*
-      v = N2
-      reaction = 'He2* + N2 -> N2+ + He + He + em'
-      coefficient = -1
-    [../]
+    #[./He2*_R11Loss]
+    #  type = ReactantSecondOrderLog
+    #  variable = He2*
+    #  v = N2
+    #  reaction = 'He2* + N2 -> N2+ + He + He + em'
+    #  coefficient = -1
+    #[../]
     #Net excited Helium 2 Gain from N2+ ionization
-    [./He2*_R12Gain]
-      type = ProductSecondOrderLog
-      variable = He2*
-      v = He2+
-      w = N2
-      reaction = 'He2+ + N2 -> N2+ + He2*'
-      coefficient = 1
-    [../]
+    #[./He2*_R12Gain]
+    #  type = ProductSecondOrderLog
+    #  variable = He2*
+    #  v = He2+
+    #  w = N2
+    #  reaction = 'He2+ + N2 -> N2+ + He2*'
+    #  coefficient = 1
+    #[../]
 
   #N2 Ion Equations (Same as in paper)
     #Time Derivative term of the ions
-    [./N2+_time_deriv]
-      type = ElectronTimeDerivative
-      variable = N2+
-    [../]
+    #[./N2+_time_deriv]
+    #  type = ElectronTimeDerivative
+    #  variable = N2+
+    #[../]
     #Advection term of ions
-    [./N2+_advection]
-      type = EFieldAdvection
-      variable = N2+
-      potential = potential
-      position_units = ${dom0Scale}
-    [../]
+    #[./N2+_advection]
+    #  type = EFieldAdvection
+    #  variable = N2+
+    #  potential = potential
+    #  position_units = ${dom0Scale}
+    #[../]
     #Diffusion term of N2+ ion (might need to change to included changing Diff)
-    [./N2+_diffusion]
-      type = CoeffDiffusion
-      variable = N2+
-      position_units = ${dom0Scale}
-      #type = CoeffDiffusionTempDependent
-      #variable = N2+
-      #potential = potential
-      #neutral_gas = He
-      #position_units = ${dom0Scale}
-    [../]
+    #[./N2+_diffusion]
+    #  type = CoeffDiffusion
+    #  variable = N2+
+    #  position_units = ${dom0Scale}
+    #  #type = CoeffDiffusionTempDependent
+    #  #variable = N2+
+    #  #potential = potential
+    #  #neutral_gas = He
+    #  #position_units = ${dom0Scale}
+    #[../]
     #Net ion production
-    [./N2+_R10Gain]
-      type = ProductSecondOrderLog
-      variable = N2+
-      v = He*
-      w = N2
-      reaction = 'He* + N2 -> N2+ + He + em'
-      coefficient = 1
-    [../]
-    [./N2+_R11Gain]
-      type = ProductSecondOrderLog
-      variable = N2+
-      v = He2*
-      w = N2
-      reaction = 'He2* + N2 -> N2+ + He + He + em'
-      coefficient = 1
-    [../]
-    [./N2+_R12Gain]
-      type = ProductSecondOrderLog
-      variable = N2+
-      v = He2+
-      w = N2
-      reaction = 'He2+ + N2 -> N2+ + He2*'
-      coefficient = 1
-    [../]
+    #[./N2+_R10Gain]
+    #  type = ProductSecondOrderLog
+    #  variable = N2+
+    #  v = He*
+    #  w = N2
+    #  reaction = 'He* + N2 -> N2+ + He + em'
+    #  coefficient = 1
+    #[../]
+    #[./N2+_R11Gain]
+    #  type = ProductSecondOrderLog
+    #  variable = N2+
+    #  v = He2*
+    #  w = N2
+    #  reaction = 'He2* + N2 -> N2+ + He + He + em'
+    #  coefficient = 1
+    #[../]
+    #[./N2+_R12Gain]
+    #  type = ProductSecondOrderLog
+    #  variable = N2+
+    #  v = He2+
+    #  w = N2
+    #  reaction = 'He2+ + N2 -> N2+ + He2*'
+    #  coefficient = 1
+    #[../]
     #Net ion loss
-    [./N2+_R13Loss]
-      type = ElectronProductSecondOrderLog
-      variable = N2+
-      electron = em
-      target = N2+
-      energy = mean_en
-      reaction = 'N2+ + em -> N2'
-      coefficient = -1
-      _target_eq_u = true
-    [../]
+    #[./N2+_R13Loss]
+    #  type = ElectronProductSecondOrderLog
+    #  variable = N2+
+    #  electron = em
+    #  target = N2+
+    #  energy = mean_en
+    #  reaction = 'N2+ + em -> N2'
+    #  coefficient = -1
+    #  _target_eq_u = true
+    #[../]
 
   #Voltage Equations (Same as in paper)
     #Voltage term in Poissons Eqaution
@@ -466,11 +466,11 @@ dom0Scale=1e-3
       variable = potential
       charged = He2+
     [../]
-    [./N2+_charge_source]
-      type = ChargeSourceMoles_KV
-      variable = potential
-      charged = N2+
-    [../]
+    #[./N2+_charge_source]
+    #  type = ChargeSourceMoles_KV
+    #  variable = potential
+    #  charged = N2+
+    #[../]
     #Electron term in Poissons Equation
     [./em_charge_source]
       type = ChargeSourceMoles_KV
@@ -577,34 +577,34 @@ dom0Scale=1e-3
       reaction = 'He2+ + em -> He* + He'
       position_units = ${dom0Scale}
     [../]
-    [./EnergyLossDueToR10]
-      type = ElectronEnergyTermRateNonElectronInclusion
-      variable = mean_en
-      v = He*
-      w = N2
-      em = em
-      reaction = 'He* + N2 -> N2+ + He + em'
-      threshold_energy = 4.2
-      position_units = ${dom0Scale}
-    [../]
-    [./EnergyLossDueToR11]
-      type = ElectronEnergyTermRateNonElectronInclusion
-      variable = mean_en
-      v = He2*
-      w = N2
-      em = em
-      reaction = 'He2* + N2 -> N2+ + He + He + em'
-      threshold_energy = 2.5
-      position_units = ${dom0Scale}
-    [../]
-    [./EnergyLossDueToR13]
-      type = ElectronEnergyTermRateDependentThreshold
-      variable = mean_en
-      v = N2+
-      em = em
-      reaction = 'N2+ + em -> N2'
-      position_units = ${dom0Scale}
-    [../]
+    #[./EnergyLossDueToR10]
+    #  type = ElectronEnergyTermRateNonElectronInclusion
+    #  variable = mean_en
+    #  v = He*
+    #  w = N2
+    #  em = em
+    #  reaction = 'He* + N2 -> N2+ + He + em'
+    #  threshold_energy = 4.2
+    #  position_units = ${dom0Scale}
+    #[../]
+    #[./EnergyLossDueToR11]
+    #  type = ElectronEnergyTermRateNonElectronInclusion
+    #  variable = mean_en
+    #  v = He2*
+    #  w = N2
+    #  em = em
+    #  reaction = 'He2* + N2 -> N2+ + He + He + em'
+    #  threshold_energy = 2.5
+    #  position_units = ${dom0Scale}
+    #[../]
+    #[./EnergyLossDueToR13]
+    #  type = ElectronEnergyTermRateDependentThreshold
+    #  variable = mean_en
+    #  v = N2+
+    #  em = em
+    #  reaction = 'N2+ + em -> N2'
+    #  position_units = ${dom0Scale}
+    #[../]
 
   []
 
@@ -612,8 +612,8 @@ dom0Scale=1e-3
 [AuxVariables]
   [./He]
   [../]
-  [./N2]
-  [../]
+  #[./N2]
+  #[../]
 
 
   [./em_current]
@@ -628,10 +628,10 @@ dom0Scale=1e-3
     order = CONSTANT
     family = MONOMIAL
   [../]
-  [./N2Ion_current]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
+  #[./N2Ion_current]
+  #  order = CONSTANT
+  #  family = MONOMIAL
+  #[../]
   [./Total_current]
     order = CONSTANT
     family = MONOMIAL
@@ -685,10 +685,10 @@ dom0Scale=1e-3
     order = CONSTANT
     family = MONOMIAL
   [../]
-  [./N2+_lin]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
+  #[./N2+_lin]
+  #  order = CONSTANT
+  #  family = MONOMIAL
+  #[../]
 
   [./SC]
     order = CONSTANT
@@ -706,10 +706,10 @@ dom0Scale=1e-3
     order = CONSTANT
     family = MONOMIAL
   [../]
-  [./SCN2Ion]
-    order = CONSTANT
-    family = MONOMIAL
-  [../]
+  #[./SCN2Ion]
+  #  order = CONSTANT
+  #  family = MONOMIAL
+  #[../]
 []
 
 [AuxKernels]
@@ -720,13 +720,13 @@ dom0Scale=1e-3
     value = 3.727640209
     execute_on = INITIAL
   [../]
-  [./N2_val]
-    type = ConstantAux
-    variable = N2
-    # value = 2.504e21
-    value = -5.48270166
-    execute_on = INITIAL
-  [../]
+  #[./N2_val]
+  #  type = ConstantAux
+  #  variable = N2
+  #  # value = 2.504e21
+  #  value = -5.48270166
+  #  execute_on = INITIAL
+  #[../]
 
   [./em_current]
     type = Current
@@ -755,23 +755,23 @@ dom0Scale=1e-3
     block = 'plasma'
     position_units = ${dom0Scale}
   [../]
-  [./N2Ion_current]
-    type = Current
-    variable = N2Ion_current
-    density_log = N2+
-    potential = potential
-    art_diff = false
-    block = 'plasma'
-    position_units = ${dom0Scale}
-  [../]
-  [./Total_current]
-    type = ParsedAux
-    variable = Total_current
-    args = 'em_current HeIon_current He2Ion_current N2Ion_current'
-    function = 'em_current + HeIon_current + He2Ion_current + N2Ion_current'
-    #execute_on = 'LINEAR TIMESTEP_END'
-    block = 'plasma'
-  [../]
+  #[./N2Ion_current]
+  #  type = Current
+  #  variable = N2Ion_current
+  #  density_log = N2+
+  #  potential = potential
+  #  art_diff = false
+  #  block = 'plasma'
+  #  position_units = ${dom0Scale}
+  #[../]
+  #[./Total_current]
+  #  type = ParsedAux
+  #  variable = Total_current
+  #  args = 'em_current HeIon_current He2Ion_current N2Ion_current'
+  #  function = 'em_current + HeIon_current + He2Ion_current + N2Ion_current'
+  #  #execute_on = 'LINEAR TIMESTEP_END'
+  #  block = 'plasma'
+  #[../]
 
   [./Te]
     type = ElectronTemperature
@@ -849,12 +849,12 @@ dom0Scale=1e-3
     variable = He2*_lin
     density_log = He2*
   [../]
-  [./N2+_lin]
-    type = DensityMoles
-    convert_moles = true
-    variable = N2+_lin
-    density_log = N2+
-  [../]
+  #[./N2+_lin]
+  #  type = DensityMoles
+  #  convert_moles = true
+  #  variable = N2+_lin
+  #  density_log = N2+
+  #[../]
 
   #[./SC_em]
   #  type = MaterialRealAux
@@ -997,18 +997,18 @@ dom0Scale=1e-3
     position_units = ${dom0Scale}
     neutral_gas = He
   [../]
-  [./em_N2+_second_emissions]
-    type = SakiyamaSecondaryElectronBC
-    variable = em
-    mean_en = mean_en
-    potential = potential
-    ip = N2+
-    users_gamma = 0.005
-    boundary = 'needle plate'
-    position_units = ${dom0Scale}
-    neutral_gas = He
-    #variable_temp = true
-  [../]
+  #[./em_N2+_second_emissions]
+  #  type = SakiyamaSecondaryElectronBC
+  #  variable = em
+  #  mean_en = mean_en
+  #  potential = potential
+  #  ip = N2+
+  #  users_gamma = 0.005
+  #  boundary = 'needle plate'
+  #  position_units = ${dom0Scale}
+  #  neutral_gas = He
+  #  #variable_temp = true
+  #[../]
 
 #He+ Boundary Condition
   [./He+_advectionBC]
@@ -1049,23 +1049,23 @@ dom0Scale=1e-3
   [../]
 
 #N2+ Boundary Condition
-  [./N2+_advectionBC]
-    type = SakiyamaIonAdvectionBC
-    variable = N2+
-    potential = potential
-    boundary = 'needle plate'
-    position_units = ${dom0Scale}
-  [../]
-  [./N2+_diffusionBC]
-    type = SakiyamaIonDiffusionBC
-    variable = N2+
-    #variable_temp = true
-    variable_temp = false
-    neutral_gas = He
-    potential = potential
-    boundary = 'needle plate'
-    position_units = ${dom0Scale}
-  [../]
+  #[./N2+_advectionBC]
+  #  type = SakiyamaIonAdvectionBC
+  #  variable = N2+
+  #  potential = potential
+  #  boundary = 'needle plate'
+  #  position_units = ${dom0Scale}
+  #[../]
+  #[./N2+_diffusionBC]
+  #  type = SakiyamaIonDiffusionBC
+  #  variable = N2+
+  #  #variable_temp = true
+  #  variable_temp = false
+  #  neutral_gas = He
+  #  potential = potential
+  #  boundary = 'needle plate'
+  #  position_units = ${dom0Scale}
+  #[../]
 
 #He* Boundary Condition
   [./He*_diffusionBC]
@@ -1091,7 +1091,7 @@ dom0Scale=1e-3
     variable = mean_en
     em = em
     #value = 0.6666667
-    value = 1
+    value = 0.6666667
     boundary = 'needle plate'
   [../]
 []
@@ -1132,14 +1132,14 @@ dom0Scale=1e-3
     #variable = He2*
     #function = density_ic_func
   [../]
-  [./N2+_ic]
-    type = ConstantIC
-    variable = N2+
-    value = -30
-    #type = FunctionIC
-    #variable = N2+
-    #function = density_ic_func
-  [../]
+  #[./N2+_ic]
+  #  type = ConstantIC
+  #  variable = N2+
+  #  value = -30
+  #  #type = FunctionIC
+  #  #variable = N2+
+  #  #function = density_ic_func
+  #[../]
   [./mean_en_ic]
     type = FunctionIC
     variable = mean_en
@@ -1222,27 +1222,27 @@ dom0Scale=1e-3
     diffusivity = 4.7310e-5
     #diffusivity = 0
   [../]
-  [./gas_species_4]
-    type = HeavySpeciesMaterial
-    heavy_species_name = N2+
-    heavy_species_mass = 4.65e-26
-    heavy_species_charge = 1.0
-    mobility = 2.28e-3
-    diffusivity = 5.8944e-5
-    #diffusivity = 0
-  [../]
+  #[./gas_species_4]
+  #  type = HeavySpeciesMaterial
+  #  heavy_species_name = N2+
+  #  heavy_species_mass = 4.65e-26
+  #  heavy_species_charge = 1.0
+  #  mobility = 2.28e-3
+  #  diffusivity = 5.8944e-5
+  #  #diffusivity = 0
+  #[../]
   [./gas_species_5]
     type = HeavySpeciesMaterial
     heavy_species_name = He
     heavy_species_mass = 6.7e-27
     heavy_species_charge = 0.0
   [../]
-  [./gas_species_6]
-    type = HeavySpeciesMaterial
-    heavy_species_name = N2
-    heavy_species_mass = 4.65e-26
-    heavy_species_charge = 0.0
-  [../]
+  #[./gas_species_6]
+  #  type = HeavySpeciesMaterial
+  #  heavy_species_name = N2
+  #  heavy_species_mass = 4.65e-26
+  #  heavy_species_charge = 0.0
+  #[../]
   [./reaction_R0]
     type = ZapdosEEDFRateConstant
     mean_en = mean_en
@@ -1323,34 +1323,34 @@ dom0Scale=1e-3
     file_location = ''
     em = em
   [../]
-  [./reaction_R10]
-    type = GenericRateConstant
-    reaction = 'He* + N2 -> N2+ + He + em'
-    #reaction_rate_value = 2e-13
-    reaction_rate_value = 3.011e7
-  [../]
-  [./reaction_R11]
-    type = GenericRateConstant
-    reaction = 'He2* + N2 -> N2+ + He + He + em'
-    #reaction_rate_value = 2e-13
-    reaction_rate_value = 1.8066e7
-  [../]
-  [./reaction_R12]
-    type = GenericRateConstant
-    reaction = 'He2+ + N2 -> N2+ + He2*'
-    #reaction_rate_value = 2e-13
-    reaction_rate_value = 2.89056e9
-  [../]
-  [./reaction_R13]
-    type = ZapdosEEDFRateConstant
-    mean_en = mean_en
-    sampling_format = electron_energy
-    property_file = 'Sakiyama_paper_RateCoefficients/reaction_N2+ + em -> N2.txt'
-    reaction = 'N2+ + em -> N2'
-    position_units = ${dom0Scale}
-    file_location = ''
-    em = em
-  [../]
+  #[./reaction_R10]
+  #  type = GenericRateConstant
+  #  reaction = 'He* + N2 -> N2+ + He + em'
+  #  #reaction_rate_value = 2e-13
+  #  reaction_rate_value = 3.011e7
+  #[../]
+  #[./reaction_R11]
+  #  type = GenericRateConstant
+  #  reaction = 'He2* + N2 -> N2+ + He + He + em'
+  #  #reaction_rate_value = 2e-13
+  #  reaction_rate_value = 1.8066e7
+  #[../]
+  #[./reaction_R12]
+  #  type = GenericRateConstant
+  #  reaction = 'He2+ + N2 -> N2+ + He2*'
+  #  #reaction_rate_value = 2e-13
+  #  reaction_rate_value = 2.89056e9
+  #[../]
+  #[./reaction_R13]
+  #  type = ZapdosEEDFRateConstant
+  #  mean_en = mean_en
+  #  sampling_format = electron_energy
+  #  property_file = 'Sakiyama_paper_RateCoefficients/reaction_N2+ + em -> N2.txt'
+  #  reaction = 'N2+ + em -> N2'
+  #  position_units = ${dom0Scale}
+  #  file_location = ''
+  #  em = em
+  #[../]
   #[./surface_charge_em]
   #  type = SurfaceChargeForSeperateSpecies
   #  species = em
@@ -1452,7 +1452,7 @@ dom0Scale=1e-3
 
 [Outputs]
   print_perf_log = true
-  file_base = 'Default_Sakiyama_NewJocab'
+  #file_base = 'Default_Sakiyama_NewJocab'
   [./out]
     type = Exodus
   [../]
