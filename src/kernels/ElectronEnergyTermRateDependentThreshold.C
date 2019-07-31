@@ -99,11 +99,11 @@ ElectronEnergyTermRateDependentThreshold::computeQpOffDiagJacobian(unsigned int 
   {
     if (jvar == _em_id)
     {
-      return -_test[_i][_qp] * std::exp(_em[_qp]) * std::exp(_v[_qp]) * _phi[_j][_qp] * d_energy_change_d_em;
+      return -_test[_i][_qp] * _rate_coefficient[_qp] * std::exp(_em[_qp]) * std::exp(_v[_qp]) * _phi[_j][_qp] * d_energy_change_d_em;
     }
     if (jvar == _v_id)
     {
-      return -_test[_i][_qp] * std::exp(_em[_qp]) * std::exp(_v[_qp]) * _phi[_j][_qp] * _energy_change;
+      return -_test[_i][_qp] * _rate_coefficient[_qp] * std::exp(_em[_qp]) * std::exp(_v[_qp]) * _phi[_j][_qp] * _energy_change;
     }
     else
       return 0.0;
@@ -111,7 +111,7 @@ ElectronEnergyTermRateDependentThreshold::computeQpOffDiagJacobian(unsigned int 
   else
   {
     if (jvar == _em_id)
-      return -_test[_i][_qp] * std::exp(_em[_qp]) * _n_gas[_qp] * _phi[_j][_qp] * d_energy_change_d_em;
+      return -_test[_i][_qp] * _rate_coefficient[_qp] * std::exp(_em[_qp]) * _n_gas[_qp] * _phi[_j][_qp] * d_energy_change_d_em;
     else
       return 0.0;
   }

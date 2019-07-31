@@ -1091,7 +1091,7 @@ dom0Scale=1e-3
     variable = mean_en
     em = em
     #value = 0.6666667
-    value = 1
+    value = 0.6666667
     boundary = 'needle plate'
   [../]
 []
@@ -1452,7 +1452,7 @@ dom0Scale=1e-3
 
 [Outputs]
   print_perf_log = true
-  file_base = 'Default_Sakiyama_NewJocab'
+  #file_base = 'Default_Sakiyama_NewJocab'
   [./out]
     type = Exodus
   [../]

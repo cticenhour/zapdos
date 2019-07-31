@@ -7,24 +7,26 @@ dom0Scale=25.4e-3
 
 [Mesh]
   type = FileMesh
-  file = 'Lymberopoulos.msh'
+  file = 'GEC.msh'
 []
 
-[MeshModifiers]
-  [./left]
-    type = SideSetsFromNormals
-    normals = '-1 0 0'
-    new_boundary = 'left'
-  [../]
-  [./right]
-    type = SideSetsFromNormals
-    normals = '1 0 0'
-    new_boundary = 'right'
-  [../]
-[]
+#[MeshModifiers]
+#  [./left]
+#    type = SideSetsFromNormals
+#    normals = '-1 0 0'
+#    new_boundary = 'left'
+#  [../]
+#  [./right]
+#    type = SideSetsFromNormals
+#    normals = '1 0 0'
+#    new_boundary = 'right'
+#  [../]
+#[]
 
 [Problem]
   type = FEProblem
+  coord_type = RZ
+  rz_coord_axis = Y
 []
 
 [Variables]
@@ -337,8 +339,14 @@ dom0Scale=25.4e-3
     order = CONSTANT
     family = MONOMIAL
   [../]
-
   [./x_node]
+  [../]
+
+  [./y]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./y_node]
   [../]
 
   [./rho]
@@ -364,60 +372,65 @@ dom0Scale=25.4e-3
   [./Ar]
   [../]
 
-  [./Efield]
+  [./Efieldx]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./Efieldy]
     order = CONSTANT
     family = MONOMIAL
   [../]
 
+
   [./Current_em]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./Current_Ar]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./emRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./exRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./swRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./deexRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./quRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./poolRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./TwoBRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./ThreeBRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
 []
 
@@ -515,10 +528,20 @@ dom0Scale=25.4e-3
     variable = x
     position_units = ${dom0Scale}
   [../]
-
   [./x_ng]
     type = Position
     variable = x_node
+    position_units = ${dom0Scale}
+  [../]
+
+  [./y_g]
+    type = Position
+    variable = y
+    position_units = ${dom0Scale}
+  [../]
+  [./y_ng]
+    type = Position
+    variable = y_node
     position_units = ${dom0Scale}
   [../]
 
@@ -549,11 +572,18 @@ dom0Scale=25.4e-3
     execute_on = INITIAL
   [../]
 
-  [./Efield_calc]
+  [./Efieldx_calc]
     type = Efield
     component = 0
     potential = potential
-    variable = Efield
+    variable = Efieldx
+    position_units = ${dom0Scale}
+  [../]
+  [./Efieldy_calc]
+    type = Efield
+    component = 1
+    potential = potential
+    variable = Efieldy
     position_units = ${dom0Scale}
   [../]
   [./Current_em]
@@ -562,7 +592,7 @@ dom0Scale=25.4e-3
     density_log = em
     variable = Current_em
     art_diff = false
-    block = 0
+    block = 'plasma'
     position_units = ${dom0Scale}
   [../]
   [./Current_Ar]
@@ -571,7 +601,7 @@ dom0Scale=25.4e-3
     density_log = Ar+
     variable = Current_Ar
     art_diff = false
-    block = 0
+    block = 'plasma'
     position_units = ${dom0Scale}
   [../]
 []
@@ -579,90 +609,67 @@ dom0Scale=25.4e-3
 
 [BCs]
 #Voltage Boundary Condition, same as in paper
-  [./potential_left]
+  [./potential_top_plate]
     type = FunctionDirichletBC
     variable = potential
-    boundary = 'left'
+    boundary = 'Top_Electrode Bottom_Electrode'
     function = potential_bc_func
   [../]
-  [./potential_dirichlet_right]
+  [./potential_dirichlet_bottom_plate]
     type = DirichletBC
     variable = potential
-    boundary = 'right'
+    boundary = 'Walls'
     value = 0
   [../]
 
 #New Boundary conditions for electons, same as in paper
-  [./em_physical_right]
-    type = LymberopoulosElectronBC
+  [./em_physical_diffusion]
+    type = SakiyamaElectronDiffusionBC
     variable = em
-    boundary = 'right'
-    gamma = 0.01
-    #gamma = 1
-    ks = 1.19e5
-    #ks = 0.0
-    ion = Ar+
-    potential = potential
+    mean_en = mean_en
+    boundary = 'Top_Electrode Bottom_Electrode Top_Insulator Bottom_Insulator Walls'
     position_units = ${dom0Scale}
   [../]
-  [./em_physical_left]
-    type = LymberopoulosElectronBC
+  [./em_Ar+_second_emissions]
+    type = SakiyamaSecondaryElectronBC
     variable = em
-    boundary = 'left'
-    gamma = 0.01
-    #gamma = 1
-    ks = 1.19e5
-    #ks = 0.0
-    ion = Ar+
+    mean_en = mean_en
     potential = potential
+    ip = Ar+
+    users_gamma = 0.01
+    boundary = 'Top_Electrode Bottom_Electrode Top_Insulator Bottom_Insulator Walls'
     position_units = ${dom0Scale}
+    neutral_gas = Ar
   [../]
 
 #New Boundary conditions for ions, should be the same as in paper
-  [./Ar+_physical_right_advection]
-    type = LymberopoulosIonBC
+  [./Ar+_physical_advection]
+    type = SakiyamaIonAdvectionBC
     variable = Ar+
     potential = potential
-    boundary = 'right'
-    position_units = ${dom0Scale}
-  [../]
-  [./Ar+_physical_left_advection]
-    type = LymberopoulosIonBC
-    variable = Ar+
-    potential = potential
-    boundary = 'left'
+    boundary = 'Top_Electrode Bottom_Electrode Top_Insulator Bottom_Insulator Walls'
     position_units = ${dom0Scale}
   [../]
 
 #New Boundary conditions for ions, should be the same as in paper
 #(except the metastables are not set to zero, since Zapdos uses log form)
-  [./Ar*_physical_right_diffusion]
+  [./Ar*_physical_diffusion]
     type = LogDensityDirichletBC
     variable = Ar*
-    boundary = 'right'
-    value = 100
-  [../]
-  [./Ar*_physical_left_diffusion]
-    type = LogDensityDirichletBC
-    variable = Ar*
-    boundary = 'left'
+    boundary = 'Top_Electrode Bottom_Electrode Top_Insulator Bottom_Insulator Walls'
     value = 100
   [../]
 
 #New Boundary conditions for mean energy, should be the same as in paper
-  [./mean_en_physical_right]
-    type = ElectronTemperatureDirichletBC
+  [./mean_en_physical]
+    type = HagelaarEnergyBC
     variable = mean_en
+    boundary = 'Top_Electrode Bottom_Electrode Top_Insulator Bottom_Insulator Walls'
+    potential = potential
     em = em
-    value = 0.5
-    boundary = 'right'
-  [../]
-  [./mean_en_physical_left]
-    type = ElectronTemperatureDirichletBC
-    variable = mean_en
-    em = em
-    value = 0.5
-    boundary = 'left'
+    ip = Ar+
+    r = 0.0
+    position_units = ${dom0Scale}
   [../]
 
 []
@@ -704,15 +711,18 @@ dom0Scale=25.4e-3
   [../]
   [./potential_ic_func]
     type = ParsedFunction
-    value = '0.100 * (25.4e-3 - x)'
+    #value = '0.100 * (25.4e-3 - x)'
+    value = 0
   [../]
   [./density_ic_func]
     type = ParsedFunction
-    value = 'log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
+    #value = 'log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
+    value = 'log((1e13)/6.022e23)'
   [../]
   [./energy_density_ic_func]
     type = ParsedFunction
-    value = 'log(3./2.) + log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
+    #value = 'log(3./2.) + log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
+    value = 'log(3./2.) + log((1e13)/6.022e23)'
   [../]
 []
 
@@ -728,6 +738,7 @@ dom0Scale=25.4e-3
     mean_en = mean_en
     user_electron_mobility = 30.0
     user_electron_diffusion_coeff = 119.8757763975
+    user_se_coeff = 0.01
     property_tables_file = Argon_reactions_paper_RateCoefficients/electron_moments.txt
     position_units = ${dom0Scale}
   [../]
@@ -845,10 +856,11 @@ dom0Scale=25.4e-3
 
 [Executioner]
   type = Transient
-  end_time = 7e-4
+  end_time = 7.4e-3
   petsc_options = '-snes_converged_reason -snes_linesearch_monitor'
   solve_type = NEWTON
-  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -ksp_type -snes_linesearch_minlambda '
+  dtmax = 1e-10
+    petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -ksp_type -snes_linesearch_minlambda'
   petsc_options_value = 'lu NONZERO 1.e-10 fgmres 1e-3'
   nl_rel_tol = 1e-8
   #nl_abs_tol = 7.6e-5
@@ -856,15 +868,16 @@ dom0Scale=25.4e-3
   l_max_its = 20
 
   #Time steps based on the inverse of the plasma frequency
-  [./TimeStepper]
-    type = PostprocessorDT
-    postprocessor = InversePlasmaFreq
-  [../]
+  #[./TimeStepper]
+  #  type = PostprocessorDT
+#    postprocessor = InversePlasmaFreq
+#    dt = 1e-11
+  #[../]
 []
 
 [Outputs]
+  #file_base = 'Argon_Plates'
   print_perf_log = true
-  #file_base = "jacobian_check_1D"
   [./out]
     type = Exodus
   [../]

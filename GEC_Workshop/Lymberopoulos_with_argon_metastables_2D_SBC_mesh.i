@@ -1,4 +1,4 @@
-dom0Scale=25.4e-3
+dom0Scale=1e-3
 
 [GlobalParams]
   potential_units = kV
@@ -7,24 +7,26 @@ dom0Scale=25.4e-3
 
 [Mesh]
   type = FileMesh
-  file = 'Lymberopoulos.msh'
+  file = 'Sakiyama_xAxis.msh'
 []
 
-[MeshModifiers]
-  [./left]
-    type = SideSetsFromNormals
-    normals = '-1 0 0'
-    new_boundary = 'left'
-  [../]
-  [./right]
-    type = SideSetsFromNormals
-    normals = '1 0 0'
-    new_boundary = 'right'
-  [../]
-[]
+#[MeshModifiers]
+#  [./left]
+#    type = SideSetsFromNormals
+#    normals = '-1 0 0'
+#    new_boundary = 'left'
+#  [../]
+#  [./right]
+#    type = SideSetsFromNormals
+#    normals = '1 0 0'
+#    new_boundary = 'right'
+#  [../]
+#[]
 
 [Problem]
   type = FEProblem
+  coord_type = RZ
+  rz_coord_axis = X
 []
 
 [Variables]
@@ -341,6 +343,13 @@ dom0Scale=25.4e-3
   [./x_node]
   [../]
 
+  [./y]
+    order = CONSTANT
+    family = MONOMIAL
+  [../]
+  [./y_node]
+  [../]
+
   [./rho]
     order = CONSTANT
     family = MONOMIAL
@@ -372,52 +381,52 @@ dom0Scale=25.4e-3
   [./Current_em]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./Current_Ar]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./emRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./exRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./swRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./deexRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./quRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./poolRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./TwoBRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./ThreeBRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
 []
 
@@ -522,6 +531,19 @@ dom0Scale=25.4e-3
     position_units = ${dom0Scale}
   [../]
 
+  [./y_g]
+    type = CustomPosition
+    variable = y
+    CustomPosition_units = ${dom0Scale}
+    component = 1
+  [../]
+  [./y_ng]
+    type = CustomPosition
+    variable = y_node
+    CustomPosition_units = ${dom0Scale}
+    component = 1
+  [../]
+
   [./em_lin]
     type = DensityMoles
     convert_moles = true
@@ -562,7 +584,7 @@ dom0Scale=25.4e-3
     density_log = em
     variable = Current_em
     art_diff = false
-    block = 0
+    block = 'plasma'
     position_units = ${dom0Scale}
   [../]
   [./Current_Ar]
@@ -571,7 +593,7 @@ dom0Scale=25.4e-3
     density_log = Ar+
     variable = Current_Ar
     art_diff = false
-    block = 0
+    block = 'plasma'
     position_units = ${dom0Scale}
   [../]
 []
@@ -579,90 +601,190 @@ dom0Scale=25.4e-3
 
 [BCs]
 #Voltage Boundary Condition, same as in paper
-  [./potential_left]
+  [./potential_needle]
     type = FunctionDirichletBC
     variable = potential
-    boundary = 'left'
+    boundary = 'needle'
     function = potential_bc_func
   [../]
-  [./potential_dirichlet_right]
+  [./potential_dirichlet_plate]
     type = DirichletBC
     variable = potential
-    boundary = 'right'
+    boundary = 'plate'
     value = 0
   [../]
 
 #New Boundary conditions for electons, same as in paper
-  [./em_physical_right]
-    type = LymberopoulosElectronBC
+  #[./em_physical_plate]
+  #  type = LymberopoulosElectronBC
+  #  variable = em
+  #  boundary = 'plate'
+  #  gamma = 0.01
+  #  #gamma = 1
+  #  ks = 1.19e5
+  #  #ks = 0.0
+  #  ion = Ar+
+  #  potential = potential
+  #  position_units = ${dom0Scale}
+  #[../]
+  #[./em_physical_needle]
+  #  type = LymberopoulosElectronBC
+  #  variable = em
+  #  boundary = 'needle'
+  #  gamma = 0.01
+  #  #gamma = 1
+  #  ks = 1.19e5
+  #  #ks = 0.0
+  #  ion = Ar+
+  #  potential = potential
+  #  position_units = ${dom0Scale}
+  #[../]
+  [./em_thermalBC_needle]
+    type = SakiyamaElectronDiffusionBC
     variable = em
-    boundary = 'right'
-    gamma = 0.01
-    #gamma = 1
-    ks = 1.19e5
-    #ks = 0.0
-    ion = Ar+
-    potential = potential
+    mean_en = mean_en
+    boundary = 'needle'
     position_units = ${dom0Scale}
   [../]
-  [./em_physical_left]
-    type = LymberopoulosElectronBC
+  [./em_Ar+_second_emissions_needle]
+    type = SakiyamaSecondaryElectronBC
     variable = em
-    boundary = 'left'
-    gamma = 0.01
-    #gamma = 1
-    ks = 1.19e5
-    #ks = 0.0
-    ion = Ar+
+    mean_en = mean_en
     potential = potential
+    ip = Ar+
+    users_gamma = 0.01
+    boundary = 'needle'
     position_units = ${dom0Scale}
+    neutral_gas = Ar
+    #variable_temp = true
+  [../]
+  [./em_thermalBC_plate]
+    type = SakiyamaElectronDiffusionBC
+    variable = em
+    mean_en = mean_en
+    boundary = 'plate'
+    position_units = ${dom0Scale}
+  [../]
+  [./em_Ar+_second_emissions_plate]
+    type = SakiyamaSecondaryElectronBC
+    variable = em
+    mean_en = mean_en
+    potential = potential
+    ip = Ar+
+    users_gamma = 0.01
+    boundary = 'plate'
+    position_units = ${dom0Scale}
+    neutral_gas = Ar
+    #variable_temp = true
   [../]
 
 #New Boundary conditions for ions, should be the same as in paper
-  [./Ar+_physical_right_advection]
-    type = LymberopoulosIonBC
+  #[./Ar+_physical_plate_advection]
+  #  type = LymberopoulosIonBC
+  #  variable = Ar+
+  #  potential = potential
+  #  boundary = 'plate'
+  #  position_units = ${dom0Scale}
+  #[../]
+  #[./Ar+_physical_needle_advection]
+  #  type = LymberopoulosIonBC
+  #  variable = Ar+
+  #  potential = potential
+  #  boundary = 'needle'
+  #  position_units = ${dom0Scale}
+  #[../]
+  [./Ar+_advectionBC_needle]
+    type = SakiyamaIonAdvectionBC
     variable = Ar+
     potential = potential
-    boundary = 'right'
+    boundary = 'needle'
     position_units = ${dom0Scale}
   [../]
-  [./Ar+_physical_left_advection]
-    type = LymberopoulosIonBC
+  [./Ar+_diffusionBC_needle]
+    type = SakiyamaIonDiffusionBC
+    variable = Ar+
+    #variable_temp = true
+    variable_temp = false
+    neutral_gas = Ar
+    potential = potential
+    boundary = 'needle'
+    position_units = ${dom0Scale}
+  [../]
+  [./Ar+_advectionBC_plate]
+    type = SakiyamaIonAdvectionBC
     variable = Ar+
     potential = potential
-    boundary = 'left'
+    boundary = 'plate'
+    position_units = ${dom0Scale}
+  [../]
+  [./Ar+_diffusionBC_plate]
+    type = SakiyamaIonDiffusionBC
+    variable = Ar+
+    #variable_temp = true
+    variable_temp = false
+    neutral_gas = Ar
+    potential = potential
+    boundary = 'plate'
     position_units = ${dom0Scale}
   [../]
 
 #New Boundary conditions for ions, should be the same as in paper
 #(except the metastables are not set to zero, since Zapdos uses log form)
-  [./Ar*_physical_right_diffusion]
-    type = LogDensityDirichletBC
+  #[./Ar*_physical_plate_diffusion]
+  #  type = LogDensityDirichletBC
+  #  variable = Ar*
+  #  boundary = 'plate'
+  #  value = 100
+  #[../]
+  #[./Ar*_physical_needle_diffusion]
+  #  type = LogDensityDirichletBC
+  #  variable = Ar*
+  #  boundary = 'needle'
+  #  value = 100
+  #[../]
+  [./Ar*_diffusionBC_needle]
+    type = SakiyamaIonDiffusionBC
     variable = Ar*
-    boundary = 'right'
-    value = 100
+    neutral_gas = Ar
+    boundary = 'needle'
+    position_units = ${dom0Scale}
   [../]
-  [./Ar*_physical_left_diffusion]
-    type = LogDensityDirichletBC
+  [./Ar*_diffusionBC_plate]
+    type = SakiyamaIonDiffusionBC
     variable = Ar*
-    boundary = 'left'
-    value = 100
+    neutral_gas = Ar
+    boundary = 'plate'
+    position_units = ${dom0Scale}
   [../]
 
 #New Boundary conditions for mean energy, should be the same as in paper
-  [./mean_en_physical_right]
+  #[./mean_en_physical_plate]
+  #  type = ElectronTemperatureDirichletBC
+  #  variable = mean_en
+  #  em = em
+  #  value = 0.5
+  #  boundary = 'plate'
+  #[../]
+  #[./mean_en_physical_needle]
+  #  type = ElectronTemperatureDirichletBC
+  #  variable = mean_en
+  #  em = em
+  #  value = 0.5
+  #  boundary = 'needle'
+  #[../]
+  [./mean_en_BC_needle]
     type = ElectronTemperatureDirichletBC
     variable = mean_en
     em = em
     value = 0.5
-    boundary = 'right'
+    boundary = 'needle'
   [../]
-  [./mean_en_physical_left]
+  [./mean_en_BC_plate]
     type = ElectronTemperatureDirichletBC
     variable = mean_en
     em = em
     value = 0.5
-    boundary = 'left'
+    boundary = 'plate'
   [../]
 
 []
@@ -704,15 +826,18 @@ dom0Scale=25.4e-3
   [../]
   [./potential_ic_func]
     type = ParsedFunction
-    value = '0.100 * (25.4e-3 - x)'
+    #value = '0.100 * (25.4e-3 - x)'
+    value = 0
   [../]
   [./density_ic_func]
     type = ParsedFunction
-    value = 'log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
+    #value = 'log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
+    value = 'log((1e13)/6.022e23)'
   [../]
   [./energy_density_ic_func]
     type = ParsedFunction
-    value = 'log(3./2.) + log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
+    #value = 'log(3./2.) + log((1e13 + 1e15 * (1-x/1)^2 * (x/1)^2)/6.022e23)'
+    value = 'log(3./2.) + log((1e13)/6.022e23)'
   [../]
 []
 
@@ -845,10 +970,11 @@ dom0Scale=25.4e-3
 
 [Executioner]
   type = Transient
-  end_time = 7e-4
+  end_time = 7.3e-3
+  dtmax = 1e-10
   petsc_options = '-snes_converged_reason -snes_linesearch_monitor'
   solve_type = NEWTON
-  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -ksp_type -snes_linesearch_minlambda '
+  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -ksp_type -snes_linesearch_minlambda'
   petsc_options_value = 'lu NONZERO 1.e-10 fgmres 1e-3'
   nl_rel_tol = 1e-8
   #nl_abs_tol = 7.6e-5
@@ -863,8 +989,8 @@ dom0Scale=25.4e-3
 []
 
 [Outputs]
+  file_base = 'Argon_SBC_mesh'
   print_perf_log = true
-  #file_base = "jacobian_check_1D"
   [./out]
     type = Exodus
   [../]

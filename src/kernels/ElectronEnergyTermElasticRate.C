@@ -69,20 +69,20 @@ ElectronEnergyTermElasticRate::computeQpJacobian()
 Real
 ElectronEnergyTermElasticRate::computeQpOffDiagJacobian(unsigned int jvar)
 {
-  Real energy_elastic = -3.0 * (_massIncident[_qp] / _massTarget[_qp]) * 2.0 / 3.0 *
-                        std::exp(_u[_qp] - _electron[_qp]);
-  // Real d_elastic_d_em = 3.0 * (_massIncident[_qp] / _massTarget[_qp]) * 2.0 / 3.0 *
-  // std::exp(_u[_qp] - _electron[_qp]) * _phi[_j][_qp];
+  Real actual_mean_en = std::exp(_u[_qp] - _electron[_qp]);
+  Real energy_elastic = -3.0 * (_massIncident[_qp] / _massTarget[_qp]) * 2.0 / 3.0 * std::exp(_u[_qp] - _electron[_qp]);
+  Real d_elastic_d_em = 3.0 * (_massIncident[_qp] / _massTarget[_qp]) * 2.0 / 3.0 * std::exp(_u[_qp] - _electron[_qp]) * _phi[_j][_qp];
+
 
   if (jvar == _electron_id)
   {
-    return -2.0 * _test[_i][_qp] * std::exp(_electron[_qp] + _target[_qp]) * energy_elastic *
-           _phi[_j][_qp];
+    //return -2.0 * _test[_i][_qp] * std::exp(_electron[_qp] + _target[_qp]) * energy_elastic * _phi[_j][_qp];
+    return -_test[_i][_qp] * _rate_coefficient[_qp] * std::exp(_target[_qp]) * (std::exp(_electron[_qp]) * _phi[_j][_qp] * energy_elastic + std::exp(_electron[_qp]) * d_elastic_d_em);
   }
   if (jvar == _target_id)
   {
-    return -_test[_i][_qp] * std::exp(_electron[_qp] + _target[_qp]) * energy_elastic *
-           _phi[_j][_qp];
+    //return -_test[_i][_qp] * std::exp(_electron[_qp] + _target[_qp]) * energy_elastic * _phi[_j][_qp];
+    return -_test[_i][_qp] * _rate_coefficient[_qp] * std::exp(_electron[_qp] + _target[_qp]) * energy_elastic * _phi[_j][_qp];
   }
   else
     return 0.0;

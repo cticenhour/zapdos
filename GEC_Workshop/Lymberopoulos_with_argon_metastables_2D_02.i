@@ -7,24 +7,44 @@ dom0Scale=25.4e-3
 
 [Mesh]
   type = FileMesh
-  file = 'Lymberopoulos.msh'
+  file = 'Lymberopoulos_2D.msh'
 []
 
-[MeshModifiers]
-  [./left]
-    type = SideSetsFromNormals
-    normals = '-1 0 0'
-    new_boundary = 'left'
+#[MeshModifiers]
+#  [./left]
+#    type = SideSetsFromNormals
+#    normals = '-1 0 0'
+#    new_boundary = 'left'
+#  [../]
+#  [./right]
+#    type = SideSetsFromNormals
+#    normals = '1 0 0'
+#    new_boundary = 'right'
+#  [../]
+#[]
+
+[Adaptivity]
+  max_h_level = 8
+  marker = marker
+  [./Indicators]
+    [./error]
+      type = GradientJumpIndicator
+      variable = Ar+
+    [../]
   [../]
-  [./right]
-    type = SideSetsFromNormals
-    normals = '1 0 0'
-    new_boundary = 'right'
+  [./Markers]
+    [./marker]
+      type = ErrorFractionMarker
+      coarsen = 0.1
+      indicator = error
+      refine = 0.2
+    [../]
   [../]
 []
 
 [Problem]
   type = FEProblem
+  coord_type = RZ
 []
 
 [Variables]
@@ -372,52 +392,52 @@ dom0Scale=25.4e-3
   [./Current_em]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./Current_Ar]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./emRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./exRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./swRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./deexRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./quRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./poolRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./TwoBRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
   [./ThreeBRate]
     order = CONSTANT
     family = MONOMIAL
-    block = 0
+    block = 'plasma'
   [../]
 []
 
@@ -562,7 +582,7 @@ dom0Scale=25.4e-3
     density_log = em
     variable = Current_em
     art_diff = false
-    block = 0
+    block = 'plasma'
     position_units = ${dom0Scale}
   [../]
   [./Current_Ar]
@@ -571,7 +591,7 @@ dom0Scale=25.4e-3
     density_log = Ar+
     variable = Current_Ar
     art_diff = false
-    block = 0
+    block = 'plasma'
     position_units = ${dom0Scale}
   [../]
 []
@@ -579,24 +599,24 @@ dom0Scale=25.4e-3
 
 [BCs]
 #Voltage Boundary Condition, same as in paper
-  [./potential_left]
+  [./potential_top_plate]
     type = FunctionDirichletBC
     variable = potential
-    boundary = 'left'
+    boundary = 'top_plate'
     function = potential_bc_func
   [../]
-  [./potential_dirichlet_right]
+  [./potential_dirichlet_bottom_plate]
     type = DirichletBC
     variable = potential
-    boundary = 'right'
+    boundary = 'bottom_plate'
     value = 0
   [../]
 
 #New Boundary conditions for electons, same as in paper
-  [./em_physical_right]
+  [./em_physical_bottom_plate]
     type = LymberopoulosElectronBC
     variable = em
-    boundary = 'right'
+    boundary = 'bottom_plate'
     gamma = 0.01
     #gamma = 1
     ks = 1.19e5
@@ -605,10 +625,10 @@ dom0Scale=25.4e-3
     potential = potential
     position_units = ${dom0Scale}
   [../]
-  [./em_physical_left]
+  [./em_physical_top_plate]
     type = LymberopoulosElectronBC
     variable = em
-    boundary = 'left'
+    boundary = 'top_plate'
     gamma = 0.01
     #gamma = 1
     ks = 1.19e5
@@ -619,50 +639,50 @@ dom0Scale=25.4e-3
   [../]
 
 #New Boundary conditions for ions, should be the same as in paper
-  [./Ar+_physical_right_advection]
+  [./Ar+_physical_bottom_plate_advection]
     type = LymberopoulosIonBC
     variable = Ar+
     potential = potential
-    boundary = 'right'
+    boundary = 'bottom_plate'
     position_units = ${dom0Scale}
   [../]
-  [./Ar+_physical_left_advection]
+  [./Ar+_physical_top_plate_advection]
     type = LymberopoulosIonBC
     variable = Ar+
     potential = potential
-    boundary = 'left'
+    boundary = 'top_plate'
     position_units = ${dom0Scale}
   [../]
 
 #New Boundary conditions for ions, should be the same as in paper
 #(except the metastables are not set to zero, since Zapdos uses log form)
-  [./Ar*_physical_right_diffusion]
+  [./Ar*_physical_bottom_plate_diffusion]
     type = LogDensityDirichletBC
     variable = Ar*
-    boundary = 'right'
+    boundary = 'bottom_plate'
     value = 100
   [../]
-  [./Ar*_physical_left_diffusion]
+  [./Ar*_physical_top_plate_diffusion]
     type = LogDensityDirichletBC
     variable = Ar*
-    boundary = 'left'
+    boundary = 'top_plate'
     value = 100
   [../]
 
 #New Boundary conditions for mean energy, should be the same as in paper
-  [./mean_en_physical_right]
+  [./mean_en_physical_bottom_plate]
     type = ElectronTemperatureDirichletBC
     variable = mean_en
     em = em
     value = 0.5
-    boundary = 'right'
+    boundary = 'bottom_plate'
   [../]
-  [./mean_en_physical_left]
+  [./mean_en_physical_top_plate]
     type = ElectronTemperatureDirichletBC
     variable = mean_en
     em = em
     value = 0.5
-    boundary = 'left'
+    boundary = 'top_plate'
   [../]
 
 []
@@ -845,10 +865,10 @@ dom0Scale=25.4e-3
 
 [Executioner]
   type = Transient
-  end_time = 7e-4
+  end_time = 3e-7
   petsc_options = '-snes_converged_reason -snes_linesearch_monitor'
   solve_type = NEWTON
-  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -ksp_type -snes_linesearch_minlambda '
+  petsc_options_iname = '-pc_type -pc_factor_shift_type -pc_factor_shift_amount -ksp_type -snes_linesearch_minlambda'
   petsc_options_value = 'lu NONZERO 1.e-10 fgmres 1e-3'
   nl_rel_tol = 1e-8
   #nl_abs_tol = 7.6e-5
@@ -864,7 +884,6 @@ dom0Scale=25.4e-3
 
 [Outputs]
   print_perf_log = true
-  #file_base = "jacobian_check_1D"
   [./out]
     type = Exodus
   [../]

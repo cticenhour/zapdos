@@ -856,39 +856,39 @@ dom0Scale=1e-3
     density_log = N2+
   [../]
 
-  #[./SC_em]
-  #  type = MaterialRealAux
-  #  variable = SCem
-  #  property = surface_chargeem
-  #  boundary = 'plate'
-  #[../]
-  #[./SC_HeIon]
-  #  type = MaterialRealAux
-  #  variable = SCHeIon
-  #  property = surface_chargeHe+
-  #  boundary = 'plate'
-  #[../]
-  #[./SC_He2Ion]
-  #  type = MaterialRealAux
-  #  variable = SCHe2Ion
-  #  property = surface_chargeHe2+
-  #  boundary = 'plate'
-  #[../]
-  #[./SC_N2Ion]
-  #  type = MaterialRealAux
-  #  variable = SCN2Ion
-  #  property = surface_chargeN2+
-  #  boundary = 'plate'
-  #[../]
-  #[./Total_SC]
-  #  type = ParsedAux
-  #  variable = SC
-  #  args = 'SCem SCHeIon SCHe2Ion SCN2Ion'
-  #  function = 'SCem + SCHeIon + SCHe2Ion + SCN2Ion'
-  #  #execute_on = 'LINEAR TIMESTEP_END'
-  #  #block = 'plasma'
-  #  boundary = 'plate'
-  #[../]
+  [./SC_em]
+    type = MaterialRealAux
+    variable = SCem
+    property = surface_chargeem
+    boundary = 'plate'
+  [../]
+  [./SC_HeIon]
+    type = MaterialRealAux
+    variable = SCHeIon
+    property = surface_chargeHe+
+    boundary = 'plate'
+  [../]
+  [./SC_He2Ion]
+    type = MaterialRealAux
+    variable = SCHe2Ion
+    property = surface_chargeHe2+
+    boundary = 'plate'
+  [../]
+  [./SC_N2Ion]
+    type = MaterialRealAux
+    variable = SCN2Ion
+    property = surface_chargeN2+
+    boundary = 'plate'
+  [../]
+  [./Total_SC]
+    type = ParsedAux
+    variable = SC
+    args = 'SCem SCHeIon SCHe2Ion SCN2Ion'
+    function = 'SCem + SCHeIon + SCHe2Ion + SCN2Ion'
+    #execute_on = 'LINEAR TIMESTEP_END'
+    #block = 'plasma'
+    boundary = 'plate'
+  [../]
 
 []
 
@@ -900,48 +900,48 @@ dom0Scale=1e-3
     boundary = 'needle'
     function = potential_bc_func
   [../]
-  [./potential_plate]
-    type = DirichletBC
+  #[./potential_plate]
+  #  type = DirichletBC
+  #  variable = potential
+  #  boundary = 'plate'
+  #  value = 0
+  #[../]
+  [./potential_plate_Dielectric]
+    type = DielectricBC
     variable = potential
     boundary = 'plate'
-    value = 0
+    dielectric_constant = 4.4271e-11
+    thickness = 0.005
+    position_units = ${dom0Scale}
   [../]
-  #[./potential_plate_Dielectric]
-  #  type = DielectricBC
-  #  variable = potential
-  #  boundary = 'plate'
-  #  dielectric_constant = 4.4271e-11
-  #  thickness = 0.005
-  #  position_units = ${dom0Scale}
-  #[../]
-  #[./potential_plate_em_surface_charge]
-  #  type = SurfaceChargeBC
-  #  variable = potential
-  #  boundary = 'plate'
-  #  species = em
-  #  position_units = ${dom0Scale}
-  #[../]
-  #[./potential_plate_He+_surface_charge]
-  #  type = SurfaceChargeBC
-  #  variable = potential
-  #  boundary = 'plate'
-  #  species = He+
-  #  position_units = ${dom0Scale}
-  #[../]
-  #[./potential_plate_He2+_surface_charge]
-  #  type = SurfaceChargeBC
-  #  variable = potential
-  #  boundary = 'plate'
-  #  species = He2+
-  #  position_units = ${dom0Scale}
-  #[../]
-  #[./potential_plate_N2+_surface_charge]
-  #  type = SurfaceChargeBC
-  #  variable = potential
-  #  boundary = 'plate'
-  #  species = N2+
-  #  position_units = ${dom0Scale}
- #[../]
+  [./potential_plate_em_surface_charge]
+    type = SurfaceChargeBC
+    variable = potential
+    boundary = 'plate'
+    species = em
+    position_units = ${dom0Scale}
+  [../]
+  [./potential_plate_He+_surface_charge]
+    type = SurfaceChargeBC
+    variable = potential
+    boundary = 'plate'
+    species = He+
+    position_units = ${dom0Scale}
+  [../]
+  [./potential_plate_He2+_surface_charge]
+    type = SurfaceChargeBC
+    variable = potential
+    boundary = 'plate'
+    species = He2+
+    position_units = ${dom0Scale}
+  [../]
+  [./potential_plate_N2+_surface_charge]
+    type = SurfaceChargeBC
+    variable = potential
+    boundary = 'plate'
+    species = N2+
+    position_units = ${dom0Scale}
+ [../]
 
 #Electron Boundary Condition
   [./em_thermalBC]
@@ -1091,7 +1091,7 @@ dom0Scale=1e-3
     variable = mean_en
     em = em
     #value = 0.6666667
-    value = 1
+    value = 0.6666667
     boundary = 'needle plate'
   [../]
 []
@@ -1351,48 +1351,48 @@ dom0Scale=1e-3
     file_location = ''
     em = em
   [../]
-  #[./surface_charge_em]
-  #  type = SurfaceChargeForSeperateSpecies
-  #  species = em
-  #  species_em = true
-  #  em = em
-  #  ip = He+
-  #  mean_en = mean_en
-  #  potential = potential
-  #  boundary = 'plate'
-  #  position_units = ${dom0Scale}
-  #  neutral_gas = He
-  #[../]
-  #[./surface_charge_He+]
-  #  type = SurfaceChargeForSeperateSpecies
-  #  species = He+
-  #  species_em = false
-  #  ip = He+
-  #  potential = potential
-  #  boundary = 'plate'
-  #  position_units = ${dom0Scale}
-  #  neutral_gas = He
-  #[../]
-  #[./surface_charge_He2+]
-  #  type = SurfaceChargeForSeperateSpecies
-  #  species = He2+
-  #  species_em = false
-  #  ip = He2+
-  #  potential = potential
-  #  boundary = 'plate'
-  #  position_units = ${dom0Scale}
-  #  neutral_gas = He
-  #[../]
-  #[./surface_charge_N2+]
-  #  type = SurfaceChargeForSeperateSpecies
-  #  species = N2+
-  #  species_em = false
-  #  ip = N2+
-  #  potential = potential
-  #  boundary = 'plate'
-  #  position_units = ${dom0Scale}
-  #  neutral_gas = He
-  #[../]
+  [./surface_charge_em]
+    type = SurfaceChargeForSeperateSpecies
+    species = em
+    species_em = true
+    em = em
+    ip = He+
+    mean_en = mean_en
+    potential = potential
+    boundary = 'plate'
+    position_units = ${dom0Scale}
+    neutral_gas = He
+  [../]
+  [./surface_charge_He+]
+    type = SurfaceChargeForSeperateSpecies
+    species = He+
+    species_em = false
+    ip = He+
+    potential = potential
+    boundary = 'plate'
+    position_units = ${dom0Scale}
+    neutral_gas = He
+  [../]
+  [./surface_charge_He2+]
+    type = SurfaceChargeForSeperateSpecies
+    species = He2+
+    species_em = false
+    ip = He2+
+    potential = potential
+    boundary = 'plate'
+    position_units = ${dom0Scale}
+    neutral_gas = He
+  [../]
+  [./surface_charge_N2+]
+    type = SurfaceChargeForSeperateSpecies
+    species = N2+
+    species_em = false
+    ip = N2+
+    potential = potential
+    boundary = 'plate'
+    position_units = ${dom0Scale}
+    neutral_gas = He
+  [../]
 []
 
 #New postprocessor that calculates the inverse of the plasma frequency
@@ -1452,7 +1452,7 @@ dom0Scale=1e-3
 
 [Outputs]
   print_perf_log = true
-  file_base = 'Default_Sakiyama_NewJocab'
+  #file_base = 'Default_Sakiyama_NewJocab'
   [./out]
     type = Exodus
   [../]

@@ -98,8 +98,10 @@ SakiyamaIonDiffusionBC::computeQpOffDiagJacobian(unsigned int jvar)
   {
     if (_variable_temp)
     {
+      Real _d_grad_potential_d_potential_mag = _grad_potential[_qp] * _r_units * _grad_phi[_j][_qp] * _r_units / (_grad_phi[_j][_qp] * _r_units).norm();
+
       _d_temp_d_potential = (_mass[_qp] + _massNeutral[_qp]) / (5.0*_mass[_qp] + 3.0*_massNeutral[_qp]) *
-                               (_massNeutral[_qp] * std::pow((_mu[_qp] * (_grad_phi[_j][_qp] * _r_units).norm()),2) / _kb[_qp]);
+                               (_massNeutral[_qp] * std::pow((_mu[_qp] * _d_grad_potential_d_potential_mag),2) / _kb[_qp]);
 
       _d_v_thermal_d_potential = std::sqrt(8 * _kb[_qp] * _d_temp_d_potential / (M_PI * _mass[_qp]));
 
