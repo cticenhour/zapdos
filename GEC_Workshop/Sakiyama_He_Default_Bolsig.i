@@ -1156,7 +1156,7 @@ dom0Scale=1e-3
 [Functions]
   [./potential_bc_func]
     type = ParsedFunction
-    value = '0.180*sin(2*3.1415926*13.56e6*t)'
+    value = '0.200*sin(2*3.1415926*13.56e6*t)'
   [../]
   [./potential_ic_func]
     type = ParsedFunction
@@ -1440,14 +1440,14 @@ dom0Scale=1e-3
   #  postprocessor = InversePlasmaFreq
   #  scale = 0.2
   #[../]
-  [./TimeStepper]
-    type = IterationAdaptiveDT
-    cutback_factor = 0.4
-    dt = 1e-11
-    #growth_factor = 1.2
-    growth_factor = 1.02
-    optimal_iterations = 15
-  [../]
+  #[./TimeStepper]
+  #  type = IterationAdaptiveDT
+  #  cutback_factor = 0.4
+  #  dt = 1e-11
+  #  #growth_factor = 1.2
+  #  growth_factor = 1.02
+  #  optimal_iterations = 15
+  #[../]
 []
 
 [Outputs]
