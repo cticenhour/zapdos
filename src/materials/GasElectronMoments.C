@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //* This file is part of Zapdos, an open-source
 //* application for the simulation of plasmas
 //* https://github.com/shannon-lab/zapdos
@@ -8,6 +9,8 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
+=======
+>>>>>>> 3afd528a4c7afa746018a4cc26c57e5566f85c3a
 
 #include "GasElectronMoments.h"
 #include "MooseUtils.h"

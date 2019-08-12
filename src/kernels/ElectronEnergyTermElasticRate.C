@@ -83,6 +83,10 @@ ElectronEnergyTermElasticRate::computeQpOffDiagJacobian(unsigned int jvar)
   {
     //return -_test[_i][_qp] * std::exp(_electron[_qp] + _target[_qp]) * energy_elastic * _phi[_j][_qp];
     return -_test[_i][_qp] * _rate_coefficient[_qp] * std::exp(_electron[_qp] + _target[_qp]) * energy_elastic * _phi[_j][_qp];
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3afd528a4c7afa746018a4cc26c57e5566f85c3a
   }
   else
     return 0.0;
