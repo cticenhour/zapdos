@@ -32,14 +32,14 @@ defineADValidParams(
 template <ComputeStage compute_stage>
 ADMaterialsPlasmaSUPG<compute_stage>::ADMaterialsPlasmaSUPG(const InputParameters & parameters)
   : ADMaterial<compute_stage>(parameters),
-    _alpha(adGetParam<Real>("alpha")),
-    _tau(adDeclareADProperty<Real>("tau" + adGetParam<std::string>("species_name"))),
-    _r_units(1. / adGetParam<Real>("position_units")),
-    _mu(adGetMaterialProperty<Real>("mu" + adGetParam<std::string>("species_name"))),
+    _alpha(getParam<Real>("alpha")),
+    _tau(declareADProperty<Real>("tau" + adGetParam<std::string>("species_name"))),
+    _r_units(1. / getParam<Real>("position_units")),
+    _mu(getMaterialProperty<Real>("mu" + adGetParam<std::string>("species_name"))),
     _grad_potential(adCoupledGradient("potential")),
     //_grad_potential(adCoupledVectorGradient("potential")),
-    _diff(adGetMaterialProperty<Real>("diff" + adGetParam<std::string>("species_name"))),
-    _transient_term(adGetParam<bool>("transient_term"))
+    _diff(getMaterialProperty<Real>("diff" + adGetParam<std::string>("species_name"))),
+    _transient_term(getParam<bool>("transient_term"))
 {
 }
 

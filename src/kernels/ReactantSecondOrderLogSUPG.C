@@ -18,15 +18,15 @@ template <ComputeStage compute_stage>
 ReactantSecondOrderLogSUPG<compute_stage>::ReactantSecondOrderLogSUPG(const InputParameters & parameters)
     : ADKernelPlasmaSUPG<compute_stage>(parameters),
 
-    _reaction_coeff(adGetMaterialProperty<Real>("k_"+adGetParam<std::string>("reaction"))),
+    _reaction_coeff(getMaterialProperty<Real>("k_"+getParam<std::string>("reaction"))),
     _v(adCoupledValue("v")),
-    _n_gas(adGetMaterialProperty<Real>("n_gas")),
-    _stoichiometric_coeff(adGetParam<Real>("coefficient"))
+    _n_gas(getMaterialProperty<Real>("n_gas")),
+    _stoichiometric_coeff(getParam<Real>("coefficient"))
 {
 }
 
 template <ComputeStage compute_stage>
-ADResidual
+ADReal
 ReactantSecondOrderLogSUPG<compute_stage>::precomputeQpStrongResidual()
 {
 

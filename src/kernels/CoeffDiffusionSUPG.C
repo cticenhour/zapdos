@@ -19,13 +19,13 @@ CoeffDiffusionSUPG<compute_stage>::CoeffDiffusionSUPG(const InputParameters & pa
     //: ADKernel<compute_stage>(parameters),
     : ADKernelPlasmaSUPG<compute_stage>(parameters),
 
-    _r_units(1. / adGetParam<Real>("position_units")),
+    _r_units(1. / getParam<Real>("position_units")),
 
 
     // Coupled variables
     _second_var(adCoupledSecond("var_for_second_derivative")),
 
-    _diff(adGetMaterialProperty<Real>("diff" + _var.name()))
+    _diff(getMaterialProperty<Real>("diff" + _var.name()))
 
 
 {
@@ -35,7 +35,7 @@ CoeffDiffusionSUPG<compute_stage>::CoeffDiffusionSUPG(const InputParameters & pa
 //ADResidual
 //CoeffDiffusionSUPG<compute_stage>::computeQpResidual()
 template <ComputeStage compute_stage>
-ADResidual
+ADReal
 CoeffDiffusionSUPG<compute_stage>::precomputeQpStrongResidual()
 {
 

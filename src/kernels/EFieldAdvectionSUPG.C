@@ -17,10 +17,10 @@ template <ComputeStage compute_stage>
 EFieldAdvectionSUPG<compute_stage>::EFieldAdvectionSUPG(const InputParameters & parameters)
     : ADKernelPlasmaSUPG<compute_stage>(parameters),
 
-    _r_units(1. / adGetParam<Real>("position_units")),
+    _r_units(1. / getParam<Real>("position_units")),
 
     //_mu(adGetMaterialProperty<Real>("mu" + _var.name())),
-    _sign(adGetMaterialProperty<Real>("sgn" + _var.name())),
+    _sign(getMaterialProperty<Real>("sgn" + _var.name())),
 
     // Coupled variables
 
@@ -30,7 +30,7 @@ EFieldAdvectionSUPG<compute_stage>::EFieldAdvectionSUPG(const InputParameters & 
 }
 
 template <ComputeStage compute_stage>
-ADResidual
+ADReal
 EFieldAdvectionSUPG<compute_stage>::precomputeQpStrongResidual()
 {
 

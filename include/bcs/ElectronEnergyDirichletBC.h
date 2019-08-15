@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //* This file is part of Zapdos, an open-source
 //* application for the simulation of plasmas
 //* https://github.com/shannon-lab/zapdos
@@ -8,21 +7,6 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-=======
-/****************************************************************/
-/*               DO NOT MODIFY THIS HEADER                      */
-/* MOOSE - Multiphysics Object Oriented Simulation Environment  */
-/*                                                              */
-/*           (c) 2010 Battelle Energy Alliance, LLC             */
-/*                   ALL RIGHTS RESERVED                        */
-/*                                                              */
-/*          Prepared by Battelle Energy Alliance, LLC           */
-/*            Under Contract No. DE-AC07-05ID14517              */
-/*            With the U. S. Department of Energy               */
-/*                                                              */
-/*            See COPYRIGHT for full restrictions               */
-/****************************************************************/
->>>>>>> 3afd528a4c7afa746018a4cc26c57e5566f85c3a
 
 #ifndef ElectronEnergyDirichletBC_H
 #define ElectronEnergyDirichletBC_H

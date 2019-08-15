@@ -22,7 +22,7 @@ TimeDerivativeSUPG<compute_stage>::TimeDerivativeSUPG(const InputParameters & pa
 }
 
 template <ComputeStage compute_stage>
-ADResidual
+ADReal
 TimeDerivativeSUPG<compute_stage>::precomputeQpStrongResidual()
 {
 

@@ -36,11 +36,11 @@ template <typename T, ComputeStage compute_stage>
 ADTimeKernelPlasmaSUPGTempl<T, compute_stage>::ADTimeKernelPlasmaSUPGTempl(const InputParameters & parameters)
   : ADKernelStabilizedTempl<T, compute_stage>(parameters),
     _u_dot(_var.template adUDot<compute_stage>()),
-    _tau(adGetADMaterialProperty<Real>("tau_name")),
+    _tau(getADMaterialProperty<Real>("tau_name")),
     //grad_potential(adCoupledVectorValue("potential")),
     _grad_potential(adCoupledGradient("potential")),
-    _mu(adGetMaterialProperty<Real>("mu" + _var.name())),
-    _r_units(1. / adGetParam<Real>("position_units"))
+    _mu(getMaterialProperty<Real>("mu" + _var.name())),
+    _r_units(1. / getParam<Real>("position_units"))
 
 {
 }

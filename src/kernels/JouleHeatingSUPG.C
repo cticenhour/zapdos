@@ -17,16 +17,16 @@ template <ComputeStage compute_stage>
 JouleHeatingSUPG<compute_stage>::JouleHeatingSUPG(const InputParameters & parameters)
     : ADKernelPlasmaSUPG<compute_stage>(parameters),
 
-    _r_units(1. / adGetParam<Real>("position_units")),
+    _r_units(1. / getParam<Real>("position_units")),
 
 
     // Coupled variables
 
-    _potential_units(adGetParam<std::string>("potential_units")),
+    _potential_units(getParam<std::string>("potential_units")),
     _em(adCoupledValue("em")),
     _grad_em(adCoupledGradient("em")),
-    _muem(adGetMaterialProperty<Real>("muem")),
-    _diffem(adGetMaterialProperty<Real>("diffem"))
+    _muem(getMaterialProperty<Real>("muem")),
+    _diffem(getMaterialProperty<Real>("diffem"))
 
 {
   if (_potential_units.compare("V") == 0)
@@ -36,7 +36,7 @@ JouleHeatingSUPG<compute_stage>::JouleHeatingSUPG(const InputParameters & parame
 }
 
 template <ComputeStage compute_stage>
-ADResidual
+ADReal
 JouleHeatingSUPG<compute_stage>::precomputeQpStrongResidual()
 {
 

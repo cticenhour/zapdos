@@ -28,10 +28,10 @@ template <ComputeStage compute_stage>
 ElectronEnergyTermRateSUPG<compute_stage>::ElectronEnergyTermRateSUPG(const InputParameters & parameters)
     : ADKernelPlasmaSUPG<compute_stage>(parameters),
 
-    _elastic(adGetParam<bool>("elastic_collision")),
-    _threshold_energy(adGetParam<Real>("threshold_energy")),
-    _n_gas(adGetMaterialProperty<Real>("n_gas")),
-    _rate_coefficient(adGetMaterialProperty<Real>("k_"+adGetParam<std::string>("reaction"))),
+    _elastic(getParam<bool>("elastic_collision")),
+    _threshold_energy(getParam<Real>("threshold_energy")),
+    _n_gas(getMaterialProperty<Real>("n_gas")),
+    _rate_coefficient(getMaterialProperty<Real>("k_"+getParam<std::string>("reaction"))),
     _em(adCoupledValue("em")),
     _v(adCoupledValue("v")),
     _grad_em(adCoupledGradient("em"))
@@ -47,7 +47,7 @@ ElectronEnergyTermRateSUPG<compute_stage>::ElectronEnergyTermRateSUPG(const Inpu
 }
 
 template <ComputeStage compute_stage>
-ADResidual
+ADReal
 ElectronEnergyTermRateSUPG<compute_stage>::precomputeQpStrongResidual()
 {
 

@@ -31,7 +31,7 @@ public:
 
 protected:
   //virtual ADResidual computeQpResidual() override;
-  virtual ADResidual precomputeQpStrongResidual() override;
+  virtual ADReal precomputeQpStrongResidual() override;
 
 
   // Material properties

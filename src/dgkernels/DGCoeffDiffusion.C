@@ -7,7 +7,7 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-
+/*
 #include "DGCoeffDiffusion.h"
 
 // MOOSE includes
@@ -127,3 +127,4 @@ DGCoeffDiffusion::computeQpJacobian(Moose::DGJacobianType type)
 
   return r;
 }
+*/ //Need to add .h file

@@ -26,11 +26,11 @@ defineADValidParams(ADVectorKernelPlasmaSUPG, ADVectorKernel, PGParams;);
 template <typename T, ComputeStage compute_stage>
 ADKernelPlasmaSUPGTempl<T, compute_stage>::ADKernelPlasmaSUPGTempl(const InputParameters & parameters)
   : ADKernelStabilizedTempl<T, compute_stage>(parameters),
-    _tau(adGetADMaterialProperty<Real>("tau_name")),
+    _tau(getADMaterialProperty<Real>("tau_name")),
     //grad_potential(adCoupledVectorValue("potential")),
     _grad_potential(adCoupledGradient("potential")),
-    _mu(adGetMaterialProperty<Real>("mu" + _var.name())),
-    _r_units(1. / adGetParam<Real>("position_units"))
+    _mu(getMaterialProperty<Real>("mu" + _var.name())),
+    _r_units(1. / getParam<Real>("position_units"))
 
 {
 }

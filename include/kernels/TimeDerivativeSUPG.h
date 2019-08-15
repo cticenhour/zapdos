@@ -30,7 +30,7 @@ public:
   TimeDerivativeSUPG(const InputParameters & parameters);
 
 protected:
-  virtual ADResidual precomputeQpStrongResidual() override;
+  virtual ADReal precomputeQpStrongResidual() override;
 
 
 
