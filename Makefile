@@ -50,6 +50,19 @@ APPLICATION_DIR    := $(CRANE_DIR)
 APPLICATION_NAME   := crane
 include            $(FRAMEWORK_DIR)/app.mk
 
+# Use the ELK submodule if it exists and ELK_DIR is not set
+ELK_SUBMODULE := $(CURDIR)/elk
+ifneq ($(wildcard $(ELK_SUBMODULE)/Makefile),)
+  ELK_DIR        ?= $(ELK_SUBMODULE)
+else
+  ELK_DIR        ?= $(shell dirname `pwd`)/elk
+endif
+
+# elk
+APPLICATION_DIR    := $(ELK_DIR)
+APPLICATION_NAME   := elk
+include            $(FRAMEWORK_DIR)/app.mk
+
 # dep apps
 APPLICATION_DIR    := $(CURDIR)
 APPLICATION_NAME   := zapdos
