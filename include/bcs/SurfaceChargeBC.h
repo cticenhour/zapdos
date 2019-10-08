@@ -33,7 +33,7 @@ protected:
   virtual Real computeQpResidual() override;
 
   /// Value of grad(u) on the boundary.
-  const Real & _r_units;
+  Real _r_units;
   const MaterialProperty<Real> & _surface_charge;
   std::string _potential_units;
 

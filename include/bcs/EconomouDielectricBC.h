@@ -31,12 +31,12 @@ public:
 
 protected:
   virtual Real computeQpResidual() override;
-  virtual Real computeQpJacobian();
-  virtual Real computeQpOffDiagJacobian(unsigned int jvar);
+  virtual Real computeQpJacobian() override;
+  virtual Real computeQpOffDiagJacobian(unsigned int jvar) override;
 
   /// Value of grad(u) on the boundary.
 
-  const Real & _r_units;
+  Real _r_units;
 
   const VariableValue & _mean_en;
   unsigned int _mean_en_id;
@@ -56,8 +56,8 @@ protected:
   const MaterialProperty<Real> & _massem;
   Real _user_se_coeff;
 
-  const Real & _epsilon_d;
-  const Real & _thickness;
+  Real _epsilon_d;
+  Real _thickness;
   Real _a;
   RealVectorValue _ion_flux;
   Real _v_thermal;
