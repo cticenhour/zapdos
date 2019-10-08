@@ -7,3 +7,6 @@
 [submodule "crane"]
 	path = crane
 	url = ../../lcpp-org/crane
+[submodule "elk"]
+	path = elk
+	url = git@hpcgitlab.hpc.inl.gov:idaholab/elk.git
