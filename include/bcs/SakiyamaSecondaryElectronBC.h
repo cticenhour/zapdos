@@ -72,6 +72,9 @@ protected:
   Real _temp;
   Real _d_temp_d_potential;
   Real _d_v_thermal_d_potential;
+
+private:
+  Real switchingFunc();
 };
 
 #endif // SakiyamaSecondaryElectronBC_H

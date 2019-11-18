@@ -55,6 +55,9 @@ protected:
   RealVectorValue _ion_flux;
   RealVectorValue _d_ion_flux_d_potential;
   RealVectorValue _d_ion_flux_d_ip;
+
+private:
+  Real switchingFunc();
 };
 
 #endif // SakiyamaEnergySecondaryElectronBC_H

@@ -86,14 +86,7 @@ SakiyamaSecondaryElectronBC::SakiyamaSecondaryElectronBC(const InputParameters &
 Real
 SakiyamaSecondaryElectronBC::computeQpResidual()
 {
-  if (_normals[_qp] * 1.0 * -_grad_potential[_qp] > 0.0)
-  {
-    _a = 1.0;
-  }
-  else
-  {
-    _a = 0.0;
-  }
+  _a = switchingFunc();
 
   if (_variable_temp)
   {
@@ -117,32 +110,16 @@ SakiyamaSecondaryElectronBC::computeQpResidual()
 Real
 SakiyamaSecondaryElectronBC::computeQpJacobian()
 {
-  if (_normals[_qp] * 1.0 * -_grad_potential[_qp] > 0.0)
-  {
-    _a = 1.0;
-  }
-  else
-  {
-    _a = 0.0;
-  }
-
   return 0.;
 }
 
 Real
 SakiyamaSecondaryElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
 {
+  _a = switchingFunc();
+
   if (jvar == _potential_id)
   {
-    if (_normals[_qp] * 1.0 * -_grad_potential[_qp] > 0.0)
-    {
-      _a = 1.0;
-    }
-    else
-    {
-      _a = 0.0;
-    }
-
     if (_variable_temp)
     {
       Real _d_grad_potential_d_potential_mag = _grad_potential[_qp] * _r_units * _grad_phi[_j][_qp] * _r_units / (_grad_phi[_j][_qp] * _r_units).norm();
@@ -165,29 +142,11 @@ SakiyamaSecondaryElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
 
   else if (jvar == _mean_en_id)
   {
-    if (_normals[_qp] * 1.0 * -_grad_potential[_qp] > 0.0)
-    {
-      _a = 1.0;
-    }
-    else
-    {
-      _a = 0.0;
-    }
-
     return 0.;
   }
 
   else if (jvar == _ip_id)
   {
-    if (_normals[_qp] * 1.0 * -_grad_potential[_qp] > 0.0)
-    {
-      _a = 1.0;
-    }
-    else
-    {
-      _a = 0.0;
-    }
-
     if (_variable_temp)
     {
       _temp = _T[_qp] + (_massip[_qp] + _massNeutral[_qp]) / (5.0*_massip[_qp] + 3.0*_massNeutral[_qp]) *
@@ -208,4 +167,17 @@ SakiyamaSecondaryElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
 
   else
     return 0.0;
+}
+
+Real
+SakiyamaSecondaryElectronBC::switchingFunc()
+{
+  Real switch_out = 0.0;
+
+  if (_normals[_qp] * -_grad_potential[_qp] > 0.0)
+  {
+    switch_out = 1.0;
+  }
+
+  return switch_out;
 }

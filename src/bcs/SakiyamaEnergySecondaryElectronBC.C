@@ -67,14 +67,7 @@ SakiyamaEnergySecondaryElectronBC::SakiyamaEnergySecondaryElectronBC(const Input
 Real
 SakiyamaEnergySecondaryElectronBC::computeQpResidual()
 {
-  if (_normals[_qp] * -1.0 * -_grad_potential[_qp] > 0.0)
-  {
-    _a = 1.0;
-  }
-  else
-  {
-    _a = 0.0;
-  }
+  _a = switchingFunc();
 
   if (Te_dependent)
   {
@@ -94,15 +87,6 @@ SakiyamaEnergySecondaryElectronBC::computeQpResidual()
 Real
 SakiyamaEnergySecondaryElectronBC::computeQpJacobian()
 {
-  if (_normals[_qp] * -1.0 * -_grad_potential[_qp] > 0.0)
-  {
-    _a = 1.0;
-  }
-  else
-  {
-    _a = 0.0;
-  }
-
   if (Te_dependent)
   {
     _d_se_energy_d_u = std::exp(_u[_qp] - _em[_qp]) * _phi[_j][_qp];
@@ -121,17 +105,10 @@ SakiyamaEnergySecondaryElectronBC::computeQpJacobian()
 Real
 SakiyamaEnergySecondaryElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
 {
+  _a = switchingFunc();
+
   if (jvar == _potential_id)
   {
-    if (_normals[_qp] * 1.0 * -_grad_potential[_qp] > 0.0)
-    {
-      _a = 1.0;
-    }
-    else
-    {
-      _a = 0.0;
-    }
-
     if (Te_dependent)
     {
       _se_energy = std::exp(_u[_qp] - _em[_qp]);
@@ -149,15 +126,6 @@ SakiyamaEnergySecondaryElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
 
   else if (jvar == _em_id)
   {
-    if (_normals[_qp] * -1.0 * -_grad_potential[_qp] > 0.0)
-    {
-      _a = 1.0;
-    }
-    else
-    {
-      _a = 0.0;
-    }
-
     if (Te_dependent)
     {
       _d_se_energy_d_em = std::exp(_u[_qp] - _em[_qp]) * -_phi[_j][_qp];
@@ -175,15 +143,6 @@ SakiyamaEnergySecondaryElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
 
   else if (jvar == _ip_id)
   {
-    if (_normals[_qp] * 1.0 * -_grad_potential[_qp] > 0.0)
-    {
-      _a = 1.0;
-    }
-    else
-    {
-      _a = 0.0;
-    }
-
     if (Te_dependent)
     {
       _se_energy = std::exp(_u[_qp] - _em[_qp]);
@@ -201,4 +160,17 @@ SakiyamaEnergySecondaryElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
 
   else
     return 0.0;
+}
+
+Real
+SakiyamaEnergySecondaryElectronBC::switchingFunc()
+{
+  Real switch_out = 0.0;
+
+  if (_normals[_qp] * -_grad_potential[_qp] > 0.0)
+  {
+    switch_out = 1.0;
+  }
+
+  return switch_out;
 }
