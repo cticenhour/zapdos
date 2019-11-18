@@ -31,7 +31,7 @@ validParams<SakiyamaSecondaryElectronBC>()
   params.addParam<Real>("users_gamma", "A secondary electron emission coeff. only used for this BC.");
   params.addClassDescription(
     "Kinetic secondary electron boundary condition"
-    "(Based on DOI: https://doi.org/10.1116/1.579300)");
+    "(Based on DOI: https://doi.org/10.1088/0022-3727/39/16/018)");
   return params;
 }
 

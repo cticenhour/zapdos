@@ -29,7 +29,7 @@ validParams<SakiyamaEnergySecondaryElectronBC>()
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addClassDescription(
     "Kinetic secondary electron for mean electron energy boundary condition"
-    "(Based on DOI: https://doi.org/10.1116/1.579300)");
+    "(Based on DOI: https://doi.org/10.1088/0022-3727/39/16/018)");
   return params;
 }
 
