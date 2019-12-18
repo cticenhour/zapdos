@@ -140,7 +140,6 @@ protected:
   MaterialProperty<Real> & _d_kel_d_actual_mean_en;
   MaterialProperty<Real> & _TemVolts;
 
-  const VariableGradient & _grad_potential;
   const VariableValue & _em;
   const VariableValue & _ip;
   const VariableGradient & _grad_em;

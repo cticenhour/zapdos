@@ -176,7 +176,6 @@ GasElectronMoments::GasElectronMoments(const InputParameters & parameters)
     _d_kel_d_actual_mean_en(declareProperty<Real>("d_kel_d_actual_mean_en")),
     _TemVolts(declareProperty<Real>("TemVolts")),
 
-    _grad_potential(isCoupled("potential") ? coupledGradient("potential") : _grad_zero),
     _em(isCoupled("em") ? coupledValue("em") : _zero),
     _ip(isCoupled("ip") ? coupledValue("ip") : _zero),
     _grad_em(isCoupled("em") ? coupledGradient("em") : _grad_zero),
