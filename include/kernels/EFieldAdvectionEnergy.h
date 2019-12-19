@@ -38,8 +38,10 @@ protected:
 
 private:
   // Coupled variables
-  unsigned int _potential_id;
-  const VariableGradient & _grad_potential;
+  unsigned int _field_id;
+  const VectorVariableValue & _field;
+  VectorMooseVariable & _field_var;
+  const VectorVariablePhiValue & _field_phi;
   const VariableValue & _em;
   unsigned int _em_id;
 

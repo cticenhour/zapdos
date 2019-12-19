@@ -10,9 +10,6 @@
 
 #include "LymberopoulosIonBC.h"
 
-// MOOSE includes
-#include "MooseVariable.h"
-
 registerMooseObject("ZapdosApp", LymberopoulosIonBC);
 
 template <>
@@ -20,7 +17,7 @@ InputParameters
 validParams<LymberopoulosIonBC>()
 {
   InputParameters params = validParams<IntegratedBC>();
-  params.addRequiredCoupledVar("potential", "The electric potential");
+  params.addRequiredCoupledVar("electric_field", "The electric field.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addClassDescription("Simpified kinetic ion boundary condition"
                              "(Based on DOI: https://doi.org/10.1063/1.352926)");
@@ -33,8 +30,10 @@ LymberopoulosIonBC::LymberopoulosIonBC(const InputParameters & parameters)
     _r_units(1. / getParam<Real>("position_units")),
 
     // Coupled Variables
-    _grad_potential(coupledGradient("potential")),
-    _potential_id(coupled("potential")),
+    _field(coupledVectorValue("electric_field")),
+    _field_id(coupled("electric_field")),
+    _field_var(*getVectorVar("electric_field", 0)),
+    _field_phi(_field_var.phi()),
 
     _mu(getMaterialProperty<Real>("mu" + _var.name()))
 {
@@ -44,26 +43,29 @@ Real
 LymberopoulosIonBC::computeQpResidual()
 {
 
-  return _test[_i][_qp] * _r_units * _mu[_qp] * -_grad_potential[_qp] * _r_units *
-         std::exp(_u[_qp]) * _normals[_qp];
+  return _test[_i][_qp] * _r_units *
+          _mu[_qp] * _field[_qp] * _r_units *
+          std::exp(_u[_qp]) * _normals[_qp];
 }
 
 Real
 LymberopoulosIonBC::computeQpJacobian()
 {
 
-  return _test[_i][_qp] * _r_units * _mu[_qp] * -_grad_potential[_qp] * _r_units *
-         std::exp(_u[_qp]) * _phi[_j][_qp] * _normals[_qp];
+  return _test[_i][_qp] * _r_units *
+          _mu[_qp] * _field[_qp] * _r_units *
+          std::exp(_u[_qp]) * _phi[_j][_qp] * _normals[_qp];
 }
 
 Real
 LymberopoulosIonBC::computeQpOffDiagJacobian(unsigned int jvar)
 {
-  if (jvar == _potential_id)
+  if (jvar == _field_id)
   {
 
-    return _test[_i][_qp] * _r_units * _mu[_qp] * _grad_phi[_j][_qp] * _r_units *
-           std::exp(_u[_qp]) * _normals[_qp];
+    return _test[_i][_qp] * _r_units *
+            _mu[_qp] * _field_phi[_j][_qp] * _r_units *
+            std::exp(_u[_qp]) * _normals[_qp];
   }
 
   else

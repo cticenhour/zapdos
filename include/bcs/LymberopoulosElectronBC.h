@@ -34,8 +34,8 @@ protected:
 
   // Coupled variables
 
-  const VariableGradient & _grad_potential;
-  unsigned int _potential_id;
+  const VectorVariableValue & _field;
+  unsigned int _field_id;
   const VariableValue & _Arp;
   const VariableGradient & _grad_Arp;
   unsigned int _Arp_id;

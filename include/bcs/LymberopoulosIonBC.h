@@ -32,8 +32,10 @@ protected:
 
   // Coupled variables
 
-  const VariableGradient & _grad_potential;
-  unsigned int _potential_id;
+  const VectorVariableValue & _field;
+  unsigned int _field_id;
+  VectorMooseVariable & _field_var;
+  const VectorVariablePhiValue & _field_phi;
 
   const MaterialProperty<Real> & _mu;
 };

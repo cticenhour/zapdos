@@ -21,7 +21,7 @@ validParams<EFieldAdvection>()
 {
   InputParameters params = validParams<Kernel>();
   params.addRequiredCoupledVar(
-      "potential", "The gradient of the potential will be used to compute the advection velocity.");
+      "electric_field", "The electric field will be used to compute the advection velocity.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addClassDescription("Generic electric field driven advection term"
                              "(Densities must be in log form)");
@@ -38,30 +38,32 @@ EFieldAdvection::EFieldAdvection(const InputParameters & parameters)
 
     // Coupled variables
 
-    _potential_id(coupled("potential")),
-    _grad_potential(coupledGradient("potential"))
+    _field_id(coupled("electric_field")),
+    _field(coupledVectorValue("electric_field")),
+    _field_var(*getVectorVar("electric_field", 0)),
+    _field_phi(_field_var.phi())
 {
 }
 
 Real
 EFieldAdvection::computeQpResidual()
 {
-  return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * -_grad_potential[_qp] * _r_units *
+  return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _field[_qp] * _r_units *
          -_grad_test[_i][_qp] * _r_units;
 }
 
 Real
 EFieldAdvection::computeQpJacobian()
 {
-  return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _phi[_j][_qp] * -_grad_potential[_qp] *
+  return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _phi[_j][_qp] * _field[_qp] *
          _r_units * -_grad_test[_i][_qp] * _r_units;
 }
 
 Real
 EFieldAdvection::computeQpOffDiagJacobian(unsigned int jvar)
 {
-  if (jvar == _potential_id)
-    return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * -_grad_phi[_j][_qp] * _r_units *
+  if (jvar == _field_id)
+    return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _field_phi[_j][_qp] * _r_units *
            -_grad_test[_i][_qp] * _r_units;
   else
     return 0.;

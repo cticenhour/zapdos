@@ -19,7 +19,7 @@ validParams<JouleHeating>()
   InputParameters params = validParams<Kernel>();
 
   params.addRequiredCoupledVar(
-      "potential", "The gradient of the potential will be used to compute the advection velocity.");
+      "electric_field", "The electric field will be used to compute the advection velocity.");
   params.addRequiredCoupledVar("em", "The electron density.");
   params.addRequiredParam<std::string>("potential_units", "The potential units.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
@@ -43,8 +43,10 @@ JouleHeating::JouleHeating(const InputParameters & parameters)
 
     // Coupled variables
 
-    _potential_id(coupled("potential")),
-    _grad_potential(coupledGradient("potential")),
+    _field_id(coupled("electric_field")),
+    _field(coupledVectorValue("electric_field")),
+    _field_var(*getVectorVar("electric_field", 0)),
+    _field_phi(_field_var.phi()),
     _em(coupledValue("em")),
     _grad_em(coupledGradient("em")),
     _em_id(coupled("em"))
@@ -60,8 +62,8 @@ JouleHeating::JouleHeating(const InputParameters & parameters)
 Real
 JouleHeating::computeQpResidual()
 {
-  return _test[_i][_qp] * -_grad_potential[_qp] * _r_units * _voltage_scaling *
-         (-_muem[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_em[_qp]) -
+  return _test[_i][_qp] * _field[_qp] * _r_units * _voltage_scaling *
+         (-_muem[_qp] * _field[_qp] * _r_units * std::exp(_em[_qp]) -
           _diffem[_qp] * std::exp(_em[_qp]) * _grad_em[_qp] * _r_units);
 }
 
@@ -72,20 +74,20 @@ JouleHeating::computeQpJacobian()
   Real d_muem_d_mean_en = _d_muem_d_actual_mean_en[_qp] * actual_mean_en * _phi[_j][_qp];
   Real d_diffem_d_mean_en = _d_diffem_d_actual_mean_en[_qp] * actual_mean_en * _phi[_j][_qp];
 
-  return _test[_i][_qp] * -_grad_potential[_qp] * _r_units * _voltage_scaling *
-         (-d_muem_d_mean_en * -_grad_potential[_qp] * _r_units * std::exp(_em[_qp]) -
+  return _test[_i][_qp] * _field[_qp] * _r_units * _voltage_scaling *
+         (-d_muem_d_mean_en * _field[_qp] * _r_units * std::exp(_em[_qp]) -
           d_diffem_d_mean_en * std::exp(_em[_qp]) * _grad_em[_qp] * _r_units);
 }
 
 Real
 JouleHeating::computeQpOffDiagJacobian(unsigned int jvar)
 {
-  if (jvar == _potential_id)
+  if (jvar == _field_id)
   {
-    return _test[_i][_qp] * -_grad_potential[_qp] * _r_units * _voltage_scaling *
-               (-_muem[_qp] * -_grad_phi[_j][_qp] * _r_units * std::exp(_em[_qp])) +
-           _test[_i][_qp] * -_grad_phi[_j][_qp] * _r_units * _voltage_scaling *
-               (-_muem[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_em[_qp]) -
+    return _test[_i][_qp] * _field[_qp] * _r_units * _voltage_scaling *
+               (-_muem[_qp] * _field_phi[_j][_qp] * _r_units * std::exp(_em[_qp])) +
+           _test[_i][_qp] * _field_phi[_j][_qp] * _r_units * _voltage_scaling *
+               (-_muem[_qp] * _field[_qp] * _r_units * std::exp(_em[_qp]) -
                 _diffem[_qp] * std::exp(_em[_qp]) * _grad_em[_qp] * _r_units);
   }
   else if (jvar == _em_id)
@@ -94,9 +96,9 @@ JouleHeating::computeQpOffDiagJacobian(unsigned int jvar)
     Real d_muem_d_em = _d_muem_d_actual_mean_en[_qp] * actual_mean_en * -_phi[_j][_qp];
     Real d_diffem_d_em = _d_diffem_d_actual_mean_en[_qp] * actual_mean_en * -_phi[_j][_qp];
 
-    return _test[_i][_qp] * -_grad_potential[_qp] * _r_units * _voltage_scaling *
-           (-_muem[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_em[_qp]) * _phi[_j][_qp] -
-            d_muem_d_em * -_grad_potential[_qp] * _r_units * std::exp(_em[_qp]) -
+    return _test[_i][_qp] * _field[_qp] * _r_units * _voltage_scaling *
+           (-_muem[_qp] * _field[_qp] * _r_units * std::exp(_em[_qp]) * _phi[_j][_qp] -
+            d_muem_d_em * _field[_qp] * _r_units * std::exp(_em[_qp]) -
             _diffem[_qp] * (std::exp(_em[_qp]) * _phi[_j][_qp] * _grad_em[_qp] * _r_units +
                             std::exp(_em[_qp]) * _grad_phi[_j][_qp] * _r_units) -
             d_diffem_d_em * std::exp(_em[_qp]) * _grad_em[_qp] * _r_units);

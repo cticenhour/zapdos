@@ -19,7 +19,7 @@ validParams<LymberopoulosElectronBC>()
   InputParameters params = validParams<IntegratedBC>();
   params.addRequiredParam<Real>("ks", "The recombination coefficient");
   params.addRequiredParam<Real>("gamma", "The secondary electron coefficient");
-  params.addRequiredCoupledVar("potential", "The electric potential");
+  params.addRequiredCoupledVar("electric_field", "The electric field");
   params.addRequiredCoupledVar("ion", "The ion density.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addClassDescription("Simpified kinetic electron boundary condition"
@@ -35,8 +35,8 @@ LymberopoulosElectronBC::LymberopoulosElectronBC(const InputParameters & paramet
     _gamma(getParam<Real>("gamma")),
 
     // Coupled Variables
-    _grad_potential(coupledGradient("potential")),
-    _potential_id(coupled("potential")),
+    _field(coupledVectorValue("electric_field")),
+    _field_id(coupled("electric_field")),
     _Arp(coupledValue("ion")),
     _grad_Arp(coupledGradient("ion")),
     _Arp_id(coupled("ion")),
@@ -52,11 +52,9 @@ Real
 LymberopoulosElectronBC::computeQpResidual()
 {
 
-  RealVectorValue _ion_flux =
-      (_muion[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_Arp[_qp]));
+  RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]));
 
-  // RealVectorValue _ion_flux = (_muion[_qp] * -_grad_potential[_qp] * _r_units *
-  // std::exp(_Arp[_qp]) -
+  //RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) -
   //            _diffion[_qp] * std::exp(_Arp[_qp]) * _grad_Arp[_qp] * _r_units);
 
   return _test[_i][_qp] * _r_units *
@@ -68,11 +66,9 @@ Real
 LymberopoulosElectronBC::computeQpJacobian()
 {
 
-  RealVectorValue _ion_flux =
-      (_muion[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_Arp[_qp]));
+  RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]));
 
-  // RealVectorValue _ion_flux = (_muion[_qp] * -_grad_potential[_qp] * _r_units *
-  // std::exp(_Arp[_qp]) -
+  //RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) -
   //            _diffion[_qp] * std::exp(_Arp[_qp]) * _grad_Arp[_qp] * _r_units);
 
   return _test[_i][_qp] * _r_units *
@@ -83,7 +79,7 @@ LymberopoulosElectronBC::computeQpJacobian()
 Real
 LymberopoulosElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
 {
-  if (jvar == _potential_id)
+  if (jvar == _field_id)
   {
 
     RealVectorValue _d_ion_flux_d_V =
@@ -99,11 +95,9 @@ LymberopoulosElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
   else if (jvar == _Arp_id)
   {
 
-    RealVectorValue _d_ion_flux_d_ion =
-        (_muion[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_Arp[_qp]) * _phi[_j][_qp]);
+    RealVectorValue _d_ion_flux_d_ion = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) * _phi[_j][_qp]);
 
-    // RealVectorValue _d_ion_flux_d_ion = (_muion[_qp] * -_grad_potential[_qp] * _r_units *
-    // std::exp(_Arp[_qp]) * _phi[_j][_qp] -
+    //RealVectorValue _d_ion_flux_d_ion = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) * _phi[_j][_qp] -
     //                      _diffion[_qp] * (std::exp(_Arp[_qp]) * _grad_phi[_j][_qp] * _r_units +
     //                      std::exp(_Arp[_qp]) * _phi[_j][_qp] * _grad_Arp[_qp] * _r_units));
 

@@ -24,7 +24,7 @@ CurrentTempl<is_ad>::validParams()
   InputParameters params = AuxKernel::validParams();
 
   params.addRequiredCoupledVar("density_log", "The electron density");
-  params.addRequiredCoupledVar("potential", "The potential");
+  params.addRequiredCoupledVar("electric_field", "The electric field.");
   params.addParam<bool>(
       "art_diff", false, "Whether there is a current contribution from artificial diffusion.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
@@ -42,7 +42,7 @@ CurrentTempl<is_ad>::CurrentTempl(const InputParameters & parameters)
     _density_var(*getVar("density_log", 0)),
     _density_log(coupledValue("density_log")),
     _grad_density_log(coupledGradient("density_log")),
-    _grad_potential(coupledGradient("potential")),
+    _field(coupledVectorValue("electric_field")),
     _mu(getGenericMaterialProperty<Real, is_ad>("mu" + _density_var.name())),
     _sgn(getMaterialProperty<Real>("sgn" + _density_var.name())),
     _diff(getGenericMaterialProperty<Real, is_ad>("diff" + _density_var.name())),
@@ -56,13 +56,13 @@ CurrentTempl<is_ad>::computeValue()
 {
   Real r =
       _sgn[_qp] * 1.6e-19 * 6.02e23 *
-      (_sgn[_qp] * raw_value(_mu[_qp]) * -_grad_potential[_qp](0) * _r_units *
+      (_sgn[_qp] * raw_value(_mu[_qp]) * _field[_qp](0) * _r_units *
            std::exp(_density_log[_qp]) -
        raw_value(_diff[_qp]) * std::exp(_density_log[_qp]) * _grad_density_log[_qp](0) * _r_units);
 
   if (_art_diff)
   {
-    Real vd_mag = raw_value(_mu[_qp]) * _grad_potential[_qp].norm() * _r_units;
+    Real vd_mag = raw_value(_mu[_qp]) * -_field[_qp].norm() * _r_units;
     Real delta = vd_mag * _current_elem->hmax() / 2.;
     r += _sgn[_qp] * 1.6e-19 * 6.02e23 * -delta * std::exp(_density_log[_qp]) *
          _grad_density_log[_qp](0) * _r_units;

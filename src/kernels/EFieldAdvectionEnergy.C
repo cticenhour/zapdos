@@ -18,7 +18,7 @@ validParams<EFieldAdvectionEnergy>()
 {
   InputParameters params = validParams<Kernel>();
   params.addRequiredCoupledVar(
-      "potential", "The gradient of the potential will be used to compute the advection velocity.");
+      "electric_field", "The electric field will be used to compute the advection velocity.");
   params.addRequiredCoupledVar("em", "The log of the electron density.");
   params.addRequiredParam<Real>("position_units", "Units of position");
   params.addClassDescription("Electron energy specific electric field driven advection term"
@@ -37,8 +37,10 @@ EFieldAdvectionEnergy::EFieldAdvectionEnergy(const InputParameters & parameters)
 
     // Coupled variables
 
-    _potential_id(coupled("potential")),
-    _grad_potential(coupledGradient("potential")),
+    _field_id(coupled("electric_field")),
+    _field(coupledVectorValue("electric_field")),
+    _field_var(*getVectorVar("electric_field", 0)),
+    _field_phi(_field_var.phi()),
     _em(coupledValue("em")),
     _em_id(coupled("em")),
 
@@ -52,7 +54,7 @@ EFieldAdvectionEnergy::EFieldAdvectionEnergy(const InputParameters & parameters)
 Real
 EFieldAdvectionEnergy::computeQpResidual()
 {
-  return _muel[_qp] * _sign[_qp] * std::exp(_u[_qp]) * -_grad_potential[_qp] * _r_units *
+  return _muel[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _field[_qp] * _r_units *
          -_grad_test[_i][_qp] * _r_units;
 }
 
@@ -62,8 +64,8 @@ EFieldAdvectionEnergy::computeQpJacobian()
   _d_actual_mean_en_d_u = std::exp(_u[_qp] - _em[_qp]) * _phi[_j][_qp];
   _d_muel_d_u = _d_muel_d_actual_mean_en[_qp] * _d_actual_mean_en_d_u;
 
-  return (_d_muel_d_u * _sign[_qp] * std::exp(_u[_qp]) * -_grad_potential[_qp] * _r_units +
-          _muel[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _phi[_j][_qp] * -_grad_potential[_qp] *
+  return (_d_muel_d_u * _sign[_qp] * std::exp(_u[_qp]) * _field[_qp] * _r_units +
+          _muel[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _phi[_j][_qp] * _field[_qp] *
               _r_units) *
          -_grad_test[_i][_qp] * _r_units;
 }
@@ -71,9 +73,9 @@ EFieldAdvectionEnergy::computeQpJacobian()
 Real
 EFieldAdvectionEnergy::computeQpOffDiagJacobian(unsigned int jvar)
 {
-  if (jvar == _potential_id)
+  if (jvar == _field_id)
   {
-    return _muel[_qp] * _sign[_qp] * std::exp(_u[_qp]) * -_grad_phi[_j][_qp] * _r_units *
+    return _muel[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _field_phi[_j][_qp] * _r_units *
            -_grad_test[_i][_qp] * _r_units;
   }
 
@@ -82,7 +84,7 @@ EFieldAdvectionEnergy::computeQpOffDiagJacobian(unsigned int jvar)
     _d_actual_mean_en_d_em = std::exp(_u[_qp] - _em[_qp]) * -_phi[_j][_qp];
     _d_muel_d_em = _d_muel_d_actual_mean_en[_qp] * _d_actual_mean_en_d_em;
 
-    return _d_muel_d_em * _sign[_qp] * std::exp(_u[_qp]) * -_grad_potential[_qp] * _r_units *
+    return _d_muel_d_em * _sign[_qp] * std::exp(_u[_qp]) * _field[_qp] * _r_units *
            -_grad_test[_i][_qp] * _r_units;
   }
 
