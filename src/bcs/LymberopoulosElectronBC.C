@@ -54,7 +54,7 @@ LymberopoulosElectronBC::computeQpResidual()
 
   RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]));
 
-  //RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) -
+  // RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) -
   //            _diffion[_qp] * std::exp(_Arp[_qp]) * _grad_Arp[_qp] * _r_units);
 
   return _test[_i][_qp] * _r_units *
@@ -68,7 +68,7 @@ LymberopoulosElectronBC::computeQpJacobian()
 
   RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]));
 
-  //RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) -
+  // RealVectorValue _ion_flux = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) -
   //            _diffion[_qp] * std::exp(_Arp[_qp]) * _grad_Arp[_qp] * _r_units);
 
   return _test[_i][_qp] * _r_units *
@@ -95,9 +95,11 @@ LymberopoulosElectronBC::computeQpOffDiagJacobian(unsigned int jvar)
   else if (jvar == _Arp_id)
   {
 
-    RealVectorValue _d_ion_flux_d_ion = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) * _phi[_j][_qp]);
+    RealVectorValue _d_ion_flux_d_ion =
+        (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) * _phi[_j][_qp]);
 
-    //RealVectorValue _d_ion_flux_d_ion = (_muion[_qp] * _field[_qp] * _r_units * std::exp(_Arp[_qp]) * _phi[_j][_qp] -
+    // RealVectorValue _d_ion_flux_d_ion = (_muion[_qp] * _field[_qp] * _r_units *
+    // std::exp(_Arp[_qp]) * _phi[_j][_qp] -
     //                      _diffion[_qp] * (std::exp(_Arp[_qp]) * _grad_phi[_j][_qp] * _r_units +
     //                      std::exp(_Arp[_qp]) * _phi[_j][_qp] * _grad_Arp[_qp] * _r_units));
 

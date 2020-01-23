@@ -48,15 +48,15 @@ EFieldAdvection::EFieldAdvection(const InputParameters & parameters)
 Real
 EFieldAdvection::computeQpResidual()
 {
-  return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _field[_qp] * _r_units *
-         -_grad_test[_i][_qp] * _r_units;
+  return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _field[_qp] * _r_units * -_grad_test[_i][_qp] *
+         _r_units;
 }
 
 Real
 EFieldAdvection::computeQpJacobian()
 {
-  return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _phi[_j][_qp] * _field[_qp] *
-         _r_units * -_grad_test[_i][_qp] * _r_units;
+  return _mu[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _phi[_j][_qp] * _field[_qp] * _r_units *
+         -_grad_test[_i][_qp] * _r_units;
 }
 
 Real

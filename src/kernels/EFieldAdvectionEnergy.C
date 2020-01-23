@@ -65,8 +65,7 @@ EFieldAdvectionEnergy::computeQpJacobian()
   _d_muel_d_u = _d_muel_d_actual_mean_en[_qp] * _d_actual_mean_en_d_u;
 
   return (_d_muel_d_u * _sign[_qp] * std::exp(_u[_qp]) * _field[_qp] * _r_units +
-          _muel[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _phi[_j][_qp] * _field[_qp] *
-              _r_units) *
+          _muel[_qp] * _sign[_qp] * std::exp(_u[_qp]) * _phi[_j][_qp] * _field[_qp] * _r_units) *
          -_grad_test[_i][_qp] * _r_units;
 }
 

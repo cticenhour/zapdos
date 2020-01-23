@@ -43,18 +43,16 @@ Real
 LymberopoulosIonBC::computeQpResidual()
 {
 
-  return _test[_i][_qp] * _r_units *
-          _mu[_qp] * _field[_qp] * _r_units *
-          std::exp(_u[_qp]) * _normals[_qp];
+  return _test[_i][_qp] * _r_units * _mu[_qp] * _field[_qp] * _r_units * std::exp(_u[_qp]) *
+         _normals[_qp];
 }
 
 Real
 LymberopoulosIonBC::computeQpJacobian()
 {
 
-  return _test[_i][_qp] * _r_units *
-          _mu[_qp] * _field[_qp] * _r_units *
-          std::exp(_u[_qp]) * _phi[_j][_qp] * _normals[_qp];
+  return _test[_i][_qp] * _r_units * _mu[_qp] * _field[_qp] * _r_units * std::exp(_u[_qp]) *
+         _phi[_j][_qp] * _normals[_qp];
 }
 
 Real
@@ -63,9 +61,8 @@ LymberopoulosIonBC::computeQpOffDiagJacobian(unsigned int jvar)
   if (jvar == _field_id)
   {
 
-    return _test[_i][_qp] * _r_units *
-            _mu[_qp] * _field_phi[_j][_qp] * _r_units *
-            std::exp(_u[_qp]) * _normals[_qp];
+    return _test[_i][_qp] * _r_units * _mu[_qp] * _field_phi[_j][_qp] * _r_units *
+           std::exp(_u[_qp]) * _normals[_qp];
   }
 
   else

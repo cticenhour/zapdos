@@ -84,8 +84,8 @@ EFieldAdvectionElectrons::computeQpOffDiagJacobian(unsigned int jvar)
     _d_actual_mean_en_d_mean_en = std::exp(_mean_en[_qp] - _u[_qp]) * _phi[_j][_qp];
     _d_muem_d_mean_en = _d_muem_d_actual_mean_en[_qp] * _d_actual_mean_en_d_mean_en;
 
-    return _d_muem_d_mean_en * _sign[_qp] * std::exp(_u[_qp]) * _field[_qp] *
-           _position_units * -_grad_test[_i][_qp] * _position_units;
+    return _d_muem_d_mean_en * _sign[_qp] * std::exp(_u[_qp]) * _field[_qp] * _position_units *
+           -_grad_test[_i][_qp] * _position_units;
   }
 
   else
