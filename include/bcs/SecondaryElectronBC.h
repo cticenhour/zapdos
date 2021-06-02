@@ -28,8 +28,6 @@ protected:
   const MaterialProperty<Real> & _kb;
 
   // Coupled variables
-
-  const ADVariableGradient & _grad_potential;
   const ADVariableValue & _mean_en;
   std::vector<const ADVariableValue *> _ip;
   std::vector<const ADVariableGradient *> _grad_ip;
@@ -42,6 +40,8 @@ protected:
   std::vector<const ADMaterialProperty<Real> *> _Tip;
   std::vector<const MaterialProperty<Real> *> _massip;
   const MaterialProperty<Real> & _se_coeff;
+
+  const ADMaterialProperty<RealVectorValue> & _electric_field;
 
   Real _a;
   Real _b;

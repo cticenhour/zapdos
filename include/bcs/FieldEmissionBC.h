@@ -26,8 +26,6 @@ protected:
   Real _r;
 
   // Coupled variables
-
-  const ADVariableGradient & _grad_potential;
   const ADVariableValue & _mean_en;
   MooseVariable & _ip_var;
   const ADVariableValue & _ip;
@@ -42,6 +40,8 @@ protected:
   const MaterialProperty<Real> & _se_coeff;
   const MaterialProperty<Real> & _work_function;
   const MaterialProperty<Real> & _field_enhancement;
+
+  const ADMaterialProperty<RealVectorValue> & _electric_field;
 
   Real _a;
   ADRealVectorValue _ion_flux;

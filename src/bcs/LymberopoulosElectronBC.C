@@ -18,9 +18,11 @@ LymberopoulosElectronBC::validParams()
   InputParameters params = ADIntegratedBC::validParams();
   params.addRequiredParam<Real>("ks", "The recombination coefficient");
   params.addRequiredParam<Real>("gamma", "The secondary electron coefficient");
-  params.addRequiredCoupledVar("potential", "The electric potential");
   params.addRequiredCoupledVar("ion", "The ion density.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
+  params.addParam<std::string>("field_property_name",
+                               "field_solver_interface_property",
+                               "Name of the solver interface material property.");
   params.addClassDescription("Simpified kinetic electron boundary condition"
                              "(Based on DOI: https://doi.org/10.1063/1.352926)");
   return params;
@@ -33,8 +35,7 @@ LymberopoulosElectronBC::LymberopoulosElectronBC(const InputParameters & paramet
     _ks(getParam<Real>("ks")),
     _gamma(getParam<Real>("gamma")),
 
-    // Coupled Variables
-    _grad_potential(adCoupledGradient("potential")),
+    _electric_field(getADMaterialProperty<RealVectorValue>(getParam<std::string>("field_property_name"))),
 
     _sign(1)
 {
@@ -66,7 +67,7 @@ LymberopoulosElectronBC::computeQpResidual()
   _ion_flux.zero();
   for (unsigned int i = 0; i < _num_ions; ++i)
   {
-    _ion_flux += (*_sgnion[i])[_qp] * (*_muion[i])[_qp] * -_grad_potential[_qp] * _r_units *
+    _ion_flux += (*_sgnion[i])[_qp] * (*_muion[i])[_qp] * _electric_field[_qp] * _r_units *
                  std::exp((*_ion[i])[_qp]);
   }
 

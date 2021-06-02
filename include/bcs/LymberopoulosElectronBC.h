@@ -27,9 +27,10 @@ protected:
   Real _gamma;
 
   // Coupled variables
-  const ADVariableGradient & _grad_potential;
   std::vector<MooseVariable *> _ion_var;
   std::vector<const ADVariableValue *> _ion;
+
+  const ADMaterialProperty<RealVectorValue> & _electric_field;
 
   Real _sign;
 

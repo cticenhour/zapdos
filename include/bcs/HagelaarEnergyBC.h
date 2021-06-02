@@ -25,7 +25,6 @@ protected:
   const Real _r_units;
   const Real & _r;
 
-  const ADVariableGradient & _grad_potential;
   const ADVariableValue & _em;
 
   const MaterialProperty<Real> & _massem;
@@ -33,6 +32,8 @@ protected:
   const MaterialProperty<Real> & _se_coeff;
   const MaterialProperty<Real> & _se_energy;
   const ADMaterialProperty<Real> & _mumean_en;
+
+  const ADMaterialProperty<RealVectorValue> & _electric_field;
 
   Real _a;
   ADReal _v_thermal;

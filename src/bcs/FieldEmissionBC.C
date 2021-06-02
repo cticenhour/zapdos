@@ -17,13 +17,15 @@ FieldEmissionBC::validParams()
 {
   InputParameters params = ADIntegratedBC::validParams();
   params.addRequiredParam<Real>("r", "The reflection coefficient");
-  params.addRequiredCoupledVar("potential", "The electric potential");
   params.addRequiredCoupledVar("mean_en", "The mean energy.");
   params.addRequiredCoupledVar("ip", "The ion density.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addRequiredParam<std::string>("potential_units", "The potential units.");
   params.addParam<Real>("tau", 1e-9, "The time constant for ramping the boundary condition.");
   params.addParam<bool>("relax", false, "Use relaxation for emission.");
+  params.addParam<std::string>("field_property_name",
+                               "field_solver_interface_property",
+                               "Name of the solver interface material property.");
   return params;
 }
 
@@ -34,7 +36,6 @@ FieldEmissionBC::FieldEmissionBC(const InputParameters & parameters)
     _r(getParam<Real>("r")),
 
     // Coupled Variables
-    _grad_potential(adCoupledGradient("potential")),
     _mean_en(adCoupledValue("mean_en")),
     _ip_var(*getVar("ip", 0)),
     _ip(adCoupledValue("ip")),
@@ -49,6 +50,10 @@ FieldEmissionBC::FieldEmissionBC(const InputParameters & parameters)
     _se_coeff(getMaterialProperty<Real>("se_coeff")),
     _work_function(getMaterialProperty<Real>("work_function")),
     _field_enhancement(getMaterialProperty<Real>("field_enhancement")),
+
+    _electric_field(
+        getADMaterialProperty<RealVectorValue>(getParam<std::string>("field_property_name"))),
+
     _a(0.5),
     _ion_flux(0, 0, 0),
     _tau(getParam<Real>("tau")),
@@ -79,7 +84,7 @@ FieldEmissionBC::computeQpResidual()
   ADReal F;
   Real _relaxation_Expr;
 
-  if (_normals[_qp] * -1.0 * -_grad_potential[_qp] > 0.0)
+  if (_normals[_qp] * -1.0 * _electric_field[_qp] > 0.0)
   {
     _a = 1.0;
     return 0;
@@ -88,7 +93,7 @@ FieldEmissionBC::computeQpResidual()
   {
     _a = 0.0;
 
-    _ion_flux = _sgnip[_qp] * _muip[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_ip[_qp]) -
+    _ion_flux = _sgnip[_qp] * _muip[_qp] * _electric_field[_qp] * _r_units * std::exp(_ip[_qp]) -
                 _Dip[_qp] * std::exp(_ip[_qp]) * _grad_ip[_qp] * _r_units;
 
     // Fowler-Nordheim
@@ -99,7 +104,7 @@ FieldEmissionBC::computeQpResidual()
     // v(f) = 1 - f + (f/6)*ln(f)
     // f = c*(F/wf^2)
 
-    F = -(1 - _a) * _field_enhancement[_qp] * _normals[_qp] * _grad_potential[_qp] * _r_units;
+    F = -(1 - _a) * _field_enhancement[_qp] * _normals[_qp] * -_electric_field[_qp] * _r_units;
 
     f = FE_c * F / std::pow(_work_function[_qp], 2);
     v = 1 - f + (f / 6) * std::log(f);
