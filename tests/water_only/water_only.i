@@ -311,4 +311,8 @@ dom1Scale=1e-7
    type = Water
    potential = potential
  [../]
+ [./field_solver]
+   type = FieldSolverMaterial
+   potential = potential
+ [../]
 []

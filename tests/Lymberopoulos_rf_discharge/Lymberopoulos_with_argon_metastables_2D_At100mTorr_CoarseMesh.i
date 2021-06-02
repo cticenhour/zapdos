@@ -97,7 +97,7 @@ dom0Scale=25.4e-3
     [./Ar+_advection]
       type = EFieldAdvection
       variable = Ar+
-      potential = potential_ion
+      field_property_name = field_ion
       position_units = ${dom0Scale}
     [../]
     [./Ar+_diffusion]
@@ -613,7 +613,7 @@ dom0Scale=25.4e-3
   [../]
   [./Current_Ar]
     type = ADCurrent
-    potential = potential_ion
+    field_property_name = field_ion
     density_log = Ar+
     variable = Current_Ar
     art_diff = false
@@ -673,7 +673,7 @@ dom0Scale=25.4e-3
   [./em_Ar+_second_emissions]
     type = SakiyamaSecondaryElectronBC
     variable = em
-    potential = potential_ion
+    field_property_name = field_ion
     ip = Ar+
     users_gamma = 0.01
     boundary = 'Top_Electrode Bottom_Electrode Top_Insulator Bottom_Insulator Walls'
@@ -684,7 +684,7 @@ dom0Scale=25.4e-3
   [./Ar+_physical_advection]
     type = SakiyamaIonAdvectionBC
     variable = Ar+
-    potential = potential_ion
+    field_property_name = field_ion
     boundary = 'Top_Electrode Bottom_Electrode Top_Insulator Bottom_Insulator Walls'
     position_units = ${dom0Scale}
   [../]
@@ -711,7 +711,7 @@ dom0Scale=25.4e-3
   variable = mean_en
   em = em
   ip = Ar+
-  potential = potential_ion
+  field_property_name = field_ion
   Tse_equal_Te = true
   se_coeff = 0.01
   boundary = 'Top_Electrode Bottom_Electrode Top_Insulator Bottom_Insulator Walls'
@@ -778,6 +778,15 @@ dom0Scale=25.4e-3
 []
 
 [Materials]
+  [./field_solver]
+    type = FieldSolverMaterial
+    potential = potential
+  [../]
+  [./field_solver_ion]
+    type = FieldSolverMaterial
+    potential = potential_ion
+    property_name = field_ion
+  [../]
   [./GasBasics]
     type = GasElectronMoments
     interp_trans_coeffs = true
