@@ -25,8 +25,6 @@ protected:
   Real _r_units;
 
   // Coupled variables
-
-  const ADVariableGradient & _grad_potential;
   std::vector<const ADVariableValue *> _ip;
 
   Real _a;
@@ -37,4 +35,6 @@ protected:
   std::vector<const ADMaterialProperty<Real> *> _muip;
 
   unsigned int _num_ions;
+
+  const ADMaterialProperty<RealVectorValue> & _electric_field;
 };

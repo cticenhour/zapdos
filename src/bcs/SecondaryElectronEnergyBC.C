@@ -18,10 +18,12 @@ SecondaryElectronEnergyBC::validParams()
   InputParameters params = ADIntegratedBC::validParams();
   params.addRequiredParam<Real>("r", "The reflection coefficient of the electrons.");
   params.addParam<Real>("r_ion", 0, "The reflection coefficient of the ions.");
-  params.addRequiredCoupledVar("potential", "The electric potential");
   params.addRequiredCoupledVar("em", "The electron density.");
   params.addRequiredCoupledVar("ip", "The ion density.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
+  params.addParam<std::string>("field_property_name",
+                               "field_solver_interface_property",
+                               "Name of the solver interface material property.");
   return params;
 }
 
@@ -33,7 +35,6 @@ SecondaryElectronEnergyBC::SecondaryElectronEnergyBC(const InputParameters & par
     _kb(getMaterialProperty<Real>("k_boltz")),
 
     // Coupled Variables
-    _grad_potential(adCoupledGradient("potential")),
     _em(adCoupledValue("em")),
 
     _muem(getADMaterialProperty<Real>("muem")),
@@ -41,7 +42,9 @@ SecondaryElectronEnergyBC::SecondaryElectronEnergyBC(const InputParameters & par
     _e(getMaterialProperty<Real>("e")),
     _se_coeff(getMaterialProperty<Real>("se_coeff")),
     _se_energy(getMaterialProperty<Real>("se_energy")),
-    _mumean_en(getADMaterialProperty<Real>("mumean_en"))
+    _mumean_en(getADMaterialProperty<Real>("mumean_en")),
+    _electric_field(
+        getADMaterialProperty<RealVectorValue>(getParam<std::string>("field_property_name")))
 {
   _ion_flux = 0;
   _a = 0.5;
@@ -78,7 +81,7 @@ SecondaryElectronEnergyBC::SecondaryElectronEnergyBC(const InputParameters & par
 ADReal
 SecondaryElectronEnergyBC::computeQpResidual()
 {
-  if (_normals[_qp] * -1.0 * -_grad_potential[_qp] > 0.0)
+  if (_normals[_qp] * -1.0 * _electric_field[_qp] > 0.0)
   {
     _a = 1.0;
   }
@@ -90,18 +93,18 @@ SecondaryElectronEnergyBC::computeQpResidual()
   _ion_flux = 0;
   for (unsigned int i = 0; i < _num_ions; ++i)
   {
-    if (_normals[_qp] * (*_sgnip[i])[_qp] * -_grad_potential[_qp] > 0.0)
+    if (_normals[_qp] * (*_sgnip[i])[_qp] * _electric_field[_qp] > 0.0)
       _b = 1.0;
     else
       _b = 0.0;
     _ion_flux += std::exp((*_ip[i])[_qp]) *
                  (0.5 * std::sqrt(8 * _kb[_qp] * (*_Tip[i])[_qp] / (M_PI * (*_massip[i])[_qp])) +
-                  (2 * _b - 1) * (*_sgnip[i])[_qp] * (*_muip[i])[_qp] * -_grad_potential[_qp] *
+                  (2 * _b - 1) * (*_sgnip[i])[_qp] * (*_muip[i])[_qp] * _electric_field[_qp] *
                       _r_units * _normals[_qp]);
   }
 
   _n_gamma = (1. - _a) * _se_coeff[_qp] * _ion_flux /
-             (_muem[_qp] * -_grad_potential[_qp] * _r_units * _normals[_qp] +
+             (_muem[_qp] * _electric_field[_qp] * _r_units * _normals[_qp] +
               std::numeric_limits<double>::epsilon());
 
   _v_thermal =

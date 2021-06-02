@@ -26,7 +26,6 @@ protected:
   bool Te_dependent;
 
   // Coupled variables
-  const ADVariableGradient & _grad_potential;
   const ADVariableValue & _em;
   std::vector<MooseVariable *> _ip_var;
   std::vector<const ADVariableValue *> _ip;
@@ -43,4 +42,6 @@ protected:
   unsigned int _num_ions;
   unsigned int _ip_index;
   std::vector<unsigned int>::iterator _iter;
+
+  const ADMaterialProperty<RealVectorValue> & _electric_field;
 };

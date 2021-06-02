@@ -16,11 +16,13 @@ InputParameters
 SakiyamaSecondaryElectronBC::validParams()
 {
   InputParameters params = ADIntegratedBC::validParams();
-  params.addRequiredCoupledVar("potential", "The electric potential");
   params.addRequiredCoupledVar("ip", "The ion density.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addParam<Real>("users_gamma",
                         "A secondary electron emission coeff. only used for this BC.");
+  params.addParam<std::string>("field_property_name",
+                               "field_solver_interface_property",
+                               "Name of the solver interface material property.");
   params.addClassDescription("Kinetic secondary electron boundary condition"
                              "(Based on DOI: https://doi.org/10.1116/1.579300)");
   return params;
@@ -31,12 +33,12 @@ SakiyamaSecondaryElectronBC::SakiyamaSecondaryElectronBC(const InputParameters &
 
     _r_units(1. / getParam<Real>("position_units")),
 
-    // Coupled Variables
-    _grad_potential(adCoupledGradient("potential")),
-
     _a(0.5),
     _ion_flux(0, 0, 0),
-    _user_se_coeff(getParam<Real>("users_gamma"))
+    _user_se_coeff(getParam<Real>("users_gamma")),
+
+    _electric_field(
+        getADMaterialProperty<RealVectorValue>(getParam<std::string>("field_property_name")))
 {
   _num_ions = coupledComponents("ip");
 
@@ -58,7 +60,7 @@ SakiyamaSecondaryElectronBC::computeQpResidual()
   _ion_flux.zero();
   for (unsigned int i = 0; i < _num_ions; ++i)
   {
-    if (_normals[_qp] * (*_sgnip[i])[_qp] * -_grad_potential[_qp] > 0.0)
+    if (_normals[_qp] * (*_sgnip[i])[_qp] * _electric_field[_qp] > 0.0)
     {
       _a = 1.0;
     }
@@ -67,7 +69,7 @@ SakiyamaSecondaryElectronBC::computeQpResidual()
       _a = 0.0;
     }
 
-    _ion_flux += _a * (*_sgnip[i])[_qp] * (*_muip[i])[_qp] * -_grad_potential[_qp] * _r_units *
+    _ion_flux += _a * (*_sgnip[i])[_qp] * (*_muip[i])[_qp] * _electric_field[_qp] * _r_units *
                  std::exp((*_ip[i])[_qp]);
   }
 

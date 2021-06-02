@@ -26,8 +26,6 @@ protected:
   Real _r;
 
   // Coupled variables
-
-  const ADVariableGradient & _grad_potential;
   const ADVariableValue & _mean_en;
 
   MooseVariable & _ip_var;
@@ -51,6 +49,8 @@ protected:
   Real _tau;
   bool _relax;
   std::string _potential_units;
+
+  const ADMaterialProperty<RealVectorValue> & _electric_field;
 
   // Unique variables
 

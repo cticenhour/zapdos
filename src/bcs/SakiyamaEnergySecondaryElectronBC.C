@@ -21,10 +21,12 @@ SakiyamaEnergySecondaryElectronBC::validParams()
       "Tse_equal_Te", "The secondary electron temperature equal the electron temperature in eV");
   params.addParam<Real>(
       "user_se_energy", 1.0, "The user's value of the secondary electron temperature in eV");
-  params.addRequiredCoupledVar("potential", "The electric potential");
   params.addRequiredCoupledVar("em", "The electron density.");
   params.addRequiredCoupledVar("ip", "The ion density.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
+  params.addParam<std::string>("field_property_name",
+                               "field_solver_interface_property",
+                               "Name of the solver interface material property.");
   params.addClassDescription(
       "Kinetic secondary electron for mean electron energy boundary condition"
       "(Based on DOI: https://doi.org/10.1116/1.579300)");
@@ -38,16 +40,16 @@ SakiyamaEnergySecondaryElectronBC::SakiyamaEnergySecondaryElectronBC(
     _r_units(1. / getParam<Real>("position_units")),
     Te_dependent(getParam<bool>("Tse_equal_Te")),
 
-    // Coupled Variables
-    _grad_potential(adCoupledGradient("potential")),
-
     _em(adCoupledValue("em")),
 
     _se_coeff(getParam<Real>("se_coeff")),
     _user_se_energy(getParam<Real>("user_se_energy")),
     _a(0.5),
     _se_energy(0),
-    _ion_flux(0, 0, 0)
+    _ion_flux(0, 0, 0),
+
+    _electric_field(
+        getADMaterialProperty<RealVectorValue>(getParam<std::string>("field_property_name")))
 {
   _num_ions = coupledComponents("ip");
 
@@ -71,7 +73,7 @@ SakiyamaEnergySecondaryElectronBC::computeQpResidual()
   _ion_flux.zero();
   for (unsigned int i = 0; i < _num_ions; ++i)
   {
-    if (_normals[_qp] * (*_sgnip[i])[_qp] * -_grad_potential[_qp] > 0.0)
+    if (_normals[_qp] * (*_sgnip[i])[_qp] * _electric_field[_qp] > 0.0)
     {
       _a = 1.0;
     }
@@ -80,7 +82,7 @@ SakiyamaEnergySecondaryElectronBC::computeQpResidual()
       _a = 0.0;
     }
 
-    _ion_flux += _a * (*_sgnip[i])[_qp] * (*_muip[i])[_qp] * -_grad_potential[_qp] * _r_units *
+    _ion_flux += _a * (*_sgnip[i])[_qp] * (*_muip[i])[_qp] * _electric_field[_qp] * _r_units *
                  std::exp((*_ip[i])[_qp]);
   }
 

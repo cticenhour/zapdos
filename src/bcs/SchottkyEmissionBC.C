@@ -17,13 +17,15 @@ SchottkyEmissionBC::validParams()
 {
   InputParameters params = ADIntegratedBC::validParams();
   params.addRequiredParam<Real>("r", "The reflection coefficient");
-  params.addRequiredCoupledVar("potential", "The electric potential");
   params.addRequiredCoupledVar("mean_en", "The mean energy.");
   params.addRequiredCoupledVar("ip", "The ion density.");
   params.addRequiredParam<Real>("position_units", "Units of position.");
   params.addRequiredParam<std::string>("potential_units", "The potential units.");
   params.addParam<Real>("tau", 1e-9, "The time constant for ramping the boundary condition.");
   params.addParam<bool>("relax", false, "Use relaxation for emission.");
+  params.addParam<std::string>("field_property_name",
+                               "field_solver_interface_property",
+                               "Name of the solver interface material property.");
   return params;
 }
 
@@ -34,7 +36,6 @@ SchottkyEmissionBC::SchottkyEmissionBC(const InputParameters & parameters)
     _r(getParam<Real>("r")),
 
     // Coupled Variables
-    _grad_potential(adCoupledGradient("potential")),
     _mean_en(adCoupledValue("mean_en")),
     _ip_var(*getVar("ip", 0)),
     _ip(adCoupledValue("ip")),
@@ -55,7 +56,9 @@ SchottkyEmissionBC::SchottkyEmissionBC(const InputParameters & parameters)
     _ion_flux(0, 0, 0),
     _tau(getParam<Real>("tau")),
     _relax(getParam<bool>("relax")),
-    _potential_units(getParam<std::string>("potential_units"))
+    _potential_units(getParam<std::string>("potential_units")),
+    _electric_field(
+        getADMaterialProperty<RealVectorValue>(getParam<std::string>("field_property_name")))
 
 {
   if (_potential_units.compare("V") == 0)
@@ -84,7 +87,7 @@ SchottkyEmissionBC::computeQpResidual()
   _v_thermal =
       std::sqrt(8 * _e[_qp] * 2.0 / 3 * std::exp(_mean_en[_qp] - _u[_qp]) / (M_PI * _massem[_qp]));
 
-  if (_normals[_qp] * -1.0 * -_grad_potential[_qp] > 0.0)
+  if (_normals[_qp] * -1.0 * _electric_field[_qp] > 0.0)
   {
     _a = 1.0;
     return 0;
@@ -93,14 +96,14 @@ SchottkyEmissionBC::computeQpResidual()
   {
     _a = 0.0;
 
-    _ion_flux = _sgnip[_qp] * _muip[_qp] * -_grad_potential[_qp] * _r_units * std::exp(_ip[_qp]) -
+    _ion_flux = _sgnip[_qp] * _muip[_qp] * _electric_field[_qp] * _r_units * std::exp(_ip[_qp]) -
                 _Dip[_qp] * std::exp(_ip[_qp]) * _grad_ip[_qp] * _r_units;
 
     // Schottky emission
     // je = AR * T^2 * exp(-(wf - dPhi) / (kB * T))
     // dPhi = _dPhi_over_F * sqrt(F) // eV
 
-    F = -(1 - _a) * _field_enhancement[_qp] * _normals[_qp] * _grad_potential[_qp] * _r_units;
+    F = -(1 - _a) * _field_enhancement[_qp] * _normals[_qp] * -_electric_field[_qp] * _r_units;
 
     kB = 8.617385E-5; // eV/K
     dPhi = _dPhi_over_F * std::sqrt(F);
