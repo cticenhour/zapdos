@@ -16,17 +16,17 @@ protected:
   virtual ADReal computeQpResidual() override;
 
   /// Real field variable
-  MooseVariable * _real_var;
+  VectorMooseVariable * _real_var;
   /// Imaginary field variable
-  MooseVariable * _imag_var;
+  VectorMooseVariable * _imag_var;
   /// Real field variable value
-  const ADVariableValue & _real_value;
+  const ADVectorVariableValue & _real_value;
   /// Imaginary field variable value
-  const ADVariableValue & _imag_value;
+  const ADVectorVariableValue & _imag_value;
   /// Real field second time derivative
-  const ADVariableValue & _real_dot_dot;
+  const ADVectorVariableValue & _real_dot_dot;
   /// Imaginary field second time derivative
-  const ADVariableValue & _imag_dot_dot;
+  const ADVectorVariableValue & _imag_dot_dot;
 
   /// Field component (real or imaginary)
   MooseEnum _component;

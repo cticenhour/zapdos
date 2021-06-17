@@ -20,10 +20,10 @@ PlasmaDielectricConstantSecondTimeDerivative::validParams()
 PlasmaDielectricConstantSecondTimeDerivative::PlasmaDielectricConstantSecondTimeDerivative(
     const InputParameters & parameters)
   : ADVectorTimeKernel(parameters),
-    _real_var(getVar("real_field", 0)),
-    _imag_var(getVar("imaginary_field", 0)),
-    _real_value(adCoupledValue("real_field")),
-    _imag_value(adCoupledValue("imaginary_field")),
+    _real_var(getVectorVar("real_field", 0)),
+    _imag_var(getVectorVar("imaginary_field", 0)),
+    _real_value(adCoupledVectorValue("real_field")),
+    _imag_value(adCoupledVectorValue("imaginary_field")),
     _real_dot_dot(_real_var->adUDotDot()),
     _imag_dot_dot(_imag_var->adUDotDot()),
     _component(getParam<MooseEnum>("component")),
