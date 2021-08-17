@@ -12,27 +12,27 @@
 
 #include "ADKernel.h"
 
-class ChargeSourceMoles_KV : public ADKernel
+class JouleHeatingLin : public ADKernel
 {
 public:
   static InputParameters validParams();
 
-  ChargeSourceMoles_KV(const InputParameters & parameters);
+  JouleHeatingLin(const InputParameters & parameters);
 
 protected:
   virtual ADReal computeQpResidual() override;
 
-  /// Coupled variable
-  //MooseVariable & _charged_var;
-  const MooseVariableFieldBase & _charged_var;
-  const ADVariableValue & _charged;
-
-  /// Material properties (regular because these are constants)
-  const MaterialProperty<Real> & _e;
-  const MaterialProperty<Real> & _sgn;
-  const MaterialProperty<Real> & _N_A;
-
-  /// Units scaling
+private:
+  /// Position units
+  const Real _r_units;
   const std::string & _potential_units;
+
+  /// The diffusion coefficient (either constant or mixture-averaged)
+  const ADMaterialProperty<Real> & _diff;
+  const ADMaterialProperty<Real> & _mu;
+  const ADVariableGradient & _grad_potential;
+  const ADVariableValue & _em;
+  const ADVariableGradient & _grad_em;
+
   Real _voltage_scaling;
 };

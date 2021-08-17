@@ -8,12 +8,12 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "ChargeSourceMoles_KV.h"
+#include "ChargeSourceMoles_KVLin.h"
 
-registerMooseObject("ZapdosApp", ChargeSourceMoles_KV);
+registerMooseObject("ZapdosApp", ChargeSourceMoles_KVLin);
 
 InputParameters
-ChargeSourceMoles_KV::validParams()
+ChargeSourceMoles_KVLin::validParams()
 {
   InputParameters params = ADKernel::validParams();
   params.addRequiredCoupledVar("charged", "The charged species");
@@ -24,7 +24,7 @@ ChargeSourceMoles_KV::validParams()
   return params;
 }
 
-ChargeSourceMoles_KV::ChargeSourceMoles_KV(const InputParameters & parameters)
+ChargeSourceMoles_KVLin::ChargeSourceMoles_KVLin(const InputParameters & parameters)
   : ADKernel(parameters),
     //_charged_var(*getVar("charged", 0)),
     _charged_var(*getFieldVar("charged", 0)),
@@ -41,8 +41,8 @@ ChargeSourceMoles_KV::ChargeSourceMoles_KV(const InputParameters & parameters)
 }
 
 ADReal
-ChargeSourceMoles_KV::computeQpResidual()
+ChargeSourceMoles_KVLin::computeQpResidual()
 {
-  return -_test[_i][_qp] * _e[_qp] * _sgn[_qp] * _N_A[_qp] * std::exp(_charged[_qp]) /
+  return -_test[_i][_qp] * _e[_qp] * _sgn[_qp] * _N_A[_qp] * _charged[_qp] /
          _voltage_scaling;
 }

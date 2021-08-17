@@ -8,9 +8,9 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "ShootMethodLog.h"
+#include "ShootMethod.h"
 
-registerMooseObject("ZapdosApp", ShootMethodLog);
+registerMooseObject("ZapdosApp", ShootMethod);
 /*
 This acceleration scheme is used in paper
 DOI: https://doi.org/10.1116/1.587101, with a more
@@ -30,7 +30,7 @@ sensitivity is calculated in a sub app.
 */
 
 InputParameters
-ShootMethodLog::validParams()
+ShootMethod::validParams()
 {
   InputParameters params = ADKernel::validParams();
   params.addRequiredCoupledVar("density_at_start_cycle",
@@ -48,7 +48,7 @@ ShootMethodLog::validParams()
   return params;
 }
 
-ShootMethodLog::ShootMethodLog(const InputParameters & parameters)
+ShootMethod::ShootMethod(const InputParameters & parameters)
   : ADKernel(parameters),
     _density_at_start_cycle(adCoupledValue("density_at_start_cycle")),
     _density_at_end_cycle(adCoupledValue("density_at_end_cycle")),
@@ -58,7 +58,7 @@ ShootMethodLog::ShootMethodLog(const InputParameters & parameters)
 }
 
 ADReal
-ShootMethodLog::computeQpResidual()
+ShootMethod::computeQpResidual()
 {
   Real limiter = 0.0;
   if (_limit > 0.0)
@@ -67,7 +67,7 @@ ShootMethodLog::computeQpResidual()
   ADReal Scaling = 1.0 / ((1. - _sensitivity[_qp]) + limiter);
 
   return _test[_i][_qp] *
-         (std::exp(_u[_qp]) - std::exp(_density_at_start_cycle[_qp]) +
-           (std::exp(_density_at_start_cycle[_qp]) -
-            std::exp(_density_at_end_cycle[_qp])) * Scaling);
+         (_u[_qp] - _density_at_start_cycle[_qp] +
+           (_density_at_start_cycle[_qp] -
+            _density_at_end_cycle[_qp]) * Scaling);
 }

@@ -12,12 +12,12 @@
 
 #include "ADKernel.h"
 
-class ChargeSourceMoles_KV : public ADKernel
+class ChargeSourceMoles_KVLin : public ADKernel
 {
 public:
   static InputParameters validParams();
 
-  ChargeSourceMoles_KV(const InputParameters & parameters);
+  ChargeSourceMoles_KVLin(const InputParameters & parameters);
 
 protected:
   virtual ADReal computeQpResidual() override;
