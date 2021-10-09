@@ -1,0 +1,10 @@
+Notes on HPhi Runs
+==================
+
+- Chamber dimensions from Physics of Plasmas paper (2020):
+    - gap = 4.4 cm
+    - electrode radius = 50 cm
+
+- TO CALCULATE SHEATH WIDTH (for an Argon discharge):
+    - electron neutral momentum transfer frequency: nu_m = 0.5e9 Hz
+    - Cite: Peterson 2017

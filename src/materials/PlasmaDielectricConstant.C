@@ -45,17 +45,31 @@ PlasmaDielectricConstant::computeQpProperties()
   Real omega_pe_const = std::sqrt(std::pow(_elementary_charge, 2) / (_eps_vacuum * _electron_mass));
   ADReal omega_pe = omega_pe_const * std::sqrt(std::exp(_em[_qp]));
 
+  mooseDoOnce(std::cout << "Elementary charge is " << _elementary_charge << "\n");
+  mooseDoOnce(std::cout << "Vacuum electric permittivity is " << _eps_vacuum << "\n");
+  mooseDoOnce(std::cout << "Electron mass is " << _electron_mass << "\n");
+  mooseDoOnce(std::cout << "Electron density (log) is " << _em[_qp] << "\n");
+  mooseDoOnce(std::cout << "Electron density (linear) is " << std::exp(_em[_qp]) << "\n");
+  mooseDoOnce(std::cout << "Plasma frequency is " << omega_pe << "\n");
+  mooseDoOnce(std::cout << "Driving frequency is " << _frequency << " in Hertz. \n");
+  mooseDoOnce(std::cout << "Electron neutral collision frequency is " << _nu << " in Hertz. \n");
+
   // Calculate the value of the plasma dielectric constant
   _eps_r_real[_qp] =
-      1.0 - (std::pow(omega_pe, 2) / (std::pow(2 * _pi * _frequency, 2) + std::pow(2 * _pi * _nu, 2)));
-  _eps_r_imag[_qp] = (-1.0 * std::pow(omega_pe, 2) * 2 * _pi * _nu) /
-                     (std::pow(2 * _pi * _frequency, 3) + 2 * _pi * _frequency * std::pow(2 * _pi * _nu, 2));
+      1.0 - (std::pow(omega_pe, 2) / (std::pow(2 * _pi * _frequency, 2) + std::pow(_nu, 2)));
+  _eps_r_imag[_qp] = (-1.0 * std::pow(omega_pe, 2) * _nu) /
+                     (std::pow(2 * _pi * _frequency, 3) + 2 * _pi * _frequency * std::pow(_nu, 2));
+
+  mooseDoOnce(std::cout << "Pi is " << _pi << "\n");
+  mooseDoOnce(std::cout << "Plasma dielectric constant (real) is " << _eps_r_real[_qp] << "\n");
+  mooseDoOnce(std::cout << "Plasma dielectric constant (imaginary) is " << _eps_r_imag[_qp]
+                        << "\n");
 
   // Calculate the gradient of the plasma dielectric constant
   ADReal grad_const =
-      -std::pow(omega_pe, 2) / (std::pow(2 * _pi * _frequency, 2) + std::pow(2 * _pi * _nu, 2));
+      -std::pow(omega_pe, 2) / (std::pow(2 * _pi * _frequency, 2) + std::pow(_nu, 2));
   _eps_r_real_grad[_qp] = grad_const * _em_grad[_qp];
-  _eps_r_imag_grad[_qp] = (grad_const * 2 * _pi * _nu / (2 * _pi * _frequency)) * _em_grad[_qp];
+  _eps_r_imag_grad[_qp] = (grad_const * _nu / (2 * _pi * _frequency)) * _em_grad[_qp];
 
   if (_fe_problem.isTransient())
   {
@@ -64,11 +78,11 @@ PlasmaDielectricConstant::computeQpProperties()
 
     // Calculate the first time derivative of the plasma dielectric constant
     _eps_r_real_dot[_qp] = -1.0 * std::pow(omega_pe_const, 2) * lin_dot /
-                           (std::pow(2 * _pi * _frequency, 2) + std::pow(2 * _pi * _nu, 2));
+                           (std::pow(2 * _pi * _frequency, 2) + std::pow(_nu, 2));
 
     _eps_r_imag_dot[_qp] =
-        -1.0 * std::pow(omega_pe_const, 2) * 2 * _pi * _nu * lin_dot /
-        (std::pow(2 * _pi * _frequency, 3) + 2 * _pi * _frequency * std::pow(2 * _pi * _nu, 2));
+        -1.0 * std::pow(omega_pe_const, 2) * _nu * lin_dot /
+        (std::pow(2 * _pi * _frequency, 3) + 2 * _pi * _frequency * std::pow(_nu, 2));
 
     // Calculate the second time derivative of the linear electron density
     ADReal lin_dot_dot =
@@ -76,9 +90,9 @@ PlasmaDielectricConstant::computeQpProperties()
 
     // Calculate the second time derivative of the plasma dielectric constant
     _eps_r_real_dot_dot[_qp] = -1.0 * std::pow(omega_pe_const, 2) * lin_dot_dot /
-                               (std::pow(2 * _pi * _frequency, 2) + std::pow(2 * _pi * _nu, 2));
+                               (std::pow(2 * _pi * _frequency, 2) + std::pow(_nu, 2));
     _eps_r_imag_dot_dot[_qp] =
-        -1.0 * std::pow(omega_pe_const, 2) * 2 * _pi * _nu * lin_dot_dot /
-        (std::pow(2 * _pi * _frequency, 3) + 2 * _pi * _frequency * std::pow(2 * _pi * _nu, 2));
+        -1.0 * std::pow(omega_pe_const, 2) * _nu * lin_dot_dot /
+        (std::pow(2 * _pi * _frequency, 3) + 2 * _pi * _frequency * std::pow(_nu, 2));
   }
 }

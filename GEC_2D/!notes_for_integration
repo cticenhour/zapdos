@@ -1,0 +1,11 @@
+Notes for Zapdos Integration
+============================
+
+- Mark for removal? EFieldMagnitudeSource
+
+- Lymberopoulos 2D
+    * ion_potentials (effective) used alongside potential
+
+- DriftDiffusionAction also has effective potential option
+
+- ACTION IDEA: Create name of generated objects based on provided potential variable
