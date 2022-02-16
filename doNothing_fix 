@@ -1,0 +1,20 @@
+The root of this problem is the way the user-specified parameters are initialized within the body of the constructor. Regardless of the definition of `use_material_props`, the constructor body is always executed *in full* because there is nothing to tell the code to disregard this when the params are not specified:
+
+https://github.com/shannon-lab/zapdos/blob/b53be0d7acd77084e9c4c38ae1ccccc978a6b1b7/src/bcs/DriftDiffusionDoNothingBC.C#L50-L66
+
+So, the original error comes from the fact that we "get"/retrieve the params before they were set (because they weren't set), and this happens *every time* the code is run. A possible fix is to institute a check to see if the params are defined before trying to "get" them. Leveraging the MOOSE function `isParamSetByUser`, we could do something like:
+
+``` c++
+bool diff_set = parameters.isParamSetByUser("diff");
+bool mu_set = parameters.isParamSetByUser("mu");
+bool sign_set = parameters.isParamSetByUser("sign");
+
+if ( diff_set && mu_set && sign_set)
+{
+   <insert_previous Lines 53 - 66>
+}
+else
+{
+  mooseError("In ", _name, ", some user-defined parameters (diff, mu, sign) were set but not all! Please check your input.");
+}
+```

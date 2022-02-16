@@ -52,7 +52,11 @@
 
 [AuxVariables]
   [./em]
-    initial_condition = 23.0259
+    #initial_condition = 18.42068 #1e8
+    #initial_condition = 20.72327 #1e9
+    #initial_condition = 23.0259 #1e10
+    #initial_condition = 25.32844 #1e11
+    initial_condition = 27.63102 #1e12
     #initial_condition = 36.8414 # exp(36.8414) = ~10^16 m^-3 = ~10^10 cm^-3
     block = 1
   [../]
@@ -173,6 +177,10 @@
 []
 
 [Outputs]
-  exodus = true
+  #exodus = true
+  [./exodus]
+    type = Exodus
+    file_base = 'out_1e12'
+  [../]
   perf_graph = true
 []
