@@ -19,39 +19,22 @@ if [ -z "$PUSH" ]; then
   PUSH=0
 fi
 
-# Check for ZAPDOS_DIR and if it exists; throw errors if either is false
-if [ -z "$ZAPDOS_DIR" ]; then
-    echo "ERROR: ZAPDOS_DIR is not set for build_docker"
-    exit 1
-fi
-if [ ! -d "$ZAPDOS_DIR" ]; then
-  echo "ERROR: $ZAPDOS_DIR=ZAPDOS_DIR does not exist"
-  exit 1
-fi
+# Set location of Zapdos source location based on script location
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export ZAPDOS_DIR="$( cd $SCRIPT_DIR/.. && pwd)"
+echo "ZAPDOS_DIR=$ZAPDOS_DIR"
 
 # Enter Zapdos source location, checkout master branch, and save latest git commit hash
 cd $ZAPDOS_DIR
 git checkout master
 ZAPDOS_MASTER_HASH=$(git rev-parse master)
 
-# Get MOOSE submodule hash and compare to Dockerfile to make sure it has been updated
-git submodule update --init moose
-cd moose
-MOOSE_HASH=$(git rev-parse HEAD)
-
+# Build docker container and tag it with master git hash (Docker Desktop must be installed and active)
 cd $ZAPDOS_DIR/scripts
-
-# Use sed to find and replace MOOSE submodule hash into Dockerfile
-sed -i '' "s/{{MOOSE_HASH}}/$MOOSE_HASH/g" Dockerfile
-
-# Build docker container and tag it with master git hash
 docker build -t shannonlab/zapdos:"$ZAPDOS_MASTER_HASH" . || exit $?
 
 # Retag newly built container to make a second one with the tag "latest"
 docker tag shannonlab/zapdos:"$ZAPDOS_MASTER_HASH" shannonlab/zapdos:latest
-
-# Restore Dockerfile to un-modified state so that branch is clean
-git restore Dockerfile
 
 # Push both containers to Docker Hub, if enabled. If not, display a notice to the screen with more info
 if [[ $PUSH == 1 ]]; then
