@@ -97,6 +97,15 @@ then
 docker run -ti shannonlab/zapdos:latest
 ```
 
+When the container is run, one is placed in the home directory of the container user (named `dev`)
+where Zapdos is installed. Zapdos can then be run with an input file or tested as expected:
+
+```bash
+cd zapdos
+./zapdos-opt -i ./test/tests/1d_dc/mean_en.i
+./run_tests -j8
+```
+
 #### Zapdos Docker Container Minimum System Requirements
 
 - Some flavor of Linux, MacOS, or Windows with [Docker](https://www.docker.com) installed
