@@ -10,11 +10,35 @@
 
 FROM idaholab/moose-dev:latest
 
-WORKDIR /opt
+# Add dev user
+RUN useradd -s /bin/bash dev
+WORKDIR /home/dev
 
-RUN git clone -b master https://github.com/shannon-lab/zapdos.git ; \
-cd zapdos ; \
-git submodule update --init moose crane squirrel ; \
-make -j $(grep -c ^processor /proc/cpuinfo)
+# Clone zapdos, download zapdos dependencies, make, and test zapdos as root user
+RUN git clone -b master https://github.com/shannon-lab/zapdos.git
 
-WORKDIR /opt/zapdos
+WORKDIR /home/dev/zapdos
+
+RUN git submodule update --init moose crane squirrel
+
+ENV LIBMESH_DIR=/opt/libmesh
+ENV PETSC_DIR=/opt/petsc
+ENV WASP_DIR=/opt/wasp
+ENV MOOSE_JOBS=4
+
+RUN source /opt/mpi/use-mpich ; \
+    make -j ${MOOSE_JOBS}
+
+RUN source /opt/mpi/use-mpich ; \
+    ./run_tests --all-tests -j ${MOOSE_JOBS}
+
+WORKDIR /home/dev
+
+# Make sure init script from / that docker initialization needs is in dev home dir
+RUN cp /run_singularity2docker.sh /home/dev/run_singularity2docker.sh
+
+# Make sure dev user owns all of the home directory
+RUN chown -R dev:dev /home/dev
+
+# Switch to dev user
+USER dev
