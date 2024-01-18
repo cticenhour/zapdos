@@ -8,37 +8,21 @@
 #* Licensed under LGPL 2.1, please see LICENSE for details
 #* https://www.gnu.org/licenses/lgpl-2.1.html
 
-FROM idaholab/moose-dev:latest
+FROM mooseharbor.hpc.inl.gov/moose-docker/moose:latest
 
-# Add dev user
-RUN useradd -s /bin/bash dev
-WORKDIR /home/dev
+WORKDIR /opt
 
-# Clone zapdos, download zapdos dependencies, make, and test zapdos as root user
-RUN git clone -b master https://github.com/shannon-lab/zapdos.git
+RUN GIT_SSL_NO_VERIFY=true git clone --depth 1 -b master https://github.com/shannon-lab/zapdos.git
 
-WORKDIR /home/dev/zapdos
+WORKDIR /opt/zapdos
 
-RUN git submodule update --init moose crane squirrel
+RUN GIT_SSL_NO_VERIFY=true git submodule update --depth 1 --init moose crane squirrel
 
 ENV LIBMESH_DIR=/opt/libmesh
 ENV PETSC_DIR=/opt/petsc
 ENV WASP_DIR=/opt/wasp
 ENV MOOSE_JOBS=4
 
-RUN source /opt/mpi/use-mpich ; \
-    make -j ${MOOSE_JOBS}
+RUN make -j ${MOOSE_JOBS}
 
-RUN source /opt/mpi/use-mpich ; \
-    ./run_tests --all-tests -j ${MOOSE_JOBS}
-
-WORKDIR /home/dev
-
-# Make sure init script from / that docker initialization needs is in dev home dir
-RUN cp /run_singularity2docker.sh /home/dev/run_singularity2docker.sh
-
-# Make sure dev user owns all of the home directory
-RUN chown -R dev:dev /home/dev
-
-# Switch to dev user
-USER dev
+RUN ./run_tests --all-tests -j ${MOOSE_JOBS}
