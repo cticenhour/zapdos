@@ -1,0 +1,248 @@
+<!DOCTYPE html><head><meta charset="UTF-8"><title>FVBCs System | Zapdos</title><link href="../../contrib/materialize/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"></link><link href="../../contrib/prism/prism.min.css" type="text/css" rel="stylesheet"></link><link href="../../css/moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/devel_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/alert_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/content_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/sqa_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/civet_moose.css" type="text/css" rel="stylesheet"></link><link href="../../contrib/katex/katex.min.css" type="text/css" rel="stylesheet"></link><link href="../../css/katex_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/zapdos.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../contrib/jquery/jquery.min.js"></script><script type="text/javascript" src="../../contrib/katex/katex.min.js"></script></head><body><div class="page-wrap"><header><nav><div class="nav-wrapper container"><a href="../../index.html" class="left moose-logo hide-on-med-and-down" id="home-button">Zapdos</a><a href="https://github.com/shannon-lab/zapdos" class="right"><img src="../../media/framework/github-logo.png" class="github-mark"></img><img src="../../media/framework/github-mark.png" class="github-logo"></img></a><ul class="right hide-on-med-and-down"><li><a href="#!" class="dropdown-trigger" data-target="13e3d835-b09c-46ed-931e-9db492281876" data-constrainWidth="false">Getting Started<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="#!" class="dropdown-trigger" data-target="d4a54bce-9aba-4991-b773-ad43216e22a1" data-constrainWidth="false">Documentation<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="#!" class="dropdown-trigger" data-target="0f0ade34-ae67-440a-aa74-11eecc010347" data-constrainWidth="false">Help<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="../../citing.html">Citing</a></li></ul><a href="#" class="sidenav-trigger" data-target="cf862e98-5b58-4ff8-b68e-924723b48c10"><i class="material-icons">menu</i></a><ul class="sidenav" id="cf862e98-5b58-4ff8-b68e-924723b48c10"><li><a href="#!" class="dropdown-trigger" data-target="97aa2144-1bd3-4cd1-bd40-d7073895ac10" data-constrainWidth="false">Getting Started<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="#!" class="dropdown-trigger" data-target="f053a68b-1eaa-47c2-9966-8e44edd369c1" data-constrainWidth="false">Documentation<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="#!" class="dropdown-trigger" data-target="7429574c-9733-45d9-b9bb-207f8ffc8537" data-constrainWidth="false">Help<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="../../citing.html">Citing</a></li></ul><a href="#moose-search" class="modal-trigger"><i class="material-icons">search</i></a></div><ul class="dropdown-content" id="13e3d835-b09c-46ed-931e-9db492281876"><li><a href="../../getting_started/installation.html">Installation</a></li><li><a href="../../getting_started/using_zapdos.html">Using Zapdos</a></li><li><a href="../../getting_started/zapdos_meshing.html">Generating Meshes</a></li></ul><ul class="dropdown-content" id="d4a54bce-9aba-4991-b773-ad43216e22a1"><li><a href="../zapdos_only.html">Zapdos Input Syntax</a></li><li><a href="../index.html">Complete Code Syntax</a></li><li><a href="../../doxygen/classes.html">Zapdos Doxygen</a></li><li><a href="https://mooseframework.inl.gov/docs/doxygen/moose/classes.html">MOOSE Doxygen</a></li><li><a href="https://mooseframework.inl.gov/docs/doxygen/libmesh/classes.html">libMesh Doxygen</a></li><li><a href="../../a-to-z.html">Zapdos A to Z Index</a></li><li><a href="../../examples/crane_examples.html">CRANE Examples</a></li><li><a href="../../development/contributing.html">Contributing Guidelines</a></li><li><a href="../../development/code_standards.html">Code Standards</a></li><li><a href="../../publications.html">List of Publications</a></li></ul><ul class="dropdown-content" id="0f0ade34-ae67-440a-aa74-11eecc010347"><li><a href="https://github.com/shannon-lab/zapdos/discussions">Zapdos Discussions Forum</a></li><li><a href="../../development/zapdos_developer_info.html">Zapdos Developer Information</a></li><li><a href="https://github.com/idaholab/moose/discussions">MOOSE Discussions Forum</a></li><li><a href="https://mooseframework.inl.gov/">MOOSE Homepage</a></li><li><a href="../../development/moose_developer_info.html">MOOSE Developer Information</a></li></ul><ul class="dropdown-content" id="97aa2144-1bd3-4cd1-bd40-d7073895ac10"><li><a href="../../getting_started/installation.html">Installation</a></li><li><a href="../../getting_started/using_zapdos.html">Using Zapdos</a></li><li><a href="../../getting_started/zapdos_meshing.html">Generating Meshes</a></li></ul><ul class="dropdown-content" id="f053a68b-1eaa-47c2-9966-8e44edd369c1"><li><a href="../zapdos_only.html">Zapdos Input Syntax</a></li><li><a href="../index.html">Complete Code Syntax</a></li><li><a href="../../doxygen/classes.html">Zapdos Doxygen</a></li><li><a href="https://mooseframework.inl.gov/docs/doxygen/moose/classes.html">MOOSE Doxygen</a></li><li><a href="https://mooseframework.inl.gov/docs/doxygen/libmesh/classes.html">libMesh Doxygen</a></li><li><a href="../../a-to-z.html">Zapdos A to Z Index</a></li><li><a href="../../examples/crane_examples.html">CRANE Examples</a></li><li><a href="../../development/contributing.html">Contributing Guidelines</a></li><li><a href="../../development/code_standards.html">Code Standards</a></li><li><a href="../../publications.html">List of Publications</a></li></ul><ul class="dropdown-content" id="7429574c-9733-45d9-b9bb-207f8ffc8537"><li><a href="https://github.com/shannon-lab/zapdos/discussions">Zapdos Discussions Forum</a></li><li><a href="../../development/zapdos_developer_info.html">Zapdos Developer Information</a></li><li><a href="https://github.com/idaholab/moose/discussions">MOOSE Discussions Forum</a></li><li><a href="https://mooseframework.inl.gov/">MOOSE Homepage</a></li><li><a href="../../development/moose_developer_info.html">MOOSE Developer Information</a></li></ul></nav><div class="modal modal-fixed-footer moose-search-modal" id="moose-search"><div class="modal-content container moose-search-modal-content"><div class="row"><div class="col l12"><div class="input-field"><input type_="text" onkeyup="mooseSearch()" placeholder="/index.md" id="moose-search-box"></input></div></div><div><div class="col s12" id="moose-search-results"></div></div></div></div><div class="modal-footer"><a href="#!" class="modal-close btn-flat">Close</a></div></div></header><main class="main"><div class="container"><div class="row"><div class="col hide-on-med-and-down l12"><nav class="breadcrumb-nav"><div class="nav-wrapper"><a href=".." class="breadcrumb">syntax</a><a href="." class="breadcrumb">FVBCs</a></div></nav></div></div><div class="row"><div class="moose-content col s12 m12 l10"><section id="8a37e7dc-a7c1-4514-93a2-f36bec90b9a6" data-section-level="1" data-section-text="FVBCs System"><h1 id="fvbcs-system">FVBCs System</h1><p>For an overview of MOOSE FV please see <a href="../../finite_volumes/fv_design.html">Finite Volume Design Decisions in MOOSE</a>.</p><p>The finite volume method (FVM) distinguishes between two types of boundary conditions.</p><p>* <code>FVDirichletBC</code> prescribes values of the FVM variables on the boundary. This boundary condition acts similarly to Dirichlet boundary conditions in FEM but it is implemented using a ghost element method.</p><p>* <code>FVFluxBC</code> prescribes the flux on a boundary. This boundary condition is similar to integrated boundary conditions in FEM.</p><p>Currently, the <code>FVDirichletBC</code> category only contains a single class that applies a fixed value on the boundary. In the future, more specialized classes will be added.</p><section class="scrollspy" id="e3631e84-4b54-4245-885b-9a7c61f8cb52" data-section-level="2" data-section-text="FVBCs block"><h2 id="fvbcs-block">FVBCs block</h2><p>FVM boundary conditions are added to simulation input files in the <code>FVBCs</code> as in the example below.</p><div class="card moose-float"><div class="card-content"><p class="moose-caption"><span class="moose-caption-heading">Listing 1: </span><span class="moose-caption-text" id="first_fv_bc_example">Example of the FVBCs block in a MOOSE input file.</span></p><pre class="moose-pre" style="max-height:350px;"><code class="language-text">[FVBCs]
+  [left]
+    type = FVNeumannBC
+    variable = v
+    boundary = left
+    value = 5
+  []
+  [right]
+    type = FVDirichletBC
+    variable = v
+    boundary = right
+    value = 42
+  []
+[]
+</code></pre><a class="moose-source-filename tooltipped modal-trigger" href="#0db4b058-aad6-410a-ab54-b76f06ac057b">(moose/test/tests/fvkernels/fv_simple_diffusion/neumann.i)</a></div></div><p>In this example input, a diffusion equation with flux boundary conditions on the left and Dirichlet boundary conditions on the right is solved. To understand the differences between these two boundary conditions, let&#x27;s start with the diffusion equation:</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-aa61f959-f7db-4f3d-bcab-4aca61de786a"></span><script>var element = document.getElementById("moose-equation-aa61f959-f7db-4f3d-bcab-4aca61de786a");katex.render("  - \\nabla \\cdot D \\nabla v = 0.", element, {displayMode:true,throwOnError:false});</script></span></p><p>and the boundary conditions on the left:</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-d295036b-5782-471f-897d-b33236d118b7"></span><script>var element = document.getElementById("moose-equation-d295036b-5782-471f-897d-b33236d118b7");katex.render("  - D  \\nabla v \\cdot \\vec{n}= 5,", element, {displayMode:true,throwOnError:false});</script></span></p><p>where <span class="moose-katex-inline-equation" id="moose-equation-a4f3acdf-a1fb-4260-8bb3-8c1e06c9c855"><script>var element = document.getElementById("moose-equation-a4f3acdf-a1fb-4260-8bb3-8c1e06c9c855");katex.render("\\vec{n}", element, {displayMode:false,throwOnError:false});</script></span> is the outward normal and on the right:</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-b920e5fc-d2d8-4d13-b0bb-0c096aba937d"></span><script>var element = document.getElementById("moose-equation-b920e5fc-d2d8-4d13-b0bb-0c096aba937d");katex.render("  v = 42.", element, {displayMode:true,throwOnError:false});</script></span></p><p>For seeing how the flux boundary condition is applied, the diffusion equation is integrated over the extent of an element adjacent to the left boundary and Gauss&#x27; theorem is applied to the divergence:</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-f42fd0c2-8b50-4ff0-a80a-fb5d9c73067d"></span><script>var element = document.getElementById("moose-equation-f42fd0c2-8b50-4ff0-a80a-fb5d9c73067d");katex.render("  -\\int_{\\Omega} \\nabla \\cdot D \\nabla v dV =   -\\int_{\\partial \\Omega_l} D \\nabla v \\cdot \\vec{n} dA   -\\int_{\\partial \\Omega \\setminus \\partial \\Omega_l} D \\nabla v \\cdot \\vec{n} dA   = 5 A_{\\partial \\Omega_l}   -\\int_{\\partial \\Omega \\setminus \\partial \\Omega_l} D \\nabla v \\cdot \\vec{n} dA=0,", element, {displayMode:true,throwOnError:false});</script></span></p><p>where <span class="moose-katex-inline-equation" id="moose-equation-c6063ab7-781b-4c09-bc78-63f48229511f"><script>var element = document.getElementById("moose-equation-c6063ab7-781b-4c09-bc78-63f48229511f");katex.render("\\Omega", element, {displayMode:false,throwOnError:false});</script></span> is the element volume, <span class="moose-katex-inline-equation" id="moose-equation-0965c2a0-31fa-4a17-ba95-3837eb21df6f"><script>var element = document.getElementById("moose-equation-0965c2a0-31fa-4a17-ba95-3837eb21df6f");katex.render("\\partial \\Omega_l", element, {displayMode:false,throwOnError:false});</script></span> are all faces that belong to the left sideset, <span class="moose-katex-inline-equation" id="moose-equation-765fc55b-f546-4476-a3f5-998989f9dd39"><script>var element = document.getElementById("moose-equation-765fc55b-f546-4476-a3f5-998989f9dd39");katex.render("\\partial \\Omega", element, {displayMode:false,throwOnError:false});</script></span> are all faces, and <span class="moose-katex-inline-equation" id="moose-equation-244d5fab-eefa-48c9-8b83-3299f27966f9"><script>var element = document.getElementById("moose-equation-244d5fab-eefa-48c9-8b83-3299f27966f9");katex.render("A_{\\partial \\Omega_l}", element, {displayMode:false,throwOnError:false});</script></span> is the area of face. Flux boundary conditions are applied by replacing appropriate terms in the FVM balance by the value of the flux prescribed on the boundary.</p><p>Dirichlet boundary conditions are applied differently. Let us first write a balance equation for an element that is adjacent to the right boundary:</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-e1b268c6-36a3-4f1d-a07d-26685f1f8d16"></span><script>var element = document.getElementById("moose-equation-e1b268c6-36a3-4f1d-a07d-26685f1f8d16");katex.render("  -\\int_{\\partial \\Omega_r} D \\nabla v \\cdot \\vec{n} dA   -\\int_{\\partial \\Omega \\setminus \\partial \\Omega_r} D \\nabla v \\cdot \\vec{n} dA  =0,", element, {displayMode:true,throwOnError:false});</script></span></p><p>MOOSE uses the ghost element method to apply Dirichlet boundary conditions for FVM. The process of using a ghost elements is the following:</p><ol class="browser-default" start="1"><li><p>Place a virtual element across the Dirichlet boundary.</p><p></p></li><li><p>Compute the value of <span class="moose-katex-inline-equation" id="moose-equation-42128a31-ce4c-4558-a244-4a10f0d344ac"><script>var element = document.getElementById("moose-equation-42128a31-ce4c-4558-a244-4a10f0d344ac");katex.render("v", element, {displayMode:false,throwOnError:false});</script></span> in the ghost element as the extrapolation of the element value and the desired value on the boundary.</p><p></p></li><li><p>Assign the value of <span class="moose-katex-inline-equation" id="moose-equation-733d214c-a76c-4970-b61e-017b8c232674"><script>var element = document.getElementById("moose-equation-733d214c-a76c-4970-b61e-017b8c232674");katex.render("v", element, {displayMode:false,throwOnError:false});</script></span> in the ghost element.</p><p></p></li><li><p>Evaluate the numerical fluxes as if you were on an interior face.</p></li></ol><p>For implementing the ghost element method an extrapolation must be selected. Currently, MOOSE FVM only supports linear extrapolation. If the value of the Dirichlet boundary condition is denoted by <span class="moose-katex-inline-equation" id="moose-equation-9afbfa55-81d0-43bf-aa84-41755bf561d9"><script>var element = document.getElementById("moose-equation-9afbfa55-81d0-43bf-aa84-41755bf561d9");katex.render("v_D", element, {displayMode:false,throwOnError:false});</script></span> and the value in the element is denoted by <span class="moose-katex-inline-equation" id="moose-equation-11ba6d5f-f206-4a41-8dbb-86eb22bfdb02"><script>var element = document.getElementById("moose-equation-11ba6d5f-f206-4a41-8dbb-86eb22bfdb02");katex.render("v_E", element, {displayMode:false,throwOnError:false});</script></span>, then the ghost element value <span class="moose-katex-inline-equation" id="moose-equation-1b850ebc-96fa-4d86-b8c8-766f04adae55"><script>var element = document.getElementById("moose-equation-1b850ebc-96fa-4d86-b8c8-766f04adae55");katex.render("v_G", element, {displayMode:false,throwOnError:false});</script></span> is:</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-aec42339-ecbc-4539-bb1f-e7cc0fc368af"></span><script>var element = document.getElementById("moose-equation-aec42339-ecbc-4539-bb1f-e7cc0fc368af");katex.render("  v_G = 2 v_D - v_E.", element, {displayMode:true,throwOnError:false});</script></span></p><p>The parameters available in boundary conditions are equivalent to <a href="../BCs/index.html">FEM boundary conditions</a> and are not discussed in detail here.</p></section><section class="scrollspy" id="28431fb8-a5ae-4e27-b7a5-d3f21d828a6f" data-section-level="2" data-section-text="FVBCs source code : FVDirichletBC"><h2 id="fvbcs-source-code-fvdirichletbc">FVBCs source code: FVDirichletBC</h2><p><code>FVDirichletBC</code> objects assigns a constant value on a boundary. Implementation of a FVM Dirichlet boundary condition usually only requires overriding the <code>boundaryValue</code> method. The <code>boundaryValue</code> method must return the value of the variable on the Dirichlet boundary.</p><div class="card moose-float"><div class="card-content"><p class="moose-caption"><span class="moose-caption-heading">Listing 2: </span><span class="moose-caption-text" id="fv_dirichlet_code">Example source code for <code>FVDirichletBC</code>.</span></p><pre class="moose-pre" style="max-height:350px;"><code class="language-cpp">#include &quot;FVDirichletBC.h&quot;
+
+registerMooseObject(&quot;MooseApp&quot;, FVDirichletBC);
+
+InputParameters
+FVDirichletBC::validParams()
+{
+  InputParameters params = FVDirichletBCBase::validParams();
+  params.addClassDescription(&quot;Defines a Dirichlet boundary condition for finite volume method.&quot;);
+  params.addRequiredParam&lt;Real&gt;(&quot;value&quot;, &quot;value to enforce at the boundary face&quot;);
+  return params;
+}
+
+FVDirichletBC::FVDirichletBC(const InputParameters &amp; parameters)
+  : FVDirichletBCBase(parameters), _val(getParam&lt;Real&gt;(&quot;value&quot;))
+{
+}
+
+ADReal
+FVDirichletBC::boundaryValue(const FaceInfo &amp; /*fi*/) const
+{
+  return _val;
+}
+</code></pre><a class="moose-source-filename tooltipped modal-trigger" href="#23b61dd4-4cab-46a1-a28d-60b6ccf81692">(moose/framework/src/fvbcs/FVDirichletBC.C)</a></div></div></section><section class="scrollspy" id="bda6536c-2f92-4df2-85a0-41529f1f5da4" data-section-level="2" data-section-text="FVBCs source code : FVFluxBC"><h2 id="fvbcs-source-code-fvfluxbc">FVBCs source code: FVFluxBC</h2><p><code>FVNeumannBC</code> objects assign a constant flux on a boundary. Implementation of a flux boundary condition usually only requires overriding the <code>computeQpResidual()</code> method. <code>FVNeumannBC</code> reads a constant value from the parameters and then returns it in <code>computeQpResidual()</code>.</p><div class="card moose-float"><div class="card-content"><p class="moose-caption"><span class="moose-caption-heading">Listing 3: </span><span class="moose-caption-text" id="fv_neumann_code">Example source code for <code>FVNeumannBC</code>.</span></p><pre class="moose-pre" style="max-height:350px;"><code class="language-cpp">#include &quot;FVNeumannBC.h&quot;
+
+registerMooseObject(&quot;MooseApp&quot;, FVNeumannBC);
+
+InputParameters
+FVNeumannBC::validParams()
+{
+  InputParameters params = FVFluxBC::validParams();
+  params.addClassDescription(&quot;Neumann boundary condition for finite volume method.&quot;);
+  params.addParam&lt;Real&gt;(&quot;value&quot;, 0.0, &quot;The value of the flux crossing the boundary.&quot;);
+  return params;
+}
+
+FVNeumannBC::FVNeumannBC(const InputParameters &amp; parameters)
+  : FVFluxBC(parameters), _value(getParam&lt;Real&gt;(&quot;value&quot;))
+{
+}
+
+ADReal
+FVNeumannBC::computeQpResidual()
+{
+  return -_value;
+}
+</code></pre><a class="moose-source-filename tooltipped modal-trigger" href="#28a84015-4f5d-4115-ba1e-d49a8550252f">(moose/framework/src/fvbcs/FVNeumannBC.C)</a></div></div></section><section class="scrollspy" id="6a9cba33-f502-4827-8167-00aa323ac886" data-section-level="2" data-section-text="FVBCs source code : FVBurgersOutflowBC"><h2 id="fvbcs-source-code-fvburgersoutflowbc">FVBCs source code: FVBurgersOutflowBC</h2><p>Flux boundary conditions can be more complicated than assigning a constant value. In this example, the outflow contribution for the Burgers&#x27; equation is computed. The relevant term is (note 1D):</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-d63665c0-c02a-45e8-b0c7-e841c114c4d3"></span><script>var element = document.getElementById("moose-equation-d63665c0-c02a-45e8-b0c7-e841c114c4d3");katex.render("\\frac{1}{2}  \\int \\frac{\\partial}{\\partial x}v^2 dx = \\frac{1}{2}  \\left(v^2_R n_R + v^2_L n_L\\right),", element, {displayMode:true,throwOnError:false});</script></span></p><p>where <span class="moose-katex-inline-equation" id="moose-equation-19770d02-3ff2-4a6b-9cfe-b6ba96a645af"><script>var element = document.getElementById("moose-equation-19770d02-3ff2-4a6b-9cfe-b6ba96a645af");katex.render("v_R", element, {displayMode:false,throwOnError:false});</script></span> and <span class="moose-katex-inline-equation" id="moose-equation-29ee8a59-b4b0-48a5-8d29-14fcedcdb026"><script>var element = document.getElementById("moose-equation-29ee8a59-b4b0-48a5-8d29-14fcedcdb026");katex.render("v_L", element, {displayMode:false,throwOnError:false});</script></span> are the values of <span class="moose-katex-inline-equation" id="moose-equation-62b42fcb-9e34-4bd3-903f-f741634c7435"><script>var element = document.getElementById("moose-equation-62b42fcb-9e34-4bd3-903f-f741634c7435");katex.render("v", element, {displayMode:false,throwOnError:false});</script></span> on the left and right boundaries of the element and <span class="moose-katex-inline-equation" id="moose-equation-4dca5532-9032-4f9d-969f-fa0c934a106e"><script>var element = document.getElementById("moose-equation-4dca5532-9032-4f9d-969f-fa0c934a106e");katex.render("n_R", element, {displayMode:false,throwOnError:false});</script></span> and <span class="moose-katex-inline-equation" id="moose-equation-3ab1ffd4-40bb-44da-b669-9be187d5daa7"><script>var element = document.getElementById("moose-equation-3ab1ffd4-40bb-44da-b669-9be187d5daa7");katex.render("n_L", element, {displayMode:false,throwOnError:false});</script></span> are the outward normals on these faces. Let&#x27;s assume that the left side is a boundary face where the <code>FVBurgersOutflowBC</code> is applied. On that boundary we have <span class="moose-katex-inline-equation" id="moose-equation-3850b0da-c0c2-442a-9d4c-b767ed61d316"><script>var element = document.getElementById("moose-equation-3850b0da-c0c2-442a-9d4c-b767ed61d316");katex.render("n_L = -1", element, {displayMode:false,throwOnError:false});</script></span>. The <code>FVBurgersOutflowBC</code> boundary condition uses upwinding, i.e. it uses the element value <span class="moose-katex-inline-equation" id="moose-equation-754341e9-5bc6-41b0-80db-7f0c50fa7e88"><script>var element = document.getElementById("moose-equation-754341e9-5bc6-41b0-80db-7f0c50fa7e88");katex.render("v", element, {displayMode:false,throwOnError:false});</script></span> as boundary values on outflow faces.</p><p>The code listed below first checks if the left is actually an outflow side by using the cell value of the <span class="moose-katex-inline-equation" id="moose-equation-2643233b-69b2-4c1e-87d6-00e2f4b41491"><script>var element = document.getElementById("moose-equation-2643233b-69b2-4c1e-87d6-00e2f4b41491");katex.render("v", element, {displayMode:false,throwOnError:false});</script></span> (element average, upwinding!) and dotting it with the normal. If <span class="moose-katex-inline-equation" id="moose-equation-1cb89446-2f0b-4b82-96b7-f0685b7906fb"><script>var element = document.getElementById("moose-equation-1cb89446-2f0b-4b82-96b7-f0685b7906fb");katex.render("v n_L > 0", element, {displayMode:false,throwOnError:false});</script></span>, then the left is an outflow side. In this case the contribution <span class="moose-katex-inline-equation" id="moose-equation-f8b3504c-8447-4742-87cb-14109846badd"><script>var element = document.getElementById("moose-equation-f8b3504c-8447-4742-87cb-14109846badd");katex.render("1/2 v^2 n_L", element, {displayMode:false,throwOnError:false});</script></span> is added, otherwise no contribution is added.</p><div class="card moose-float"><div class="card-content"><p class="moose-caption"><span class="moose-caption-heading">Listing 4: </span><span class="moose-caption-text" id="fv_burgers_outflow_bc">Outflow boundary condition for the Burgers&#x27; equation.</span></p><pre class="moose-pre" style="max-height:350px;"><code class="language-cpp">FVBurgersOutflowBC::computeQpResidual()
+{
+  mooseAssert(_face_info-&gt;elem().dim() == 1, &quot;FVBurgersOutflowBC works only in 1D&quot;);
+
+  ADReal r = 0;
+  // only add this on outflow faces
+  if (_u[_qp] * _normal(0) &gt; 0)
+    r = 0.5 * _u[_qp] * _u[_qp] * _normal(0);
+  return r;
+}
+</code></pre><a class="moose-source-filename tooltipped modal-trigger" href="#7ffcd2e1-5cfc-49cc-a3dc-532157d01470">(moose/test/src/fvbcs/FVBurgersOutflowBC.C)</a></div></div><p>In this case, the boundary condition does not represent a fixed inflow, but rather a free outflow condition.</p></section><section class="scrollspy" id="c07b1d9f-7e60-49f6-bb79-1f97f1def03c" data-section-level="2" data-section-text="Available Objects"><h2 id="available-objects">Available Objects</h2><ul class="moose-syntax-list collection with-header"><li class="collection-header">Moose App</li><li class="collection-item"><a href="../../source/fvbcs/FVFunctorDirichletBC.html">FVADFunctorDirichletBC</a>Uses the value of a functor to set a Dirichlet boundary value.</li><li class="collection-item"><a href="../../source/fvbcs/FVBoundaryIntegralValueConstraint.html">FVBoundaryIntegralValueConstraint</a>This class is used to enforce integral of phi = boundary area * phi_0 with a Lagrange multiplier approach.</li><li class="collection-item"><a href="../../source/fvbcs/FVConstantScalarOutflowBC.html">FVConstantScalarOutflowBC</a>Constant velocity scalar advection boundary conditions for finite volume method.</li><li class="collection-item"><a href="../../source/fvbcs/FVDirichletBC.html">FVDirichletBC</a>Defines a Dirichlet boundary condition for finite volume method.</li><li class="collection-item"><a href="../../source/fvbcs/FVFunctionDirichletBC.html">FVFunctionDirichletBC</a>Imposes the essential boundary condition <span class="moose-katex-inline-equation" id="moose-equation-cab5b348-0755-4ff1-a3c2-8f9b074e58bb"><script>var element = document.getElementById("moose-equation-cab5b348-0755-4ff1-a3c2-8f9b074e58bb");katex.render("u=g(t,\\vec{x})", element, {displayMode:false,throwOnError:false});</script></span>, where <span class="moose-katex-inline-equation" id="moose-equation-43d84f54-f31c-4483-9a33-6973d6e4373d"><script>var element = document.getElementById("moose-equation-43d84f54-f31c-4483-9a33-6973d6e4373d");katex.render("g", element, {displayMode:false,throwOnError:false});</script></span> is a (possibly) time and space-dependent MOOSE Function.</li><li class="collection-item"><a href="../../source/fvbcs/FVFunctionNeumannBC.html">FVFunctionNeumannBC</a>Neumann boundary condition for finite volume method.</li><li class="collection-item"><a href="../../source/fvbcs/FVFunctorDirichletBC.html">FVFunctorDirichletBC</a>Uses the value of a functor to set a Dirichlet boundary value.</li><li class="collection-item"><a href="../../source/fvbcs/FVFunctorNeumannBC.html">FVFunctorNeumannBC</a>Neumann boundary condition for the finite volume method.</li><li class="collection-item"><a href="../../source/fvbcs/FVNeumannBC.html">FVNeumannBC</a>Neumann boundary condition for finite volume method.</li><li class="collection-item"><a href="../../source/fvbcs/FVOrthogonalBoundaryDiffusion.html">FVOrthogonalBoundaryDiffusion</a>Imposes an orthogonal diffusion boundary term with specified boundary function.</li><li class="collection-item"><a href="../../source/fvbcs/FVPostprocessorDirichletBC.html">FVPostprocessorDirichletBC</a>Defines a Dirichlet boundary condition for finite volume method.</li></ul></section></section><div class="moose-modal modal" id="0db4b058-aad6-410a-ab54-b76f06ac057b"><div class="modal-content"><h4>(moose/test/tests/fvkernels/fv_simple_diffusion/neumann.i)</h4><pre class="moose-pre"><code class="language-text">[Mesh]
+  type = GeneratedMesh
+  dim = 2
+  nx = 10
+  ny = 10
+[]
+
+[Variables]
+  [u]
+  []
+  [v]
+    family = MONOMIAL
+    order = CONSTANT
+    fv = true
+  []
+[]
+
+[Kernels]
+  [diff]
+    type = ADDiffusion
+    variable = u
+  []
+[]
+
+[FVKernels]
+  [diff]
+    type = FVDiffusion
+    variable = v
+    coeff = coeff
+  []
+[]
+
+[FVBCs]
+  [left]
+    type = FVNeumannBC
+    variable = v
+    boundary = left
+    value = 5
+  []
+  [right]
+    type = FVDirichletBC
+    variable = v
+    boundary = right
+    value = 42
+  []
+[]
+
+[Materials]
+  [diff]
+    type = ADGenericFunctorMaterial
+    prop_names = &#x27;coeff&#x27;
+    prop_values = &#x27;1&#x27;
+  []
+[]
+
+[BCs]
+  [left]
+    type = ADNeumannBC
+    variable = u
+    boundary = left
+    value = 5
+  []
+  [right]
+    type = ADDirichletBC
+    variable = u
+    boundary = right
+    value = 42
+  []
+[]
+
+[Executioner]
+  type = Steady
+  solve_type = &#x27;PJFNK&#x27;
+  petsc_options_iname = &#x27;-pc_type -pc_hypre_type&#x27;
+  petsc_options_value = &#x27;hypre boomeramg&#x27;
+[]
+
+[Outputs]
+  exodus = true
+[]
+</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div><div class="moose-modal modal" id="23b61dd4-4cab-46a1-a28d-60b6ccf81692"><div class="modal-content"><h4>(moose/framework/src/fvbcs/FVDirichletBC.C)</h4><pre class="moose-pre"><code class="language-cpp">// This file is part of the MOOSE framework
+// https://www.mooseframework.org
+//
+// All rights reserved, see COPYRIGHT for full restrictions
+// https://github.com/idaholab/moose/blob/master/COPYRIGHT
+//
+// Licensed under LGPL 2.1, please see LICENSE for details
+// https://www.gnu.org/licenses/lgpl-2.1.html
+
+#include &quot;FVDirichletBC.h&quot;
+
+registerMooseObject(&quot;MooseApp&quot;, FVDirichletBC);
+
+InputParameters
+FVDirichletBC::validParams()
+{
+  InputParameters params = FVDirichletBCBase::validParams();
+  params.addClassDescription(&quot;Defines a Dirichlet boundary condition for finite volume method.&quot;);
+  params.addRequiredParam&lt;Real&gt;(&quot;value&quot;, &quot;value to enforce at the boundary face&quot;);
+  return params;
+}
+
+FVDirichletBC::FVDirichletBC(const InputParameters &amp; parameters)
+  : FVDirichletBCBase(parameters), _val(getParam&lt;Real&gt;(&quot;value&quot;))
+{
+}
+
+ADReal
+FVDirichletBC::boundaryValue(const FaceInfo &amp; /*fi*/) const
+{
+  return _val;
+}
+</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div><div class="moose-modal modal" id="28a84015-4f5d-4115-ba1e-d49a8550252f"><div class="modal-content"><h4>(moose/framework/src/fvbcs/FVNeumannBC.C)</h4><pre class="moose-pre"><code class="language-cpp">// This file is part of the MOOSE framework
+// https://www.mooseframework.org
+//
+// All rights reserved, see COPYRIGHT for full restrictions
+// https://github.com/idaholab/moose/blob/master/COPYRIGHT
+//
+// Licensed under LGPL 2.1, please see LICENSE for details
+// https://www.gnu.org/licenses/lgpl-2.1.html
+
+#include &quot;FVNeumannBC.h&quot;
+
+registerMooseObject(&quot;MooseApp&quot;, FVNeumannBC);
+
+InputParameters
+FVNeumannBC::validParams()
+{
+  InputParameters params = FVFluxBC::validParams();
+  params.addClassDescription(&quot;Neumann boundary condition for finite volume method.&quot;);
+  params.addParam&lt;Real&gt;(&quot;value&quot;, 0.0, &quot;The value of the flux crossing the boundary.&quot;);
+  return params;
+}
+
+FVNeumannBC::FVNeumannBC(const InputParameters &amp; parameters)
+  : FVFluxBC(parameters), _value(getParam&lt;Real&gt;(&quot;value&quot;))
+{
+}
+
+ADReal
+FVNeumannBC::computeQpResidual()
+{
+  return -_value;
+}
+</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div><div class="moose-modal modal" id="7ffcd2e1-5cfc-49cc-a3dc-532157d01470"><div class="modal-content"><h4>(moose/test/src/fvbcs/FVBurgersOutflowBC.C)</h4><pre class="moose-pre"><code class="language-cpp">// This file is part of the MOOSE framework
+// https://www.mooseframework.org
+//
+// All rights reserved, see COPYRIGHT for full restrictions
+// https://github.com/idaholab/moose/blob/master/COPYRIGHT
+//
+// Licensed under LGPL 2.1, please see LICENSE for details
+// https://www.gnu.org/licenses/lgpl-2.1.html
+
+#include &quot;FVBurgersOutflowBC.h&quot;
+
+registerMooseObject(&quot;MooseTestApp&quot;, FVBurgersOutflowBC);
+
+InputParameters
+FVBurgersOutflowBC::validParams()
+{
+  InputParameters params = FVFluxBC::validParams();
+  return params;
+}
+
+FVBurgersOutflowBC::FVBurgersOutflowBC(const InputParameters &amp; parameters) : FVFluxBC(parameters) {}
+
+ADReal
+FVBurgersOutflowBC::computeQpResidual()
+{
+  mooseAssert(_face_info-&gt;elem().dim() == 1, &quot;FVBurgersOutflowBC works only in 1D&quot;);
+
+  ADReal r = 0;
+  // only add this on outflow faces
+  if (_u[_qp] * _normal(0) &gt; 0)
+    r = 0.5 * _u[_qp] * _u[_qp] * _normal(0);
+  return r;
+}
+</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div></div><div class="col hide-on-med-and-down l2"><div class="toc-wrapper pin-top"><ul class="section table-of-contents"><li><a href="#e3631e84-4b54-4245-885b-9a7c61f8cb52" class="tooltipped" data-position="left" data-tooltip="FVBCs block">FVBCs block</a></li><li><a href="#28431fb8-a5ae-4e27-b7a5-d3f21d828a6f" class="tooltipped" data-position="left" data-tooltip="FVBCs source code : FVDirichletBC">FVBCs source code : FVDirichletBC</a></li><li><a href="#bda6536c-2f92-4df2-85a0-41529f1f5da4" class="tooltipped" data-position="left" data-tooltip="FVBCs source code : FVFluxBC">FVBCs source code : FVFluxBC</a></li><li><a href="#6a9cba33-f502-4827-8167-00aa323ac886" class="tooltipped" data-position="left" data-tooltip="FVBCs source code : FVBurgersOutflowBC">FVBCs source code : FVBurgersOutflowBC</a></li><li><a href="#c07b1d9f-7e60-49f6-bb79-1f97f1def03c" class="tooltipped" data-position="left" data-tooltip="Available Objects">Available Objects</a></li></ul></div></div></div></div></main></div></body><script type="text/javascript" src="../../contrib/materialize/materialize.min.js"></script><script type="text/javascript" src="../../contrib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="../../contrib/prism/prism.min.js"></script><script type="text/javascript" src="../../js/init.js"></script><script type="text/javascript" src="../../js/navigation.js"></script><script type="text/javascript" src="../../contrib/fuse/fuse.min.js"></script><script type="text/javascript" src="../../js/search_index.js"></script><script type="text/javascript" src="../../js/sqa_moose.js"></script>
