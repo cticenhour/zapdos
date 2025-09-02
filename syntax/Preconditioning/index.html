@@ -1,0 +1,170 @@
+<!DOCTYPE html><head><meta charset="UTF-8"><title>Preconditioning System | Zapdos</title><link href="../../contrib/materialize/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"></link><link href="../../contrib/prism/prism.min.css" type="text/css" rel="stylesheet"></link><link href="../../css/moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/devel_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/alert_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/content_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/sqa_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/civet_moose.css" type="text/css" rel="stylesheet"></link><link href="../../contrib/katex/katex.min.css" type="text/css" rel="stylesheet"></link><link href="../../css/katex_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/zapdos.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../contrib/jquery/jquery.min.js"></script><script type="text/javascript" src="../../contrib/katex/katex.min.js"></script></head><body><div class="page-wrap"><header><nav><div class="nav-wrapper container"><a href="../../index.html" class="left moose-logo hide-on-med-and-down" id="home-button">Zapdos</a><a href="https://github.com/shannon-lab/zapdos" class="right"><img src="../../media/framework/github-logo.png" class="github-mark"></img><img src="../../media/framework/github-mark.png" class="github-logo"></img></a><ul class="right hide-on-med-and-down"><li><a href="#!" class="dropdown-trigger" data-target="aa1263e7-3a7b-4761-a87b-233394dcfe29" data-constrainWidth="false">Getting Started<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="#!" class="dropdown-trigger" data-target="f3866f18-3f9c-4637-b7fb-3bf96d85edcd" data-constrainWidth="false">Documentation<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="#!" class="dropdown-trigger" data-target="f3a8d81b-7e73-44ea-9ee4-3933cfed4e28" data-constrainWidth="false">Help<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="../../citing.html">Citing</a></li></ul><a href="#" class="sidenav-trigger" data-target="faef2a4f-6a11-45a4-abdc-a9efbb4e6d1b"><i class="material-icons">menu</i></a><ul class="sidenav" id="faef2a4f-6a11-45a4-abdc-a9efbb4e6d1b"><li><a href="#!" class="dropdown-trigger" data-target="e93bfb4e-f464-4ec6-bf87-00c4f0930aa8" data-constrainWidth="false">Getting Started<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="#!" class="dropdown-trigger" data-target="f3843ff7-3243-47a1-be5a-31ddc7b3ebeb" data-constrainWidth="false">Documentation<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="#!" class="dropdown-trigger" data-target="389f7452-02f4-4510-a8ef-e5047d6968da" data-constrainWidth="false">Help<i class="material-icons right">arrow_drop_down</i></a></li><li><a href="../../citing.html">Citing</a></li></ul><a href="#moose-search" class="modal-trigger"><i class="material-icons">search</i></a></div><ul class="dropdown-content" id="aa1263e7-3a7b-4761-a87b-233394dcfe29"><li><a href="../../getting_started/installation.html">Installation</a></li><li><a href="../../getting_started/using_zapdos.html">Using Zapdos</a></li><li><a href="../../getting_started/zapdos_meshing.html">Generating Meshes</a></li><li><a href="../../tutorial/index.html">Tutorial Slides</a></li></ul><ul class="dropdown-content" id="f3866f18-3f9c-4637-b7fb-3bf96d85edcd"><li><a href="../zapdos_only.html">Zapdos Input Syntax</a></li><li><a href="../index.html">Complete Code Syntax</a></li><li><a href="https://mooseframework.inl.gov/docs/doxygen/moose/classes.html">MOOSE Doxygen</a></li><li><a href="https://mooseframework.inl.gov/docs/doxygen/libmesh/classes.html">libMesh Doxygen</a></li><li><a href="../../a-to-z.html">Zapdos A to Z Index</a></li><li><a href="../../examples/crane_examples.html">CRANE Examples</a></li><li><a href="../../development/contributing.html">Contributing Guidelines</a></li><li><a href="../../development/code_standards.html">Code Standards</a></li><li><a href="../../publications.html">List of Publications</a></li></ul><ul class="dropdown-content" id="f3a8d81b-7e73-44ea-9ee4-3933cfed4e28"><li><a href="https://github.com/shannon-lab/zapdos/discussions">Zapdos Discussions Forum</a></li><li><a href="../../development/zapdos_developer_info.html">Zapdos Developer Information</a></li><li><a href="https://github.com/idaholab/moose/discussions">MOOSE Discussions Forum</a></li><li><a href="https://mooseframework.inl.gov/">MOOSE Homepage</a></li><li><a href="../../development/moose_developer_info.html">MOOSE Developer Information</a></li></ul><ul class="dropdown-content" id="e93bfb4e-f464-4ec6-bf87-00c4f0930aa8"><li><a href="../../getting_started/installation.html">Installation</a></li><li><a href="../../getting_started/using_zapdos.html">Using Zapdos</a></li><li><a href="../../getting_started/zapdos_meshing.html">Generating Meshes</a></li><li><a href="../../tutorial/index.html">Tutorial Slides</a></li></ul><ul class="dropdown-content" id="f3843ff7-3243-47a1-be5a-31ddc7b3ebeb"><li><a href="../zapdos_only.html">Zapdos Input Syntax</a></li><li><a href="../index.html">Complete Code Syntax</a></li><li><a href="https://mooseframework.inl.gov/docs/doxygen/moose/classes.html">MOOSE Doxygen</a></li><li><a href="https://mooseframework.inl.gov/docs/doxygen/libmesh/classes.html">libMesh Doxygen</a></li><li><a href="../../a-to-z.html">Zapdos A to Z Index</a></li><li><a href="../../examples/crane_examples.html">CRANE Examples</a></li><li><a href="../../development/contributing.html">Contributing Guidelines</a></li><li><a href="../../development/code_standards.html">Code Standards</a></li><li><a href="../../publications.html">List of Publications</a></li></ul><ul class="dropdown-content" id="389f7452-02f4-4510-a8ef-e5047d6968da"><li><a href="https://github.com/shannon-lab/zapdos/discussions">Zapdos Discussions Forum</a></li><li><a href="../../development/zapdos_developer_info.html">Zapdos Developer Information</a></li><li><a href="https://github.com/idaholab/moose/discussions">MOOSE Discussions Forum</a></li><li><a href="https://mooseframework.inl.gov/">MOOSE Homepage</a></li><li><a href="../../development/moose_developer_info.html">MOOSE Developer Information</a></li></ul></nav><div class="modal modal-fixed-footer moose-search-modal" id="moose-search"><div class="modal-content container moose-search-modal-content"><div class="row"><div class="col l12"><div class="input-field"><input type_="text" onkeyup="mooseSearch()" placeholder="/index.md" id="moose-search-box"></input></div></div><div><div class="col s12" id="moose-search-results"></div></div></div></div><div class="modal-footer"><a href="#!" class="modal-close btn-flat">Close</a></div></div></header><main class="main"><div class="container"><div class="row"><div class="col hide-on-med-and-down l12"><nav class="breadcrumb-nav"><div class="nav-wrapper"><a href=".." class="breadcrumb">syntax</a><a href="." class="breadcrumb">Preconditioning</a></div></nav></div></div><div class="row"><div class="moose-content col s12 m12 l10"><section id="73b2df5c-397d-438a-bcbc-2a68c0d58642" data-section-level="1" data-section-text="Preconditioning System"><h1 id="preconditioning-system">Preconditioning System</h1><section class="scrollspy" id="0d6505fd-9c28-4cfd-8580-84848d778d3f" data-section-level="2" data-section-text="Overview"><h2 id="overview">Overview</h2><p>See <a href="../../source/executioners/Steady.html">Steady</a> for more details on how preconditioning is used in solving nonlinear systems in MOOSE. The <code>Preconditioning</code> block allows you to define which type of preconditioning matrix to build and what process to apply. You can define multiple blocks with different names, allowing you to quickly switch out preconditioning options. Within the sub-blocks you can also provide other options specific to that type of preconditioning matrix. You can also override PETSc options here. Only one block can be active at a time.</p></section><section class="scrollspy" id="6b3cfb44-f37d-415c-8879-47c09e6db357" data-section-level="2" data-section-text="Default Preconditioning Matrix"><h2 id="default-preconditioning-matrix">Default Preconditioning Matrix</h2><p>Consider the fully coupled system of equations:</p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-e8622028-6536-4869-8a5f-2cffbcca7a64"></span><script>var element = document.getElementById("moose-equation-e8622028-6536-4869-8a5f-2cffbcca7a64");katex.render("\\begin{aligned} \\nabla \\cdot k(s,T) \\nabla T  &= 0 \\\\ \\nabla \\cdot D(s,T) \\nabla s  &= 0 , \\end{aligned},", element, {displayMode:true,throwOnError:false});</script></span><p>the fully coupled Jacobian is then approximated using a block-diagonal approach:</p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-34ed3288-90f8-4eac-963c-c6d9046b88a4"></span><script>var element = document.getElementById("moose-equation-34ed3288-90f8-4eac-963c-c6d9046b88a4");katex.render("\\boldsymbol{R}'(s,T) =  \\begin{bmatrix}    (\\boldsymbol{R}_T)_T & (\\boldsymbol{R}_T)_s    \\\\    (\\boldsymbol{R}_s)_T & (\\boldsymbol{R}_s)_s  \\end{bmatrix}  \\approx  \\begin{bmatrix}    (\\boldsymbol{R}_T)_T & \\boldsymbol{0}    \\\\    \\boldsymbol{0}       & (\\boldsymbol{R}_s)_s  \\end{bmatrix} .", element, {displayMode:true,throwOnError:false});</script></span><p>Thus, for this example, the default preconditioning matrix is defined as:</p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-8d164f66-4891-47d4-8fe1-8dbfe38bcba4"></span><script>var element = document.getElementById("moose-equation-8d164f66-4891-47d4-8fe1-8dbfe38bcba4");katex.render("\\boldsymbol{M} \\equiv     \\begin{bmatrix}       (k(s,T) \\nabla \\phi_j, \\nabla \\psi_i) & \\boldsymbol{0} \\\\       \\boldsymbol{0} & (D(s,T) \\nabla \\phi_j, \\nabla\\psi_i)     \\end{bmatrix} \\approx \\boldsymbol{R}'(s,T) .", element, {displayMode:true,throwOnError:false});</script></span></section><section class="scrollspy" id="14636ed7-cd13-4cb9-9cc7-2874ba227aca" data-section-level="2" data-section-text="Example Input File Syntax"><h2 id="example-input-file-syntax">Example Input File Syntax</h2><p>A single preconditioner may be specified as below:</p><pre style="max-height:350px;"><code class="language-None">[Preconditioning]
+  [my_prec]
+    type = SMP
+    # SMP Options Go Here!
+    # Override PETSc Options Here!
+  []
+[]
+</code></pre><p>Nested preconditioners may be specified as below, for the <a href="../../source/preconditioners/FieldSplitPreconditioner.html">FSP</a> for example:</p><pre style="max-height:350px;"><code class="language-moose">[Preconditioning&lt;&lt;&lt;{&quot;href&quot;: &quot;index.html&quot;}&gt;&gt;&gt;]
+  active&lt;&lt;&lt;{&quot;description&quot;: &quot;If specified only the blocks named will be visited and made active&quot;}&gt;&gt;&gt; = &#x27;FSP&#x27;
+
+  [./FSP]
+    type = FSP&lt;&lt;&lt;{&quot;description&quot;: &quot;Preconditioner designed to map onto PETSc&#x27;s PCFieldSplit.&quot;, &quot;href&quot;: &quot;../../source/preconditioners/FieldSplitPreconditioner.html&quot;}&gt;&gt;&gt;
+    # It is the starting point of splitting
+    topsplit&lt;&lt;&lt;{&quot;description&quot;: &quot;Entrance to splits, the top split will specify how splits will go.&quot;}&gt;&gt;&gt; = &#x27;uv&#x27; # &#x27;uv&#x27; should match the following block name
+    [./uv]
+      splitting = &#x27;u v&#x27; # &#x27;u&#x27; and &#x27;v&#x27; are the names of subsolvers
+      # Generally speaking, there are four types of splitting we could choose
+      # &lt;additive,multiplicative,symmetric_multiplicative,schur&gt;
+      splitting_type = additive
+      # An approximate solution to the original system
+      # | A_uu  A_uv | | u | _ |f_u|
+      # |  0    A_vv | | v | - |f_v|
+      #  is obtained by solving the following subsystems
+      #  A_uu u = f_u and A_vv v = f_v
+      # If splitting type is specified as schur, we may also want to set more options to
+      # control how schur works using PETSc options
+      # petsc_options_iname = &#x27;-pc_fieldsplit_schur_fact_type -pc_fieldsplit_schur_precondition&#x27;
+      # petsc_options_value = &#x27;full selfp&#x27;
+    [../]
+    [./u]
+      vars = &#x27;u&#x27;
+      # PETSc options for this subsolver
+      # A prefix will be applied, so just put the options for this subsolver only
+      petsc_options_iname = &#x27;-pc_type -ksp_type&#x27;
+      petsc_options_value = &#x27;     hypre preonly&#x27;
+    [../]
+    [./v]
+      vars = &#x27;v&#x27;
+      # PETSc options for this subsolver
+      petsc_options_iname = &#x27;-pc_type -ksp_type&#x27;
+      petsc_options_value = &#x27;     lu  preonly&#x27;
+    [../]
+  [../]
+[]</code></pre><a class="moose-source-filename tooltipped modal-trigger" href="#d80781d1-3bcc-45b2-8557-7a44e04fd7ce">(moose/test/tests/preconditioners/fsp/fsp_test.i)</a></section><section class="scrollspy" id="a5636b1c-3c22-4d82-a280-c49973f946df" data-section-level="2" data-section-text="Available Objects"><h2 id="available-objects">Available Objects</h2><ul class="moose-syntax-list collection with-header"><li class="collection-header">Moose App</li><li class="collection-item"><a href="../../source/splits/Split.html">Split</a>Field split based preconditioner for nonlinear solver.</li><li class="collection-item"><a href="../../source/preconditioners/FiniteDifferencePreconditioner.html">FDP</a>Finite difference preconditioner (FDP) builds a numerical Jacobian for preconditioning, only use for testing and verification.</li><li class="collection-item"><a href="../../source/preconditioners/FieldSplitPreconditioner.html">FSP</a>Preconditioner designed to map onto PETSc&#x27;s PCFieldSplit.</li><li class="collection-item"><a href="../../source/preconditioners/PhysicsBasedPreconditioner.html">PBP</a>Physics-based preconditioner (PBP) allows individual physics to have their own preconditioner.</li><li class="collection-item"><a href="../../source/preconditioners/StaticCondensationFieldSplitPreconditioner.html">SCFSP</a>Preconditioner designed to map onto PETSc&#x27;s PCFieldSplit.</li><li class="collection-item"><a href="../../source/preconditioners/SingleMatrixPreconditioner.html">SMP</a>Single matrix preconditioner (SMP) builds a preconditioner using user defined off-diagonal parts of the Jacobian.</li><li class="collection-item"><a href="../../source/preconditioners/MooseStaticCondensationPreconditioner.html">StaticCondensation</a>Static condensation preconditioner</li><li class="collection-item"><a href="../../source/preconditioners/VariableCondensationPreconditioner.html">VCP</a>Variable condensation preconditioner (VCP) condenses out specified variable(s) from the Jacobian matrix and produces a system of equations with less unkowns to be solved by the underlying preconditioners.</li></ul></section><section class="scrollspy" id="9d91117b-5d68-42ab-a011-cbe2b078e61f" data-section-level="2" data-section-text="Available Actions"><h2 id="available-actions">Available Actions</h2><ul class="moose-syntax-list collection with-header"><li class="collection-header">Moose App</li><li class="collection-item"><a href="../../source/actions/SetupPreconditionerAction.html">SetupPreconditionerAction</a>Add a Preconditioner object to the simulation.</li><li class="collection-item"><a href="../../source/actions/AddFieldSplitAction.html">AddFieldSplitAction</a>Add a Split object to the simulation.</li></ul></section></section><div class="moose-modal modal" id="d80781d1-3bcc-45b2-8557-7a44e04fd7ce"><div class="modal-content"><h4>(moose/test/tests/preconditioners/fsp/fsp_test.i)</h4><pre style="max-height:350px;"><code class="language-moose">[Mesh]
+  [./square]
+    type = GeneratedMeshGenerator
+    nx = 2
+    ny = 2
+    dim = 2
+  [../]
+[]
+
+[Variables]
+  active = &#x27;u v&#x27;
+
+  [./u]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+
+  [./v]
+    order = FIRST
+    family = LAGRANGE
+  [../]
+[]
+
+[Kernels]
+  active = &#x27;diff_u conv_v diff_v&#x27;
+
+  [./diff_u]
+    type = Diffusion
+    variable = u
+  [../]
+
+  [./conv_v]
+    type = CoupledForce
+    variable = v
+    v = u
+  [../]
+
+  [./diff_v]
+    type = Diffusion
+    variable = v
+  [../]
+[]
+
+[BCs]
+  active = &#x27;left_u right_u left_v&#x27;
+
+  [./left_u]
+    type = DirichletBC
+    variable = u
+    boundary = 3
+    value = 0
+  [../]
+
+  [./right_u]
+    type = DirichletBC
+    variable = u
+    boundary = 1
+    value = 100
+  [../]
+
+  [./left_v]
+    type = DirichletBC
+    variable = v
+    boundary = 3
+    value = 0
+  [../]
+
+  [./right_v]
+    type = DirichletBC
+    variable = v
+    boundary = 1
+    value = 0
+  [../]
+[]
+
+[Executioner]
+  type = Steady
+
+  # This is setup automatically in MOOSE (SetupPBPAction.C)
+  # petsc_options = &#x27;-snes_mf_operator&#x27;
+  # petsc_options_iname = &#x27;-pc_type&#x27;
+  # petsc_options_value =  &#x27;asm&#x27;
+[]
+
+[Preconditioning]
+  active = &#x27;FSP&#x27;
+
+  [./FSP]
+    type = FSP
+    # It is the starting point of splitting
+    topsplit = &#x27;uv&#x27; # &#x27;uv&#x27; should match the following block name
+    [./uv]
+      splitting = &#x27;u v&#x27; # &#x27;u&#x27; and &#x27;v&#x27; are the names of subsolvers
+      # Generally speaking, there are four types of splitting we could choose
+      # &lt;additive,multiplicative,symmetric_multiplicative,schur&gt;
+      splitting_type  = additive
+      # An approximate solution to the original system
+      # | A_uu  A_uv | | u | _ |f_u|
+      # |  0    A_vv | | v | - |f_v|
+      #  is obtained by solving the following subsystems
+      #  A_uu u = f_u and A_vv v = f_v
+      # If splitting type is specified as schur, we may also want to set more options to
+      # control how schur works using PETSc options
+      # petsc_options_iname = &#x27;-pc_fieldsplit_schur_fact_type -pc_fieldsplit_schur_precondition&#x27;
+      # petsc_options_value = &#x27;full selfp&#x27;
+    [../]
+    [./u]
+      vars = &#x27;u&#x27;
+      # PETSc options for this subsolver
+      # A prefix will be applied, so just put the options for this subsolver only
+      petsc_options_iname = &#x27;-pc_type -ksp_type&#x27;
+      petsc_options_value = &#x27;     hypre preonly&#x27;
+    [../]
+    [./v]
+      vars = &#x27;v&#x27;
+      # PETSc options for this subsolver
+      petsc_options_iname = &#x27;-pc_type -ksp_type&#x27;
+      petsc_options_value = &#x27;     lu  preonly&#x27;
+    [../]
+  [../]
+[]
+
+[Outputs]
+  file_base = out
+  exodus = true
+[]
+</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div></div><div class="col hide-on-med-and-down l2"><div class="toc-wrapper pin-top"><ul class="section table-of-contents"><li><a href="#0d6505fd-9c28-4cfd-8580-84848d778d3f" class="tooltipped" data-position="left" data-tooltip="Overview">Overview</a></li><li><a href="#6b3cfb44-f37d-415c-8879-47c09e6db357" class="tooltipped" data-position="left" data-tooltip="Default Preconditioning Matrix">Default Preconditioning Matrix</a></li><li><a href="#14636ed7-cd13-4cb9-9cc7-2874ba227aca" class="tooltipped" data-position="left" data-tooltip="Example Input File Syntax">Example Input File Syntax</a></li><li><a href="#a5636b1c-3c22-4d82-a280-c49973f946df" class="tooltipped" data-position="left" data-tooltip="Available Objects">Available Objects</a></li><li><a href="#9d91117b-5d68-42ab-a011-cbe2b078e61f" class="tooltipped" data-position="left" data-tooltip="Available Actions">Available Actions</a></li></ul></div></div></div></div></main></div></body><script type="text/javascript" src="../../contrib/materialize/materialize.min.js"></script><script type="text/javascript" src="../../contrib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="../../contrib/prism/prism.min.js"></script><script type="text/javascript" src="../../js/init.js"></script><script type="text/javascript" src="../../js/navigation.js"></script><script type="text/javascript" src="../../contrib/fuse/fuse.min.js"></script><script type="text/javascript" src="../../js/search_index.js"></script><script type="text/javascript" src="../../js/sqa_moose.js"></script><script type="text/javascript" src="../../js/moose_input_parser.js"></script>
